@@ -1,14 +1,18 @@
-package railway;
+package railway.draw;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class Point extends Group {
-    public Point(double start, double end, Boolean reverse){
+
+    private double end;
+
+    public Point(double start, Boolean reverse){
 
         double upperY;
         double lowerY;
+        this.end = start + 25;
 
         if(reverse){
             upperY = 200.0;
@@ -33,5 +37,9 @@ public class Point extends Group {
         lower.setStartY(200.0);
         lower.setEndY(200.0);
         this.getChildren().addAll(upper, lower);
+    }
+
+    public double getEnd(){
+        return end;
     }
 }

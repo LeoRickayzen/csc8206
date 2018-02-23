@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import railway.draw.Point;
+import railway.draw.Signal;
+import railway.draw.TrackSection;
 
 public class main extends Application{
     /**
@@ -12,12 +15,13 @@ public class main extends Application{
      */
     public void start(Stage stage) {
 
-        TrackSection a1 = new TrackSection(150.0, 450.0, true);
-        Point p1 = new Point(450, 460, false);
-        TrackSection a2 = new TrackSection(460.0, 760.0, false);
-        TrackSection a4 = new TrackSection(460.0, 760.0, true);
-        Point p2 = new Point(760, 770, true);
-        TrackSection a3 = new TrackSection(770.0, 1070.0, true);
+        TrackSection a1 = new TrackSection(150.0, false);
+        Point p1 = new Point(a1.getEnd(), false);
+        TrackSection a2 = new TrackSection(p1.getEnd(), true);
+        TrackSection a4 = new TrackSection(p1.getEnd(), false);
+        Point p2 = new Point(a2.getEnd(), true);
+        TrackSection a3 = new TrackSection(p2.getEnd(), false);
+        Signal s1 = new Signal(p2.getEnd(), false, false);
 
         //Creating a Group
         Group root = new Group();
@@ -28,6 +32,7 @@ public class main extends Application{
         root.getChildren().add(p2);
         root.getChildren().add(a3);
         root.getChildren().add(a4);
+        root.getChildren().add(s1);
 
         //Creating a Scene
         Scene scene = new Scene(root, 600, 300);
