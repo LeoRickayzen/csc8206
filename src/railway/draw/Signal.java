@@ -3,7 +3,7 @@ package railway.draw;
 import javafx.scene.Group;
 import javafx.scene.shape.Line;
 
-public class Signal extends Group {
+public class Signal extends Component {
 
     double start;
     Boolean upper;
@@ -50,5 +50,9 @@ public class Signal extends Group {
         top.setEndX(end);
 
         this.getChildren().addAll(leftUp, top, rightUp);
+    }
+
+    public double getEnd(){
+        return end;
     }
 }

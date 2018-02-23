@@ -4,7 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-public class Point extends Group {
+public class Point extends Component {
 
     private double end;
 

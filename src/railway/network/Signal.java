@@ -1,14 +1,15 @@
 package railway.network;
 
-public class Signal {
-	Section blockID;
+public class Signal implements Component{
+
+	int id;
 	boolean clear;               
 	String direction;      
 	Section upNeigh;       
 	Section downNeigh;
 	
 	// the constructor	
-	public Signal(Section blockID,boolean clear, String direction, Section upNeigh,Section downNeigh) {
+	public Signal(int id,boolean clear, String direction, Section upNeigh, Section downNeigh) {
 		this.blockID=blockID;
 		this.clear=clear;
 		this.direction=direction;

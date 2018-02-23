@@ -1,6 +1,8 @@
 package railway.network;
 
-public class Point {
+public class Point implements Component{
+
+	int id;
 	boolean plus;                
 	Section mainNeigh;     
 	Section mNeigh; //minus Neighbour         
