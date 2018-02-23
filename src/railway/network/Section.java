@@ -1,8 +1,8 @@
 package railway.network;
 
-public class Section {
+public class Section implements Component{
 	
-	int blockID;             
+	int id;
 	boolean occupied;          
 	Section upNeigh;          
 	Section downNeigh;

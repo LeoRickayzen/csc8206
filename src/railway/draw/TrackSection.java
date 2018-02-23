@@ -1,25 +1,29 @@
 package railway.draw;
 
+import javafx.scene.Group;
 import javafx.scene.shape.Line;
 
-public class TrackSection extends Line {
+public class TrackSection extends Component {
 
     double upperY = 150;
     double lowerY = 200;
     private double start;
     private double end;
+    Line line;
 
     public TrackSection(double start, Boolean upper){
+        line = new Line();
         this.end = start + 50;
-        this.setStartX(start);
-        this.setEndX(end);
+        line.setStartX(start);
+        line.setEndX(end);
         if(upper){
-            this.setStartY(upperY);
-            this.setEndY(upperY);
+            line.setStartY(upperY);
+            line.setEndY(upperY);
         }else{
-            this.setStartY(lowerY);
-            this.setEndY(lowerY);
+            line.setStartY(lowerY);
+            line.setEndY(lowerY);
         }
+        this.getChildren().add(line);
     }
 
     public double getEnd() {

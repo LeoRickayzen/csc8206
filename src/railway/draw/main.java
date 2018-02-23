@@ -1,4 +1,4 @@
-package railway.network;
+package railway.draw;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -14,7 +14,6 @@ public class main extends Application{
      * @param stage
      */
     public void start(Stage stage) {
-
         TrackSection a1 = new TrackSection(150.0, false);
         Point p1 = new Point(a1.getEnd(), false);
         TrackSection a2 = new TrackSection(p1.getEnd(), true);
@@ -46,6 +45,7 @@ public class main extends Application{
         //Displaying the contents of a scene
         stage.show();
     }
+
     public static void main(String args[]){
         launch(args);
     }
