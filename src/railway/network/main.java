@@ -1,4 +1,4 @@
-package railway;
+package railway.network;
 
 import javafx.application.Application;
 import javafx.scene.Group;
