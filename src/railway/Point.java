@@ -21,30 +21,30 @@ public class Point {
 	public boolean getPlus() {
 		return plus;
 	}
-
+	//set main neighbour
 	public void setMainNeigh(Section mainNeigh) {
 		this.mainNeigh=mainNeigh;
 		
 	}
-
+	//get main neighbour
 	public Section getmainNeigh() {
 		return mainNeigh;
 	}
-	
+	//set minus neighbour
 	public void setMNeigh(Section mNeigh) {
 		this.mNeigh=mNeigh;
 	}
-	
-	public Section getPMeigh() {
+	//get minus neighbour
+	public Section getMNeigh() {
 		return mNeigh;
 		
 	}
-	
+	//set plus neighbour
 	public void setPNeigh(Section pNeigh) {
 		this.pNeigh=pNeigh;
 		
 	}
-	
+	//get plus neighbour
 	public Section getPNeigh() {
 		return pNeigh;
 	}
