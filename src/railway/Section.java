@@ -13,5 +13,37 @@ public class Section {
 	this.upNeigh=upNeigh;
 	this.downNeigh=downNeigh;
 }
+  
+  public void setBlockID(int blockID) {
+	  this.blockID=blockID;
+	  
+  }
+  
+  public int getBlockID() {
+	  return blockID;
+  }
 
+  public void setOccupied(boolean occupied) {
+	  this.occupied=occupied;
+  }
+  
+  public boolean getOccupied() {
+	  return occupied;
+  }
+  
+  public void setUpNeigh(Section upNeigh) {
+	  this.upNeigh=upNeigh;
+  }
+  
+  public Section getUpNeigh() {
+	  return upNeigh;
+  }
+  
+  public void setDownNeigh(Section downNeigh) {
+	  this.downNeigh=downNeigh;
+  }
+  
+  public Section getDownNeigh() {
+	  return downNeigh;
+  }
 }
