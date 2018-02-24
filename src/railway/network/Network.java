@@ -34,4 +34,16 @@ public class Network {
 		}
 		return null;
 	}
+
+	public ArrayList<Signal> getSignals() {
+		return signals;
+	}
+
+	public ArrayList<Section> getSections() {
+		return sections;
+	}
+
+	public ArrayList<Point> getPoints() {
+		return points;
+	}
 }
