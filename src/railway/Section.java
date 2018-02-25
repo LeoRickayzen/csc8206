@@ -1,27 +1,18 @@
 
-public class Section {
-	
-	int blockID;             
+public class Section extends Block{
+	            
 	boolean occupied;          
-	Section upNeigh;          
-	Section downNeigh;
+	Block upNeigh;          
+	Block downNeigh;
 
 	// the constructor	
-  public Section (int blockID, boolean occupied,Section upNeigh, Section downNeigh) {
-	this.blockID=blockID;
+  public Section (int blockID, boolean occupied,Block upNeigh, Block downNeigh) {
+	super(blockID);
 	this.occupied=occupied;
 	this.upNeigh=upNeigh;
 	this.downNeigh=downNeigh;
 }
   
-  public void setBlockID(int blockID) {
-	  this.blockID=blockID;
-	  
-  }
-  
-  public int getBlockID() {
-	  return blockID;
-  }
 
   public void setOccupied(boolean occupied) {
 	  this.occupied=occupied;
@@ -35,7 +26,7 @@ public class Section {
 	  this.upNeigh=upNeigh;
   }
   
-  public Section getUpNeigh() {
+  public Block getUpNeigh() {
 	  return upNeigh;
   }
   
@@ -43,7 +34,7 @@ public class Section {
 	  this.downNeigh=downNeigh;
   }
   
-  public Section getDownNeigh() {
+  public Block getDownNeigh() {
 	  return downNeigh;
   }
 }
