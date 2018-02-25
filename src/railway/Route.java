@@ -1,5 +1,6 @@
 
 public class Route {
+	int routeID;
 	Signal source;
 	Signal destination;
 	
@@ -8,6 +9,15 @@ public class Route {
 		this.source=source;
 		this.destination=destination;	
 	}
+	
+	public void setRouteID(int routeID) {
+		  this.routeID=routeID;
+		  
+	  }
+	  
+	public int getRouteID() {
+		  return routeID;
+	  }
 	
 	/**
      * set route's source
