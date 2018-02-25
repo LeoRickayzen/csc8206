@@ -1,12 +1,13 @@
 
-public class Point {
+public class Point extends Block{
 	boolean plus;                
-	Section mainNeigh;     
-	Section mNeigh; //minus Neighbour         
-	Section pNeigh; //plus Neighbour
+	Block mainNeigh;     
+	Block mNeigh; //minus Neighbour         
+	Block pNeigh; //plus Neighbour
 	
 	// the constructor	
-	public Point(boolean plus,Section mainNeigh, Section mNeigh, Section pNeigh) {
+	public Point(int blockID,boolean plus,Block mainNeigh, Block mNeigh, Block pNeigh) {
+		super(blockID);
 		this.plus=plus;
 		this.mainNeigh=mainNeigh;
 		this.mNeigh=mNeigh;
@@ -18,7 +19,7 @@ public class Point {
 		this.plus=plus;
 	}
 	
-	public boolean getPlus() {
+	public boolean getPlus(){
 		return plus;
 	}
 	//set main neighbour
@@ -27,7 +28,7 @@ public class Point {
 		
 	}
 	//get main neighbour
-	public Section getmainNeigh() {
+	public Block getmainNeigh() {
 		return mainNeigh;
 	}
 	//set minus neighbour
@@ -35,7 +36,7 @@ public class Point {
 		this.mNeigh=mNeigh;
 	}
 	//get minus neighbour
-	public Section getMNeigh() {
+	public Block getMNeigh() {
 		return mNeigh;
 		
 	}
@@ -45,7 +46,7 @@ public class Point {
 		
 	}
 	//get plus neighbour
-	public Section getPNeigh() {
+	public Block getPNeigh() {
 		return pNeigh;
 	}
 	
