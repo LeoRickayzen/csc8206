@@ -1,6 +1,7 @@
 package railway.network;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Network {
 	ArrayList<Signal> signals;
@@ -16,19 +17,19 @@ public class Network {
 		return null;
 	}
 
-	public Component getComp(int id){
+	public Component getComp(UUID id){
 		for(int i = 0; i < sections.size(); i++){
-			if(sections.get(i).id == id){
+			if(sections.get(i).getId().equals(id)){
 				return sections.get(i);
 			}
 		}
 		for(int i = 0; i < signals.size(); i++){
-			if(signals.get(i).id == id){
+			if(signals.get(i).getId().equals(id)){
 				return signals.get(i);
 			}
 		}
 		for(int i = 0; i < points.size(); i++){
-			if(points.get(i).id == id){
+			if(points.get(i).getId().equals(id)){
 				return points.get(i);
 			}
 		}

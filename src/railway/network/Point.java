@@ -1,15 +1,18 @@
 package railway.network;
 
+import java.util.UUID;
+
 public class Point implements Component{
 
-	int id;
+	private UUID id;
 	boolean plus;                
-	Section mainNeigh;     
-	Section mNeigh; //minus Neighbour         
-	Section pNeigh; //plus Neighbour
+	UUID mainNeigh;     
+	UUID mNeigh; //minus Neighbour         
+	UUID pNeigh; //plus Neighbour
 	
 	// the constructor	
-	public Point(boolean plus,Section mainNeigh, Section mNeigh, Section pNeigh) {
+	public Point(boolean plus, UUID mainNeigh, UUID mNeigh, UUID pNeigh) {
+		this.id = UUID.randomUUID();
 		this.plus=plus;
 		this.mainNeigh=mainNeigh;
 		this.mNeigh=mNeigh;
@@ -17,35 +20,31 @@ public class Point implements Component{
 		
 	}
 
-	public int getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Section getMainNeigh() {
+	public UUID getMainNeigh() {
 		return mainNeigh;
 	}
 
-	public void setMainNeigh(Section mainNeigh) {
+	public void setMainNeigh(UUID mainNeigh) {
 		this.mainNeigh = mainNeigh;
 	}
 
-	public Section getmNeigh() {
+	public UUID getmNeigh() {
 		return mNeigh;
 	}
 
-	public void setmNeigh(Section mNeigh) {
+	public void setmNeigh(UUID mNeigh) {
 		this.mNeigh = mNeigh;
 	}
 
-	public Section getpNeigh() {
+	public UUID getpNeigh() {
 		return pNeigh;
 	}
 
-	public void setpNeigh(Section pNeigh) {
+	public void setpNeigh(UUID pNeigh) {
 		this.pNeigh = pNeigh;
 	}
 
