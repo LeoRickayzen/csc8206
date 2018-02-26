@@ -32,6 +32,12 @@ public class Network {
 		return null;
 	}
 
+	/**
+	 * <p>Finds a component (or block) with a given ID. If it doesn't exist, returns null.</p>
+	 * 
+	 * @param id ID of the block to find.
+	 * @return Returns the found block or null.
+	 */
 	public Block getComp(int id){
 		for(int i = 0; i < sections.size(); i++){
 			if(sections.get(i).getId() == id){
