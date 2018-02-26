@@ -7,10 +7,6 @@ import javafx.stage.Stage;
 import railway.draw.Point;
 import railway.draw.Signal;
 import railway.draw.TrackSection;
-import railway.file.NetworkFile;
-import railway.network.Network;
-
-import java.io.IOException;
 
 public class main extends Application{
     /**
@@ -51,17 +47,6 @@ public class main extends Application{
     }
 
     public static void main(String args[]){
-        try
-        {
-            NetworkFile file = new NetworkFile("res/railway.json");
-            Network n = file.read();
-            System.out.println(n);
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
-
         launch(args);
     }
 }
