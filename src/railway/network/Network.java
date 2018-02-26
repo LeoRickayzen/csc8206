@@ -158,4 +158,9 @@ public class Network {
 	public boolean removePointFromNetwork(Point point) {
 		return this.points.remove(point);
 	}
+
+	public String toString()
+    {
+        return "Points: " + this.getPoints().size() + ", Sections: " + this.getSections().size() + ", Signals: " + this.getSignals().size();
+    }
 }

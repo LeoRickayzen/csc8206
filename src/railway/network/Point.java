@@ -1,14 +1,14 @@
 package railway.network;
 
-import java.util.UUID;
-
 public class Point extends Block{
 
 	boolean plus;                
 	int mainNeigh;     
 	int mNeigh; //minus Neighbour         
 	int pNeigh; //plus Neighbour
-	
+
+    public Point(){}
+
 	// the constructor	
 	public Point(int blockID, boolean plus, int mainNeigh, int mNeigh, int pNeigh) {
 		super(blockID);
