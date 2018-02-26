@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Network {
-	ArrayList<Signal> signals;
-	ArrayList<Section> sections;
-	ArrayList<Point> points;
+	private ArrayList<Signal> signals;
+	private ArrayList<Section> sections;
+	private ArrayList<Point> points;
 
 	//Constructor
 	public Network() {
@@ -163,5 +163,24 @@ public class Network {
      */
 	public boolean removePointFromNetwork(Point point) {
 		return this.points.remove(point);
+	}
+	
+	/**
+	 * <p>Returns a list of IDs of endpoints of the network.</p>
+	 * 
+	 * @return ArrayList of endpoint IDs.
+	 */
+	public ArrayList<Integer> getEndpoints(){
+		ArrayList<Integer> endpoints = new ArrayList<Integer>();
+		
+		//For each section
+		for(Section s : sections) {
+			//If either neighbour is null
+			if(s.getUpNeigh() == 0 || s.getDownNeigh() == 0) {
+				endpoints.add(s.getId());
+			}
+		}
+		
+		return endpoints;
 	}
 }
