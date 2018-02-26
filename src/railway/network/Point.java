@@ -2,17 +2,16 @@ package railway.network;
 
 import java.util.UUID;
 
-public class Point implements Component{
+public class Point extends Block{
 
-	private UUID id;
 	boolean plus;                
-	UUID mainNeigh;     
-	UUID mNeigh; //minus Neighbour         
-	UUID pNeigh; //plus Neighbour
+	int mainNeigh;     
+	int mNeigh; //minus Neighbour         
+	int pNeigh; //plus Neighbour
 	
 	// the constructor	
-	public Point(boolean plus, UUID mainNeigh, UUID mNeigh, UUID pNeigh) {
-		this.id = UUID.randomUUID();
+	public Point(int blockID, boolean plus, int mainNeigh, int mNeigh, int pNeigh) {
+		super(blockID);
 		this.plus=plus;
 		this.mainNeigh=mainNeigh;
 		this.mNeigh=mNeigh;
@@ -20,33 +19,39 @@ public class Point implements Component{
 		
 	}
 
-	public UUID getId() {
-		return id;
+	public boolean isPlus() {
+		return plus;
 	}
 
-	public UUID getMainNeigh() {
+	public void setPlus(boolean plus) {
+		this.plus = plus;
+	}
+
+	public int getMainNeigh() {
 		return mainNeigh;
 	}
 
-	public void setMainNeigh(UUID mainNeigh) {
+	public void setMainNeigh(int mainNeigh) {
 		this.mainNeigh = mainNeigh;
 	}
 
-	public UUID getmNeigh() {
+	public int getmNeigh() {
 		return mNeigh;
 	}
 
-	public void setmNeigh(UUID mNeigh) {
+	public void setmNeigh(int mNeigh) {
 		this.mNeigh = mNeigh;
 	}
 
-	public UUID getpNeigh() {
+	public int getpNeigh() {
 		return pNeigh;
 	}
 
-	public void setpNeigh(UUID pNeigh) {
+	public void setpNeigh(int pNeigh) {
 		this.pNeigh = pNeigh;
 	}
+
+	
 
 
 }

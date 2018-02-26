@@ -1,45 +1,56 @@
 package railway.network;
 
-import java.util.UUID;
+public class Signal extends Block{
 
-public class Signal implements Component{
-
-	private UUID id;
-	boolean clear;               
-	String direction;      
-	UUID upNeigh;       
-	UUID downNeigh;
+	private boolean clear;               
+	private String direction;      
+	private int upNeigh;       
+	private int downNeigh;
 	
 	// the constructor	
-	public Signal(boolean clear, String direction, UUID upNeigh, UUID downNeigh) {
-		this.id = UUID.randomUUID();
+	public Signal(int id, boolean clear, String direction, int upNeigh, int downNeigh) {
+		super(id);
 		this.clear=clear;
 		this.direction=direction;
 		this.upNeigh=upNeigh;
 		this.downNeigh=downNeigh;
 	}
 
-	public UUID getUpNeigh() {
+	public int getUpNeigh() {
 		return upNeigh;
 	}
 
-	public void setUpNeigh(UUID upNeigh) {
+	public void setUpNeigh(int upNeigh) {
 		this.upNeigh = upNeigh;
 	}
 
-	public UUID getDownNeigh() {
+	public int getDownNeigh() {
 		return downNeigh;
 	}
 
-	public void setDownNeigh(UUID downNeigh) {
+	public void setDownNeigh(int downNeigh) {
 		this.downNeigh = downNeigh;
 	}
 
-	public UUID getId() {
+	public int getId() {
 		return id;
 	}
-	
-	
+
+	public boolean isClear() {
+		return clear;
+	}
+
+	public void setClear(boolean clear) {
+		this.clear = clear;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
 
 
 }

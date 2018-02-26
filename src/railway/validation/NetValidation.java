@@ -57,31 +57,31 @@ public class NetValidation {
 		
 		//For each point, check for null neighbours and log if required.
 		for(Point p : points) {
-			if(p.getMainNeigh() == null) {
-				pointIssues.add(p.getId().toString() + "\t|\t" + "Point" + "\t|\t" + "no main neighbour");
+			if(p.getMainNeigh() == 0) {
+				pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "no main neighbour");
 			}
 			
-			if(p.getmNeigh() == null) {
-				pointIssues.add(p.getId().toString() + "\t|\t" + "Point" + "\t|\t" + "no minus neighbour");
+			if(p.getmNeigh() == 0) {
+				pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "no minus neighbour");
 			}
 			
-			if(p.getpNeigh() == null) {
-				pointIssues.add(p.getId().toString() + "\t|\t" + "Point" + "\t|\t" + "no plus neighbour");
+			if(p.getpNeigh() == 0) {
+				pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "no plus neighbour");
 			}
 			
 			//If the main neighbour is of the same class as this (Point), log issue.
 			if(network.getComp(p.getMainNeigh()).getClass().equals(p.getClass())) {
-				pointIssues.add(p.getId().toString() + "\t|\t" + "Point" + "\t|\t" + "main neighbour can't be Point");
+				pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "main neighbour can't be Point");
 			}
 			
 			//If the minus neighbour is of the same class as this (Point), log issue.
 			if(network.getComp(p.getmNeigh()).getClass().equals(p.getClass())) {
-				pointIssues.add(p.getId().toString() + "\t|\t" + "Point" + "\t|\t" + "minus neighbour can't be Point");
+				pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "minus neighbour can't be Point");
 			}
 			
 			//If the plus neighbour is of the same class as this (Point), log issue.
 			if(network.getComp(p.getpNeigh()).getClass().equals(p.getClass())) {
-				pointIssues.add(p.getId().toString() + "\t|\t" + "Point" + "\t|\t" + "plus neighbour can't be Point");
+				pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "plus neighbour can't be Point");
 			}
 		}
 		
@@ -102,20 +102,20 @@ public class NetValidation {
 		
 		//For each section, check if both neighbours are null. If so, log an issue.
 		for(Section s : sections) {
-			if(s.getUpNeigh() == null) {
-				if(s.getDownNeigh() == null) {
-					sectionIssues.add(s.getId().toString() + "\t|\t" + "Section" + "\t|\t" + "must have at least one neighbour");
+			if(s.getUpNeigh() == 0) {
+				if(s.getDownNeigh() == 0) {
+					sectionIssues.add(s.getId() + "\t|\t" + "Section" + "\t|\t" + "must have at least one neighbour");
 				}
 			}
 			
 			//If the up neighbour is of the same class as this (Section), log issue.
 			if(network.getComp(s.getUpNeigh()).getClass().equals(s.getClass())) {
-				sectionIssues.add(s.getId().toString() + "\t|\t" + "Section" + "\t|\t" + "up neighbour can't be Section");
+				sectionIssues.add(s.getId() + "\t|\t" + "Section" + "\t|\t" + "up neighbour can't be Section");
 			}
 			
 			//If the down neighbour is of the same class as this (Section), log issue.
 			if(network.getComp(s.getDownNeigh()).getClass().equals(s.getClass())) {
-				sectionIssues.add(s.getId().toString() + "\t|\t" + "Section" + "\t|\t" + "down neighbour can't be Section");
+				sectionIssues.add(s.getId() + "\t|\t" + "Section" + "\t|\t" + "down neighbour can't be Section");
 			}
 		}
 		
@@ -136,22 +136,22 @@ public class NetValidation {
 		
 		//For each signal, check for null neighbours and log if required.
 		for(Signal s : signals) {
-			if(s.getUpNeigh() == null) {
-				signalIssues.add(s.getId().toString() + "\t|\t" + "Signal" + "\t|\t" + "no up neighbour");
+			if(s.getUpNeigh() == 0) {
+				signalIssues.add(s.getId() + "\t|\t" + "Signal" + "\t|\t" + "no up neighbour");
 			}
 			
-			if(s.getDownNeigh() == null) {
-				signalIssues.add(s.getId().toString() + "\t|\t" + "Signal" + "\t|\t" + "no down neighbour");
+			if(s.getDownNeigh() == 0) {
+				signalIssues.add(s.getId() + "\t|\t" + "Signal" + "\t|\t" + "no down neighbour");
 			}
 			
 			//If the up neighbour is of the same class as this (Section), log issue.
 			if(network.getComp(s.getUpNeigh()).getClass().equals(s.getClass())) {
-				signalIssues.add(s.getId().toString() + "\t|\t" + "Signal" + "\t|\t" + "up neighbour can't be Signal");
+				signalIssues.add(s.getId() + "\t|\t" + "Signal" + "\t|\t" + "up neighbour can't be Signal");
 			}
 			
 			//If the down neighbour is of the same class as this (Section), log issue.
 			if(network.getComp(s.getDownNeigh()).getClass().equals(s.getClass())) {
-				signalIssues.add(s.getId().toString() + "\t|\t" + "Signal" + "\t|\t" + "down neighbour can't be Signal");
+				signalIssues.add(s.getId() + "\t|\t" + "Signal" + "\t|\t" + "down neighbour can't be Signal");
 			}
 		}
 		

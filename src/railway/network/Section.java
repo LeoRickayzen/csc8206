@@ -1,42 +1,47 @@
 package railway.network;
 
-import java.util.UUID;
-
-public class Section implements Component{
+public class Section extends Block{
 	
-	private UUID id;
 	boolean occupied;          
-	UUID upNeigh;          
-	UUID downNeigh;
+	int upNeigh;          
+	int downNeigh;
 
 	// the constructor	
-	public Section (boolean occupied, UUID upNeigh, UUID downNeigh) {
-		this.id = UUID.randomUUID();
+	public Section (int id, boolean occupied, int upNeigh, int downNeigh) {
+		super(id);
 		this.occupied=occupied;
 		this.upNeigh=upNeigh;
 		this.downNeigh=downNeigh;
 	}
 
-	public UUID getUpNeigh() {
+	public int getUpNeigh() {
 		return upNeigh;
 	}
 	
-	public void setUpNeigh(UUID upNeigh) {
+	public void setUpNeigh(int upNeigh) {
 		this.upNeigh = upNeigh;
 	}
 	
-	public UUID getDownNeigh() {
+	public int getDownNeigh() {
 		return downNeigh;
 	}
 	
-	public void setDownNeigh(UUID downNeigh) {
+	public void setDownNeigh(int downNeigh) {
 		this.downNeigh = downNeigh;
 	}
 	
-	public UUID getId() {
+	public int getId() {
 		return id;
 	}
+
+	public boolean isOccupied() {
+		return occupied;
+	}
+
+	public void setOccupied(boolean occupied) {
+		this.occupied = occupied;
+	}
   
-  
+	
 
 }
