@@ -177,14 +177,11 @@ public class NetValidation {
 				signalIssues.add(s.getId() + "\t|\t" + "Signal" + "\t|\t" + "no down neighbour");
 			}
 			
-			//If the up neighbour is of the same class as this (Section), log issue.
+			//If both neighbours are also Signals, log an issue. Can have two Signals in a row, but no more.
 			if(network.getComp(s.getUpNeigh()).getClass().equals(s.getClass())) {
-				signalIssues.add(s.getId() + "\t|\t" + "Signal" + "\t|\t" + "up neighbour can't be Signal");
-			}
-			
-			//If the down neighbour is of the same class as this (Section), log issue.
-			if(network.getComp(s.getDownNeigh()).getClass().equals(s.getClass())) {
-				signalIssues.add(s.getId() + "\t|\t" + "Signal" + "\t|\t" + "down neighbour can't be Signal");
+				if(network.getComp(s.getDownNeigh()).getClass().equals(s.getClass())) {
+					signalIssues.add(s.getId() + "\t|\t" + "Signal" + "\t|\t" + "can only have one Signal as neighbour, not both.");
+				}
 			}
 			
 			//If invalid IDs are used for the neighbours, log issue.
