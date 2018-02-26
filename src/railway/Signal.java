@@ -1,14 +1,14 @@
 
-public class Signal {
-	Section blockID;
+public class Signal extends Block {
+	//Section blockID;
 	boolean clear;               
 	String direction;      
-	Section upNeigh;       
-	Section downNeigh;
+	Block upNeigh;       
+	Block downNeigh;
 	
 	// the constructor	
-	public Signal(Section blockID,boolean clear, String direction, Section upNeigh,Section downNeigh) {
-		this.blockID=blockID;
+	public Signal(int blockID,boolean clear, String direction, Block upNeigh,Block downNeigh) {
+		super(blockID);
 		this.clear=clear;
 		this.direction=direction;
 		this.upNeigh=upNeigh;
@@ -18,7 +18,7 @@ public class Signal {
      * set signal's block
      *
      * @param  blockID  new signal's block
-     */
+     
 	//the section that the signal on
 	public void setBlockID(Section blockID) {
 		this.blockID=blockID;
@@ -28,7 +28,7 @@ public class Signal {
 	public Section getBlockID() {
 		return blockID;
 	}
-	
+	*/
 	/**
      * set signal's status
      *
@@ -50,7 +50,7 @@ public class Signal {
 	/**
      * set signal's direction
      *
-     * @param  direction  new direction value (up or down)
+     * @param  direction  new direction value
      */
 	public void setDirection(String direction) {
 		this.direction=direction;
@@ -69,7 +69,7 @@ public class Signal {
 		this.upNeigh=upNeigh;
 	}
 	
-	public Section getUpNeigh() {
+	public Block getUpNeigh() {
 		return upNeigh;
 	}
 	
@@ -77,7 +77,7 @@ public class Signal {
 		this.downNeigh=downNeigh;
 	}
 	
-	public Section getDownNeigh() {
+	public Block getDownNeigh() {
 		return this.downNeigh;
 	}
 
