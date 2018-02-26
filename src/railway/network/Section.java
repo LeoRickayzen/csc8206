@@ -29,10 +29,6 @@ public class Section extends Block{
 	public void setDownNeigh(int downNeigh) {
 		this.downNeigh = downNeigh;
 	}
-	
-	public int getId() {
-		return id;
-	}
 
 	public boolean isOccupied() {
 		return occupied;
