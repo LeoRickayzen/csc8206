@@ -11,11 +11,12 @@ import java.util.ArrayList;
 
 public class NetworkRenderer {
 
-    ArrayList<railway.draw.Component> components = new ArrayList<railway.draw.Component>();
+    ArrayList<railway.draw.Component> components;
 
     public NetworkComp Render(Network network){
+    	components = new ArrayList<railway.draw.Component>();
         Block root = network.getFirst();
-        return draw(root, network);
+        return draw(root, network, true, false);
         
     }
     
@@ -28,28 +29,45 @@ public class NetworkRenderer {
     	return null;
     }
 
-    public NetworkComp draw(Block block, Network network){
+    public NetworkComp draw(Block block, Network network, Boolean first, Boolean upper){
+        double start = 10;
         if(block.getClass() == Point.class){
         	Point point = (Point)block;
-        	double start = getCompById(point.getMainNeigh()).getEnd();
+        	if(!first){
+            	start = getCompById(point.getMainNeigh()).getEnd();
+        	}
             PointComp p = new PointComp(start, false, block.getId());
             components.add(p);
-            draw(network.getBlock(point.getmNeigh()), network);
-            draw(network.getBlock(point.getpNeigh()), network);
+            if(point.getmNeigh() != 0){
+                draw(network.getBlock(point.getmNeigh()), network, false, true);
+            }
+            if(point.getpNeigh() != 0){
+                draw(network.getBlock(point.getpNeigh()), network, false, false);
+            }
         }
         if(block.getClass() == Section.class){
+            System.out.println(block.getClass().toString());
             Section s = (Section)block;
-        	double start = getCompById(s.getDownNeigh()).getEnd();
-            TrackSection tc = new TrackSection(start, false, block.getId());
+        	if(!first){
+            	start = getCompById(s.getDownNeigh()).getEnd();
+        	}
+            TrackSection tc = new TrackSection(start, upper, block.getId());
             components.add(tc);
-            draw(network.getBlock(s.getUpNeigh()), network);
+            System.out.println(s.getUpNeigh());
+            if(s.getUpNeigh() != 0){
+                draw(network.getBlock(s.getUpNeigh()), network, false, null);
+            }
         }
         if(block.getClass() == Signal.class){
             Signal s = (Signal)block;
-        	double start = getCompById(s.getDownNeigh()).getEnd();
+        	if(!first){
+            	start = getCompById(s.getDownNeigh()).getEnd();
+        	}
             SignalComp sc = new SignalComp(start, false, false, block.getId());
             components.add(sc);
-            draw(network.getBlock(s.getUpNeigh()), network);
+            if(s.getUpNeigh() != 0){
+                draw(network.getBlock(s.getUpNeigh()), network, false, null);
+            }
         }
         return new NetworkComp(components);
     }
