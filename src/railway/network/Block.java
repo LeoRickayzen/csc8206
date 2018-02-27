@@ -4,9 +4,11 @@ package railway.network;
 public class Block {
 	private int id;
 	private String currentDirection;
-	
+
+	Block(){}
+
 	//constructor
-	public Block(int id) {
+	Block(int id) {
 		this.id=id;
 	}
 	

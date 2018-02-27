@@ -1,7 +1,6 @@
 package railway.network;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Network {
 	private ArrayList<Signal> signals;
@@ -10,9 +9,9 @@ public class Network {
 
 	//Constructor
 	public Network() {
-		signals=new ArrayList<Signal>();
-		sections=new ArrayList<Section>();
-		points=	new ArrayList<Point>();	
+		signals=new ArrayList<>();
+		sections=new ArrayList<>();
+		points=	new ArrayList<>();
 		
 	}
 		
@@ -24,9 +23,9 @@ public class Network {
 	}
 	
 	public Block getFirst(){
-		for(int i = 0; i < sections.size(); i++){
-			if(sections.get(i).getDownNeigh() == 0){
-				return sections.get(i);
+		for (Section section : sections){
+			if (section.getDownNeigh() == 0){
+				return section;
 			}
 		}
 		return null;
@@ -39,19 +38,19 @@ public class Network {
 	 * @return Returns the found block or null.
 	 */
 	public Block getComp(int id){
-		for(int i = 0; i < sections.size(); i++){
-			if(sections.get(i).getId() == id){
-				return sections.get(i);
+		for (Section section : sections){
+			if (section.getId() == id){
+				return section;
 			}
 		}
-		for(int i = 0; i < signals.size(); i++){
-			if(signals.get(i).getId() == id){
-				return signals.get(i);
+		for (Signal signal : signals){
+			if (signal.getId() == id){
+				return signal;
 			}
 		}
-		for(int i = 0; i < points.size(); i++){
-			if(points.get(i).getId() == id){
-				return points.get(i);
+		for (Point point : points){
+			if (point.getId() == id){
+				return point;
 			}
 		}
 		return null;
@@ -183,4 +182,9 @@ public class Network {
 		
 		return endpoints;
 	}
+
+	public String toString()
+    {
+        return "Points: " + this.getPoints().size() + ", Sections: " + this.getSections().size() + ", Signals: " + this.getSignals().size();
+    }
 }
