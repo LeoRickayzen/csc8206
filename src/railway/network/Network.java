@@ -1,6 +1,9 @@
 package railway.network;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class Network {
 	private ArrayList<Signal> signals;
@@ -22,6 +25,12 @@ public class Network {
 		this.points=points;	
 	}
 	
+	/**
+	 * get the first block in the list
+	 *
+	 * @return
+	 */
+	@JsonIgnore
 	public Block getFirst(){
 		for (Section section : sections){
 			if (section.getDownNeigh() == 0){
@@ -31,13 +40,13 @@ public class Network {
 		return null;
 	}
 
-	/**
-	 * <p>Finds a component (or block) with a given ID. If it doesn't exist, returns null.</p>
-	 * 
-	 * @param id ID of the block to find.
-	 * @return Returns the found block or null.
-	 */
-	public Block getComp(int id){
+    /**
+     * <p>Finds a component (or block) with a given ID. If it doesn't exist, returns null.</p>
+     *
+     * @param id ID of the block to find.
+     * @return Returns the found block or null.
+     */
+	public Block getBlock(int id){
 		for (Section section : sections){
 			if (section.getId() == id){
 				return section;
@@ -163,15 +172,15 @@ public class Network {
 	public boolean removePointFromNetwork(Point point) {
 		return this.points.remove(point);
 	}
-	
+
 	/**
 	 * <p>Returns a list of IDs of endpoints of the network.</p>
-	 * 
+	 *
 	 * @return ArrayList of endpoint IDs.
 	 */
 	public ArrayList<Integer> getEndpoints(){
 		ArrayList<Integer> endpoints = new ArrayList<Integer>();
-		
+
 		//For each section
 		for(Section s : sections) {
 			//If either neighbour is null
@@ -179,7 +188,7 @@ public class Network {
 				endpoints.add(s.getId());
 			}
 		}
-		
+
 		return endpoints;
 	}
 

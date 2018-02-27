@@ -4,7 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-public class Signal extends Component {
+public class SignalComp extends Component {
 
     double start;
     Boolean upper;
@@ -12,8 +12,11 @@ public class Signal extends Component {
     double yUpper;
     double yLower;
 
-    public Signal(double start, Boolean upper, Boolean reverse){
-        if(upper){
+    public SignalComp(double start, Boolean upper, Boolean reverse, int id){
+        
+    	super(id);
+    	
+    	if(upper){
             if(reverse){
                 yUpper = 160;
                 yLower = 150;

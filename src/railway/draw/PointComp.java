@@ -5,12 +5,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 
-public class Point extends Component {
+public class PointComp extends Component {
 
     private double end;
 
-    public Point(double start, Boolean reverse){
-
+    public PointComp(double start, Boolean reverse, int id){
+    	
+    	super(id);
+    	
         double upperY;
         double lowerY;
         this.end = start + 25;

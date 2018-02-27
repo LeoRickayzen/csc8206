@@ -13,7 +13,8 @@ public class TrackSection extends Component {
     private double end;
     Line line;
 
-    public TrackSection(double start, Boolean upper){
+    public TrackSection(double start, Boolean upper, int id){
+    	super(id);
         line = new Line();
         this.end = start + 50;
         line.setStartX(start);

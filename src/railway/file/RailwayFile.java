@@ -1,9 +1,11 @@
 package railway.file;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import railway.network.Network;
 
 import java.io.*;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * This class handles all file operations for the JSON representing the railway.
@@ -39,5 +41,21 @@ public class RailwayFile extends File
     {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(this.getAbsoluteFile(), network);
+    }
+
+    public String readJson() throws IOException
+    {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(this.getAbsoluteFile()));
+
+        String line;
+        StringBuilder sb = new StringBuilder("");
+
+        while((line = bufferedReader.readLine()) != null) {
+            sb.append(line);
+        }
+
+        bufferedReader.close();
+
+        return sb.toString();
     }
 }

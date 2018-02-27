@@ -18,12 +18,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import railway.file.RailwayFile;
-import railway.network.Block;
 import railway.network.Network;
-import railway.network.Route;
+import railway.network.Point;
+import railway.network.Section;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class main extends Application{
@@ -38,6 +37,7 @@ public class main extends Application{
         GridPane gridPane = new GridPane();
         gridPane.setMinSize(400, 200);
 
+        /*
         TrackSection a1 = new TrackSection(10.0, false);
         Point p1 = new Point(a1.getEnd(), false);
         TrackSection a2 = new TrackSection(p1.getEnd(), true);
@@ -56,6 +56,45 @@ public class main extends Application{
         root.getChildren().add(a3);
         root.getChildren().add(a4);
         root.getChildren().add(s1);
+        */
+        
+        Pane root = new Pane();
+        
+        NetworkRenderer renderer = new NetworkRenderer();
+        Network network = new Network();
+        
+        Section s1 = new Section();
+        s1.setId(1);
+        
+        Point p2 = new Point();
+        p2.setId(2);
+        
+        Section s3 = new Section();
+        s3.setId(3);
+        Section s4 = new Section();
+        s4.setId(4);
+        
+        s1.setDownNeigh(0);
+        s1.setUpNeigh(p2.getId());
+        
+        p2.setMainNeigh(s1.getId());
+        p2.setpNeigh(s3.getId());
+        p2.setmNeigh(s4.getId());
+        
+        s3.setDownNeigh(p2.getId());
+        s3.setUpNeigh(0);
+        
+        s4.setDownNeigh(p2.getId());
+        s4.setUpNeigh(0);
+        
+        network.addSectionToNetwork(s1);
+        network.addSectionToNetwork(s3);
+        network.addSectionToNetwork(s4);
+        network.addPointToNetwork(p2);
+        
+        NetworkComp networkComp = renderer.Render(network);
+        
+        root.getChildren().addAll(networkComp);
         
         root.setStyle("-fx-background-color: black;");
         
@@ -100,26 +139,14 @@ public class main extends Application{
             RailwayFile file = new RailwayFile("res/railway.json");
             Network n = file.read();
             System.out.println(n);
-            n.addPointToNetwork(new railway.network.Point(1, true, 1, 1, 1, false));
+            n.addPointToNetwork(new railway.network.Point(1, true, 1, 1, 1));
             System.out.println(n);
             file.write(n);
+            System.out.println(file.readJson());
         }
         catch (IOException e)
         {
             System.out.println(e.getMessage());
-        }
-        
-        try {
-        	RailwayFile testFile = new RailwayFile("res/testNetwork.json");
-        	Network testNet = testFile.read();
-        	System.out.println(testNet);
-        	Route route = new Route(999, 2, 15, new ArrayList<Integer>(), testNet);
-        	System.out.println("Before route calc: " + route.getBlocks());
-        	route.calculateRoute();
-        	System.out.println("After route calc: " + route.getBlocks());
-        }
-        catch(IOException e) {
-        	System.out.println(e.getMessage());
         }
 
         launch(args);

@@ -3,37 +3,72 @@ package railway.draw;
 import javafx.scene.Group;
 import railway.network.Block;
 import railway.network.Network;
+import railway.network.Point;
 import railway.network.Section;
+import railway.network.Signal;
 
 import java.util.ArrayList;
 
 public class NetworkRenderer {
 
-    ArrayList<railway.draw.Component> blocks = new ArrayList<railway.draw.Component>();
+    ArrayList<railway.draw.Component> components;
 
-    public void Render(Network network){
+    public NetworkComp Render(Network network){
+    	components = new ArrayList<railway.draw.Component>();
         Block root = network.getFirst();
+        return draw(root, network, true, false);
+        
+    }
+    
+    public Component getCompById(int id){
+    	for(Component comp : components){
+    		if(comp.getCompId() == id){
+    			return comp;
+    		}
+    	}
+    	return null;
     }
 
-    public railway.draw.Network Draw(Block block){
-        double start;
-        if(blocks.isEmpty()){
-            start = 0;
-        }else{
-            start = blocks.get(blocks.size()-1).getEnd();
-        }
-        if(block.getClass() == railway.network.Point.class){
-            Point p = new Point(start, false);
-            blocks.add(p);
+    public NetworkComp draw(Block block, Network network, Boolean first, Boolean upper){
+        double start = 10;
+        if(block.getClass() == Point.class){
+        	Point point = (Point)block;
+        	if(!first){
+            	start = getCompById(point.getMainNeigh()).getEnd();
+        	}
+            PointComp p = new PointComp(start, false, block.getId());
+            components.add(p);
+            if(point.getmNeigh() != 0){
+                draw(network.getBlock(point.getmNeigh()), network, false, true);
+            }
+            if(point.getpNeigh() != 0){
+                draw(network.getBlock(point.getpNeigh()), network, false, false);
+            }
         }
         if(block.getClass() == Section.class){
-            TrackSection s = new TrackSection(start, false);
-            blocks.add(s);
+            System.out.println(block.getClass().toString());
+            Section s = (Section)block;
+        	if(!first){
+            	start = getCompById(s.getDownNeigh()).getEnd();
+        	}
+            TrackSection tc = new TrackSection(start, upper, block.getId());
+            components.add(tc);
+            System.out.println(s.getUpNeigh());
+            if(s.getUpNeigh() != 0){
+                draw(network.getBlock(s.getUpNeigh()), network, false, null);
+            }
         }
-        if(block.getClass() == railway.network.Signal.class){
-            Signal s = new Signal(start, false, false);
-            blocks.add(s);
+        if(block.getClass() == Signal.class){
+            Signal s = (Signal)block;
+        	if(!first){
+            	start = getCompById(s.getDownNeigh()).getEnd();
+        	}
+            SignalComp sc = new SignalComp(start, false, false, block.getId());
+            components.add(sc);
+            if(s.getUpNeigh() != 0){
+                draw(network.getBlock(s.getUpNeigh()), network, false, null);
+            }
         }
-        return new railway.draw.Network(blocks);
+        return new NetworkComp(components);
     }
 }
