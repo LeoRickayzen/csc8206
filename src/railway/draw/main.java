@@ -100,6 +100,7 @@ public class main extends Application{
             n.addPointToNetwork(new railway.network.Point(1, true, 1, 1, 1));
             System.out.println(n);
             file.write(n);
+            System.out.println(file.readJson());
         }
         catch (IOException e)
         {
