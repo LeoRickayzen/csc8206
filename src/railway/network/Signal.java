@@ -32,10 +32,6 @@ public class Signal extends Block{
 		this.downNeigh = downNeigh;
 	}
 
-	public int getId() {
-		return id;
-	}
-
 	public boolean isClear() {
 		return clear;
 	}
