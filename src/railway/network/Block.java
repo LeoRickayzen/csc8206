@@ -1,9 +1,11 @@
 package railway.network;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Block {
 	private int id;
-	private String currentDirection;
+    private String currentDirection;
 
 	Block(){}
 
@@ -35,9 +37,8 @@ public class Block {
      *
      * @return    up or down
      */
-	public String getDirection() {
+    public String getDirection() {
 		return this.currentDirection;
 	}
-
 }
 

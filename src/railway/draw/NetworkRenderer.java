@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 public class NetworkRenderer {
 
-    ArrayList<railway.draw.Component> components;
+    private ArrayList<railway.draw.Component> components;
 
     public NetworkComp Render(Network network){
-    	components = new ArrayList<railway.draw.Component>();
+    	components = new ArrayList<>();
         Block root = network.getFirst();
         return draw(root, network, true, false);
         
