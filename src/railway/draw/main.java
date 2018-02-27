@@ -3,12 +3,14 @@ package railway.draw;
 import com.sun.prism.paint.Color;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.ColumnConstraints;
@@ -105,7 +107,10 @@ public class main extends Application{
         Button clearButton = new Button("clear");
         Button renderButton = new Button("render");
         Button loadButton = new Button("load");
+
+        clearButton.setOnMouseClicked(mouseEvent -> entryBox.clear());
         
+
         textControls.getChildren().addAll(clearButton, renderButton, loadButton);
         
         gridPane.add(root, 1, 0, 1, 2);
@@ -136,7 +141,7 @@ public class main extends Application{
         //TODO: Remove CLI testing
         try
         {
-            RailwayFile file = new RailwayFile("res/railway.json");
+            RailwayFile file = new RailwayFile("res/testNetwork.json");
             Network n = file.read();
             System.out.println(n);
             System.out.println(n);
