@@ -1,5 +1,7 @@
 package railway.network;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -22,7 +24,8 @@ public class Network {
 		this.sections=sections;
 		this.points=points;	
 	}
-	
+
+	@JsonIgnore
 	public Block getFirst(){
 		for (Section section : sections){
 			if (section.getDownNeigh() == 0){
