@@ -1,7 +1,11 @@
 package railway.network;
 
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.UUID;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class Network {
 	private ArrayList<Signal> signals;
@@ -28,6 +32,7 @@ public class Network {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public Block getFirst(){
 		for (Section section : sections){
 			if (section.getDownNeigh() == 0){
