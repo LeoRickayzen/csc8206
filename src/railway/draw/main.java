@@ -4,16 +4,15 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import railway.draw.Point;
-import railway.draw.Signal;
-import railway.draw.TrackSection;
-import railway.file.NetworkFile;
+import railway.file.RailwayFile;
 import railway.network.Network;
 
 import java.io.IOException;
 
 public class main extends Application{
     /**
+     * Driver class.
+     *
      * code based on https://www.tutorialspoint.com/javafx/javafx_application.htm
      * @param stage
      */
@@ -51,11 +50,15 @@ public class main extends Application{
     }
 
     public static void main(String args[]){
+        //TODO: Remove CLI testing
         try
         {
-            NetworkFile file = new NetworkFile("res/railway.json");
+            RailwayFile file = new RailwayFile("res/railway.json");
             Network n = file.read();
             System.out.println(n);
+            n.addPointToNetwork(new railway.network.Point(1, true, 1, 1, 1));
+            System.out.println(n);
+            file.write(n);
         }
         catch (IOException e)
         {
