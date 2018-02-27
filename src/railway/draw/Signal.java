@@ -1,6 +1,7 @@
 package railway.draw;
 
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class Signal extends Component {
@@ -34,6 +35,8 @@ public class Signal extends Component {
         leftUp.setEndX(start);
         leftUp.setStartY(yLower);
         leftUp.setEndY(yUpper);
+        leftUp.setStroke(Color.ALICEBLUE);
+        leftUp.setStrokeWidth(2);
 
         end = start+10;
 
@@ -42,12 +45,16 @@ public class Signal extends Component {
         rightUp.setEndX(end);
         rightUp.setStartY(yUpper);
         rightUp.setEndY(yLower);
+        rightUp.setStroke(Color.ALICEBLUE);
+        rightUp.setStrokeWidth(2);
 
         Line top = new Line();
         top.setStartY(yUpper);
         top.setEndY(yUpper);
         top.setStartX(start);
         top.setEndX(end);
+        top.setStroke(Color.ALICEBLUE);
+        top.setStrokeWidth(2);
 
         this.getChildren().addAll(leftUp, top, rightUp);
     }
