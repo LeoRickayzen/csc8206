@@ -42,4 +42,20 @@ public class RailwayFile extends File
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(this.getAbsoluteFile(), network);
     }
+
+    public String readJson() throws IOException
+    {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(this.getAbsoluteFile()));
+
+        String line;
+        StringBuilder sb = new StringBuilder("");
+
+        while((line = bufferedReader.readLine()) != null) {
+            sb.append(line);
+        }
+
+        bufferedReader.close();
+
+        return sb.toString();
+    }
 }
