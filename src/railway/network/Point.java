@@ -2,6 +2,7 @@ package railway.network;
 
 public class Point extends Block{
 
+
 	private boolean plus;
 	private int mainNeigh;
 	private int mNeigh; //minus Neighbour

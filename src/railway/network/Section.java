@@ -6,6 +6,8 @@ public class Section extends Block{
 	private int upNeigh;
 	private int downNeigh;
 
+	public Section(){}
+
 	// the constructor	
 	public Section (int id, boolean occupied, int upNeigh, int downNeigh) {
 		super(id);
