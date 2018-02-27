@@ -58,8 +58,9 @@ public class main extends Application{
         
         Pane root = new Pane();
         
-        railway.network.Network network = new Network();
-        Network networkComp = new Network();
+        NetworkRenderer renderer = new NetworkRenderer();
+        //Network network = new Network();
+        //NetworkComp networkComp = renderer.Draw(block)(network);
         
         root.setStyle("-fx-background-color: black;");
         

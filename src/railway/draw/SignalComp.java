@@ -12,8 +12,11 @@ public class SignalComp extends Component {
     double yUpper;
     double yLower;
 
-    public SignalComp(double start, Boolean upper, Boolean reverse){
-        if(upper){
+    public SignalComp(double start, Boolean upper, Boolean reverse, int id){
+        
+    	super(id);
+    	
+    	if(upper){
             if(reverse){
                 yUpper = 160;
                 yLower = 150;

@@ -23,6 +23,11 @@ public class Network {
 		this.points=points;	
 	}
 	
+	/**
+	 * get the first block in the list
+	 * 
+	 * @return
+	 */
 	public Block getFirst(){
 		for (Section section : sections){
 			if (section.getDownNeigh() == 0){
@@ -32,7 +37,13 @@ public class Network {
 		return null;
 	}
 
-	public Block getComp(int id){
+	/**
+	 * get a block based on it's id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Block getBlock(int id){
 		for (Section section : sections){
 			if (section.getId() == id){
 				return section;

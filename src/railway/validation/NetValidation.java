@@ -70,17 +70,17 @@ public class NetValidation {
 			}
 			
 			//If the main neighbour is of the same class as this (Point), log issue.
-			if(network.getComp(p.getMainNeigh()).getClass().equals(p.getClass())) {
+			if(network.getBlock(p.getMainNeigh()).getClass().equals(p.getClass())) {
 				pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "main neighbour can't be Point");
 			}
 			
 			//If the minus neighbour is of the same class as this (Point), log issue.
-			if(network.getComp(p.getmNeigh()).getClass().equals(p.getClass())) {
+			if(network.getBlock(p.getmNeigh()).getClass().equals(p.getClass())) {
 				pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "minus neighbour can't be Point");
 			}
 			
 			//If the plus neighbour is of the same class as this (Point), log issue.
-			if(network.getComp(p.getpNeigh()).getClass().equals(p.getClass())) {
+			if(network.getBlock(p.getpNeigh()).getClass().equals(p.getClass())) {
 				pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "plus neighbour can't be Point");
 			}
 		}
@@ -109,12 +109,12 @@ public class NetValidation {
 			}
 			
 			//If the up neighbour is of the same class as this (Section), log issue.
-			if(network.getComp(s.getUpNeigh()).getClass().equals(s.getClass())) {
+			if(network.getBlock(s.getUpNeigh()).getClass().equals(s.getClass())) {
 				sectionIssues.add(s.getId() + "\t|\t" + "Section" + "\t|\t" + "up neighbour can't be Section");
 			}
 			
 			//If the down neighbour is of the same class as this (Section), log issue.
-			if(network.getComp(s.getDownNeigh()).getClass().equals(s.getClass())) {
+			if(network.getBlock(s.getDownNeigh()).getClass().equals(s.getClass())) {
 				sectionIssues.add(s.getId() + "\t|\t" + "Section" + "\t|\t" + "down neighbour can't be Section");
 			}
 		}
@@ -145,12 +145,12 @@ public class NetValidation {
 			}
 			
 			//If the up neighbour is of the same class as this (Section), log issue.
-			if(network.getComp(s.getUpNeigh()).getClass().equals(s.getClass())) {
+			if(network.getBlock(s.getUpNeigh()).getClass().equals(s.getClass())) {
 				signalIssues.add(s.getId() + "\t|\t" + "Signal" + "\t|\t" + "up neighbour can't be Signal");
 			}
 			
 			//If the down neighbour is of the same class as this (Section), log issue.
-			if(network.getComp(s.getDownNeigh()).getClass().equals(s.getClass())) {
+			if(network.getBlock(s.getDownNeigh()).getClass().equals(s.getClass())) {
 				signalIssues.add(s.getId() + "\t|\t" + "Signal" + "\t|\t" + "down neighbour can't be Signal");
 			}
 		}

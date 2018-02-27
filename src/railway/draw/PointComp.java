@@ -9,8 +9,10 @@ public class PointComp extends Component {
 
     private double end;
 
-    public PointComp(double start, Boolean reverse){
-
+    public PointComp(double start, Boolean reverse, int id){
+    	
+    	super(id);
+    	
         double upperY;
         double lowerY;
         this.end = start + 25;
