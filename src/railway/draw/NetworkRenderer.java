@@ -15,7 +15,7 @@ public class NetworkRenderer {
         Block root = network.getFirst();
     }
 
-    public railway.draw.Network Draw(Block block){
+    public railway.draw.NetworkComp Draw(Block block){
         double start;
         if(blocks.isEmpty()){
             start = 0;
@@ -23,7 +23,7 @@ public class NetworkRenderer {
             start = blocks.get(blocks.size()-1).getEnd();
         }
         if(block.getClass() == railway.network.Point.class){
-            Point p = new Point(start, false);
+            PointComp p = new PointComp(start, false);
             blocks.add(p);
         }
         if(block.getClass() == Section.class){
@@ -31,9 +31,9 @@ public class NetworkRenderer {
             blocks.add(s);
         }
         if(block.getClass() == railway.network.Signal.class){
-            Signal s = new Signal(start, false, false);
+            SignalComp s = new SignalComp(start, false, false);
             blocks.add(s);
         }
-        return new railway.draw.Network(blocks);
+        return new railway.draw.NetworkComp(blocks);
     }
 }

@@ -35,6 +35,7 @@ public class main extends Application{
         GridPane gridPane = new GridPane();
         gridPane.setMinSize(400, 200);
 
+        /*
         TrackSection a1 = new TrackSection(10.0, false);
         Point p1 = new Point(a1.getEnd(), false);
         TrackSection a2 = new TrackSection(p1.getEnd(), true);
@@ -53,6 +54,12 @@ public class main extends Application{
         root.getChildren().add(a3);
         root.getChildren().add(a4);
         root.getChildren().add(s1);
+        */
+        
+        Pane root = new Pane();
+        
+        railway.network.Network network = new Network();
+        Network networkComp = new Network();
         
         root.setStyle("-fx-background-color: black;");
         
