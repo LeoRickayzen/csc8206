@@ -6,28 +6,40 @@ public class Route {
 	private int routeID;
 	private Signal source;
 	private Signal destination;
-	private ArrayList<Block> blocks;
+	private ArrayList<Integer> blocks;
 	private Network network;
 	
 	//Constructor
-	public Route(int routeID, Signal source, Signal destination, ArrayList<Block> blocks, Network network) {
-		this.routeID=routeID;
-		this.source=source;
-		this.destination=destination;
-		this.blocks=blocks;
+	/**
+	 * 
+	 * @param routeID
+	 * @param source
+	 * @param destination
+	 * @param blocks
+	 * @param network
+	 */
+	public Route(int routeID, int source, int destination, ArrayList<Integer> blocks, Network network) {
+		this.routeID = routeID;
+		this.source = (Signal)network.getComp(source);
+		this.destination = (Signal)network.getComp(destination);
+		this.blocks = blocks;
 		this.network = network;
 	}
 	
 	/**
 	 * <p>Calculate the blocks needed to reach the destination from the source.</p>
 	 */
-	private void calculateRoute() {
-		//If the direction is up, set direction up, else set down.
-		if(source.getDownNeigh() == 0) {
-			setBlocks(calcNextNeighbour(source, Direction.UP, 0, getBlocks()));
+	public void calculateRoute() {
+		//Try looking down the network, if no route found, look up the network. If no routes are found either way, route will be null.	
+		//System.out.println("Source: " + source.getId() + "\tDestination: " + destination.getId());
+		//System.out.println("Looking down the network");
+		ArrayList<Integer> tempRoute = calcNextNeighbour(source, Direction.DOWN, 0, new ArrayList<Integer>());
+		if(tempRoute == null) {
+			//System.out.println("Looking up the network");
+			setBlocks(calcNextNeighbour(source, Direction.UP, 0, new ArrayList<Integer>()));
 		}
 		else {
-			setBlocks(calcNextNeighbour(source, Direction.DOWN, 0, getBlocks()));
+			setBlocks(tempRoute);
 		}
 	}
 	
@@ -40,8 +52,10 @@ public class Route {
 	 * @param theRoute The list of Blocks which make up the route. Pass it an empty ArrayList<Block> to start.
 	 * @return An ArrayList of Blocks which make up the route from source to destination.
 	 */
-	private ArrayList<Block> calcNextNeighbour(Block previousNeighbour, Direction direction, int from, ArrayList<Block> theRoute) {		
-		theRoute.add(previousNeighbour);
+	private ArrayList<Integer> calcNextNeighbour(Block previousNeighbour, Direction direction, int from, ArrayList<Integer> theOldRoute) {
+		ArrayList<Integer> theRoute = new ArrayList<Integer>();
+		theRoute.addAll(theOldRoute);
+		theRoute.add(previousNeighbour.getId());
 		
 		//If the prev neighbour is a Section
 		if(previousNeighbour.getClass().equals(Section.class)) {
@@ -49,18 +63,21 @@ public class Route {
 			
 			//If the direction neigh is null, meaning previousSection is an endpoint, return null.
 			if(getDirectionNeighbour(previousSection, direction) == 0) {
+				//System.out.println("Section " + previousNeighbour.getId() + "\tnext neighbour null\t" + theRoute);
 				return null;
 			}
 			
 			Block thisBlock = network.getComp(getDirectionNeighbour(previousSection, direction));
 			
 			//If this block is the destination return it.
-			if(thisBlock.equals(destination)) {
-				theRoute.add(thisBlock);
+			if(thisBlock.getId() == destination.getId()) {
+				theRoute.add(thisBlock.getId());
+				//System.out.println("Section " + previousNeighbour.getId() + "\tdestination found!\t" + theRoute);
 				return theRoute;
 			}
 			
 			//Recursively try this all again.
+			//System.out.println("Section " + previousNeighbour.getId() + "\tgoing to next call\t" + theRoute);
 			return calcNextNeighbour(thisBlock, direction, previousSection.getId(), theRoute);
 		}
 		
@@ -70,7 +87,15 @@ public class Route {
 			
 			Block thisBlock = network.getComp(getDirectionNeighbour(previousSignal, direction));
 			
+			//If this block is the destination return it.
+			if(thisBlock.getId() == destination.getId()) {
+				theRoute.add(thisBlock.getId());
+				//System.out.println("Signal " + previousNeighbour.getId() + "\tdestination found!\t" + theRoute);
+				return theRoute;
+			}
+			
 			//Recursively try this all again.
+			//System.out.println("Signal " + previousNeighbour.getId() + "\tgoing to next call\t" + theRoute);
 			return calcNextNeighbour(thisBlock, direction, previousSignal.getId(), theRoute);
 		}
 		
@@ -84,14 +109,29 @@ public class Route {
 				//Try the minus neighbour route.
 				Block thisBlock = network.getComp(previousPoint.getmNeigh());
 				
-				ArrayList<Block> nextBlock = calcNextNeighbour(thisBlock, direction, previousPoint.getId(), theRoute);
+				//If this block is the destination return it.
+				if(thisBlock.getId() == destination.getId()) {
+					theRoute.add(thisBlock.getId());
+					//System.out.println("Signal " + previousNeighbour.getId() + "\tdestination found!\t" + theRoute);
+					return theRoute;
+				}
 				
+				//System.out.println("Point " + previousNeighbour.getId() + "\t\ttrying minus neighbour\t" + theRoute);
+				ArrayList<Integer> nextBlock = calcNextNeighbour(thisBlock, direction, previousPoint.getId(), theRoute);
 				//If the minus neighbour returned null, meaning the destination was not found, try the plus route.
 				if(nextBlock == null) {
 					thisBlock = network.getComp(previousPoint.getpNeigh());
-				
+					
+					//If this block is the destination return it.
+					if(thisBlock.getId() == destination.getId()) {
+						theRoute.add(thisBlock.getId());
+						//System.out.println("Signal " + previousNeighbour.getId() + "\tdestination found!\t" + theRoute);
+						return theRoute;
+					}
+					//System.out.println("Point " + previousNeighbour.getId() + "\t\tminus neighbour null, trying plus neighbour\t" + theRoute);
 					return calcNextNeighbour(thisBlock, direction, previousPoint.getId(), theRoute);
 				}
+				return nextBlock;
 			}
 			
 			//If we have come from either the plus or the minus, only try the main neigh.
@@ -99,11 +139,13 @@ public class Route {
 				Block thisBlock = network.getComp(previousPoint.getMainNeigh());
 				
 				//Recursively try this all again.
+				//System.out.println("Point " + previousNeighbour.getId() + "\tdirection reversed, trying main neighbour");
 				return calcNextNeighbour(thisBlock, direction, previousPoint.getId(), theRoute);
 			}
 		}
 		
-		return null;
+		//System.out.println("Final null return");
+		return theRoute;
 	}
 	
 	/**
@@ -184,7 +226,7 @@ public class Route {
      *
      * @param  blocks  new block list
      */
-	public void setBlocks(ArrayList<Block> blocks) {
+	public void setBlocks(ArrayList<Integer> blocks) {
 		this.blocks=blocks;
 	}
 	
@@ -193,7 +235,7 @@ public class Route {
      *
      * @return    a list of block
      */
-	public ArrayList<Block> getBlocks(){
+	public ArrayList<Integer> getBlocks(){
 		return this.blocks;
 	}
 	
@@ -204,7 +246,7 @@ public class Route {
      * @return true if it is added successfully
      */
 	public boolean addBlockToRoute(Block block) {
-		return this.blocks.add(block);
+		return this.blocks.add(block.getId());
 	}
 	/**
      * remove block from a route 

@@ -18,9 +18,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import railway.file.RailwayFile;
+import railway.network.Block;
 import railway.network.Network;
+import railway.network.Route;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class main extends Application{
@@ -97,13 +100,26 @@ public class main extends Application{
             RailwayFile file = new RailwayFile("res/railway.json");
             Network n = file.read();
             System.out.println(n);
-            n.addPointToNetwork(new railway.network.Point(1, true, 1, 1, 1));
+            n.addPointToNetwork(new railway.network.Point(1, true, 1, 1, 1, false));
             System.out.println(n);
             file.write(n);
         }
         catch (IOException e)
         {
             System.out.println(e.getMessage());
+        }
+        
+        try {
+        	RailwayFile testFile = new RailwayFile("res/testNetwork.json");
+        	Network testNet = testFile.read();
+        	System.out.println(testNet);
+        	Route route = new Route(999, 2, 15, new ArrayList<Integer>(), testNet);
+        	System.out.println("Before route calc: " + route.getBlocks());
+        	route.calculateRoute();
+        	System.out.println("After route calc: " + route.getBlocks());
+        }
+        catch(IOException e) {
+        	System.out.println(e.getMessage());
         }
 
         launch(args);
