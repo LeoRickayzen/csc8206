@@ -7,7 +7,9 @@ public class Point extends Block{
 	private int mainNeigh;
 	private int mNeigh; //minus Neighbour
 	private int pNeigh; //plus Neighbour
-	
+
+	public Point(){}
+
 	// the constructor	
 	public Point(int id, boolean plus, int mainNeigh, int mNeigh, int pNeigh) {
 		super(id);
