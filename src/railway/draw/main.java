@@ -139,7 +139,6 @@ public class main extends Application{
             RailwayFile file = new RailwayFile("res/railway.json");
             Network n = file.read();
             System.out.println(n);
-            n.addPointToNetwork(new railway.network.Point(1, true, 1, 1, 1));
             System.out.println(n);
             file.write(n);
             System.out.println(file.readJson());

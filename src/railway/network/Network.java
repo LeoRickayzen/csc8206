@@ -1,11 +1,9 @@
 package railway.network;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Network {
 	private ArrayList<Signal> signals;
@@ -29,7 +27,7 @@ public class Network {
 	
 	/**
 	 * get the first block in the list
-	 * 
+	 *
 	 * @return
 	 */
 	@JsonIgnore
@@ -42,12 +40,12 @@ public class Network {
 		return null;
 	}
 
-	/**
-	 * get a block based on it's id
-	 * 
-	 * @param id
-	 * @return
-	 */
+    /**
+     * <p>Finds a component (or block) with a given ID. If it doesn't exist, returns null.</p>
+     *
+     * @param id ID of the block to find.
+     * @return Returns the found block or null.
+     */
 	public Block getBlock(int id){
 		for (Section section : sections){
 			if (section.getId() == id){
@@ -173,6 +171,25 @@ public class Network {
      */
 	public boolean removePointFromNetwork(Point point) {
 		return this.points.remove(point);
+	}
+
+	/**
+	 * <p>Returns a list of IDs of endpoints of the network.</p>
+	 *
+	 * @return ArrayList of endpoint IDs.
+	 */
+	public ArrayList<Integer> getEndpoints(){
+		ArrayList<Integer> endpoints = new ArrayList<Integer>();
+
+		//For each section
+		for(Section s : sections) {
+			//If either neighbour is null
+			if(s.getUpNeigh() == 0 || s.getDownNeigh() == 0) {
+				endpoints.add(s.getId());
+			}
+		}
+
+		return endpoints;
 	}
 
 	public String toString()
