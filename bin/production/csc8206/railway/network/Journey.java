@@ -3,11 +3,11 @@ package railway.network;
 import java.util.ArrayList;
 
 public class Journey {
-	private ArrayList<Route> routes;
+	ArrayList<Route> routes;
 	
 	//Constructor
 	public Journey() {
-		this.routes=new ArrayList<>();
+		this.routes=new ArrayList<Route>();
 		
 		}
 		

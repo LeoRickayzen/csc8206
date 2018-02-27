@@ -3,7 +3,6 @@ package railway.draw;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.StrokeLineCap;
 
 public class Point extends Component {
 
@@ -24,13 +23,9 @@ public class Point extends Component {
         }
 
         Line upper = new Line();
-        upper.setStroke(Color.RED);
-        upper.setStrokeWidth(5);
-        upper.setStrokeLineCap(StrokeLineCap.ROUND);
+        upper.setStroke(Color.BLUE);
         Line lower = new Line();
-        lower.setStroke(Color.RED);
-        lower.setStrokeWidth(5);
-        lower.setStrokeLineCap(StrokeLineCap.ROUND);
+        lower.setStroke(Color.BLUE);
 
         upper.setStartX(start);
         lower.setStartX(start);

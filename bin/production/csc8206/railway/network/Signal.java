@@ -6,9 +6,7 @@ public class Signal extends Block{
 	private String direction;      
 	private int upNeigh;       
 	private int downNeigh;
-
-	public Signal(){}
-
+	
 	// the constructor	
 	public Signal(int id, boolean clear, String direction, int upNeigh, int downNeigh) {
 		super(id);
@@ -32,6 +30,10 @@ public class Signal extends Block{
 
 	public void setDownNeigh(int downNeigh) {
 		this.downNeigh = downNeigh;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public boolean isClear() {

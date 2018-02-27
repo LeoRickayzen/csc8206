@@ -1,9 +1,7 @@
 package railway.draw;
 
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.StrokeLineCap;
 
 public class TrackSection extends Component {
 
@@ -25,9 +23,6 @@ public class TrackSection extends Component {
             line.setStartY(lowerY);
             line.setEndY(lowerY);
         }
-        line.setStroke(Color.YELLOW);
-        line.setStrokeWidth(5);
-        line.setStrokeLineCap(StrokeLineCap.ROUND);
         this.getChildren().add(line);
     }
 
