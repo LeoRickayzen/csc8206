@@ -2,11 +2,11 @@ package railway.network;
 
 
 public class Block {
-	int id;
-	String currentDirection;
+	private int id;
+	private String currentDirection;
 	
 	//constructor
-	public Block(int id) {
+	Block(int id) {
 		this.id=id;
 	}
 	

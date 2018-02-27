@@ -3,13 +3,13 @@ package railway.network;
 import java.util.ArrayList;
 
 public class Route {
-	int routeID;
-	Signal source;
-	Signal destination;
-	ArrayList<Block> blocks;
+	private int routeID;
+	private Signal source;
+	private Signal destination;
+	private ArrayList<Block> blocks;
 	
 	//Constructor
-	public Route(int routID, Signal source, Signal destination,ArrayList<Block> blocks) {
+	public Route(int routeID, Signal source, Signal destination,ArrayList<Block> blocks) {
 		this.routeID=routeID;
 		this.source=source;
 		this.destination=destination;
