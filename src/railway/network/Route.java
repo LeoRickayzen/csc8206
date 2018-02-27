@@ -20,8 +20,8 @@ public class Route {
 	 */
 	public Route(int routeID, int source, int destination, ArrayList<Integer> blocks, Network network) {
 		this.routeID = routeID;
-		this.source = (Signal)network.getComp(source);
-		this.destination = (Signal)network.getComp(destination);
+		this.source = (Signal)network.getBlock(source);
+		this.destination = (Signal)network.getBlock(destination);
 		this.blocks = blocks;
 		this.network = network;
 	}
@@ -49,7 +49,7 @@ public class Route {
 	 * @param previousNeighbour The block which called this method. Initially this is the source.
 	 * @param direction The direction of travel when searching. Should be determined by the sources null neighbour.
 	 * @param from The ID of the Block before the previousNeighbour. Should be 0 to start.
-	 * @param theRoute The list of Blocks which make up the route. Pass it an empty ArrayList<Block> to start.
+	 * @param theOldRoute The list of Blocks which make up the route. Pass it an empty ArrayList<Block> to start.
 	 * @return An ArrayList of Blocks which make up the route from source to destination.
 	 */
 	private ArrayList<Integer> calcNextNeighbour(Block previousNeighbour, Direction direction, int from, ArrayList<Integer> theOldRoute) {
@@ -67,7 +67,7 @@ public class Route {
 				return null;
 			}
 			
-			Block thisBlock = network.getComp(getDirectionNeighbour(previousSection, direction));
+			Block thisBlock = network.getBlock(getDirectionNeighbour(previousSection, direction));
 			
 			//If this block is the destination return it.
 			if(thisBlock.getId() == destination.getId()) {
@@ -85,7 +85,7 @@ public class Route {
 		if(previousNeighbour.getClass().equals(Signal.class)) {
 			Signal previousSignal = (Signal)previousNeighbour;
 			
-			Block thisBlock = network.getComp(getDirectionNeighbour(previousSignal, direction));
+			Block thisBlock = network.getBlock(getDirectionNeighbour(previousSignal, direction));
 			
 			//If this block is the destination return it.
 			if(thisBlock.getId() == destination.getId()) {
@@ -107,7 +107,7 @@ public class Route {
 			//if we have come from the main neighbour, try the plus and minus paths.
 			if(from == previousPoint.getMainNeigh()) {
 				//Try the minus neighbour route.
-				Block thisBlock = network.getComp(previousPoint.getmNeigh());
+				Block thisBlock = network.getBlock(previousPoint.getmNeigh());
 				
 				//If this block is the destination return it.
 				if(thisBlock.getId() == destination.getId()) {
@@ -120,7 +120,7 @@ public class Route {
 				ArrayList<Integer> nextBlock = calcNextNeighbour(thisBlock, direction, previousPoint.getId(), theRoute);
 				//If the minus neighbour returned null, meaning the destination was not found, try the plus route.
 				if(nextBlock == null) {
-					thisBlock = network.getComp(previousPoint.getpNeigh());
+					thisBlock = network.getBlock(previousPoint.getpNeigh());
 					
 					//If this block is the destination return it.
 					if(thisBlock.getId() == destination.getId()) {
@@ -136,7 +136,7 @@ public class Route {
 			
 			//If we have come from either the plus or the minus, only try the main neigh.
 			if(from == previousPoint.getmNeigh() || from == previousPoint.getpNeigh()) {
-				Block thisBlock = network.getComp(previousPoint.getMainNeigh());
+				Block thisBlock = network.getBlock(previousPoint.getMainNeigh());
 				
 				//Recursively try this all again.
 				//System.out.println("Point " + previousNeighbour.getId() + "\tdirection reversed, trying main neighbour");
