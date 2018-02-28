@@ -8,6 +8,7 @@ public class Route {
 	private Signal destination;
 	private ArrayList<Integer> blocks;
 	private Network network;
+	private Direction direction;
 	
 	//Constructor
 	/**
@@ -37,9 +38,11 @@ public class Route {
 		if(tempRoute == null) {
 			//System.out.println("Looking up the network");
 			setBlocks(calcNextNeighbour(source, Direction.UP, 0, new ArrayList<Integer>()));
+			direction = Direction.UP;
 		}
 		else {
 			setBlocks(tempRoute);
+			direction = Direction.DOWN;
 		}
 	}
 	
@@ -256,7 +259,16 @@ public class Route {
      */
 	public boolean removeBlockFromRoute(Block block) {
 		return this.blocks.remove(block);
-	}	
+	}
 
+	public Direction getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}	
+	
+	
 }
 
