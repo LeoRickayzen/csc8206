@@ -12,7 +12,14 @@ import java.util.ArrayList;
 public class NetworkRenderer {
 
     ArrayList<railway.draw.Component> components;
-
+    Network network;
+    
+    int level = -1;
+    
+    public NetworkRenderer(Network network){
+    	this.network = network;
+    }
+    
     public NetworkComp Render(Network network){
     	components = new ArrayList<railway.draw.Component>();
         Block root = network.getFirst();
@@ -28,7 +35,37 @@ public class NetworkRenderer {
     	}
     	return null;
     }
-
+    
+    public void leveler(int y, Boolean backwards, int index){
+    	level = level+1;
+    	ArrayList<Point> points = new ArrayList<Point>();
+    	Block block = network.getBlock(y);
+    	while(block.hasNext(backwards)){
+    		index = index + 1;
+        	Block nextBlock = network.getBlock(block.getNext(backwards));
+        	nextBlock.setLevel(level);
+        	nextBlock.setIndex(index);
+        	if(isPoint(block)){
+        		points.add((Point)block);
+        	}
+    	}
+    	for(int i = points.size(); i > -1; i--){
+        	leveler(points.get(i).getmNeigh(), points.get(i).isReverse(), points.get(i).getIndex());
+    	}
+    }
+    
+    private Boolean isPoint(Block block){
+		return block.getClass() == Point.class;
+    }
+    
+    private Boolean isSection(Block block){
+		return block.getClass() == Section.class;
+    }
+    
+    private Boolean isSignal(Block block){
+		return block.getClass() == Signal.class;
+    }
+    
     public NetworkComp draw(Block block, Network network, Boolean first, Boolean upper){
         double start = 10;
         if(block.getClass() == Point.class){
@@ -36,7 +73,7 @@ public class NetworkRenderer {
         	if(!first){
             	start = getCompById(point.getMainNeigh()).getEnd();
         	}
-            PointComp p = new PointComp(start, false, block.getId());
+            PointComp p = new PointComp(start, point.isReverse(), block.getId());
             components.add(p);
             if(point.getmNeigh() != 0){
                 draw(network.getBlock(point.getmNeigh()), network, false, true);

@@ -47,6 +47,21 @@ public class Signal extends Block{
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
-
+	
+	public Boolean hasNext(Boolean reverse){
+		if(reverse){
+			return downNeigh != 0;
+		}else{
+			return upNeigh != 0;
+		}
+	}
+	
+	public int getNext(Boolean reverse){
+		if(reverse){
+			return downNeigh;
+		}else{
+			return upNeigh;
+		}
+	}
 
 }

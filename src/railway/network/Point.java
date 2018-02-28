@@ -61,4 +61,12 @@ public class Point extends Block{
 	public void setReverse(boolean reverse) {
 		this.reverse = reverse;
 	}
+	
+	public Boolean hasNext(Boolean reverse){
+		return pNeigh != 0;
+	}
+	
+	public int getNext(Boolean reverse){
+		return mNeigh;
+	}
 }
