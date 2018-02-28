@@ -21,6 +21,8 @@ import railway.file.RailwayFile;
 import railway.network.Network;
 import railway.network.Point;
 import railway.network.Section;
+import railway.validation.NetValidation;
+import railway.validation.ValidationInfo;
 
 import java.io.IOException;
 
@@ -142,6 +144,13 @@ public class main extends Application{
             System.out.println(n);
             file.write(n);
             System.out.println(file.readJson());
+            
+            
+            RailwayFile testFile = new RailwayFile("res/testNetwork.json");
+            Network testNet = testFile.read();
+            NetValidation netValidation = new NetValidation();
+            ValidationInfo vInfo = netValidation.Validate(testNet);
+            System.out.println(vInfo.toString());
         }
         catch (IOException e)
         {
