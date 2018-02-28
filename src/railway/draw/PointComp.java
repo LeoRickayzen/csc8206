@@ -7,46 +7,30 @@ import javafx.scene.shape.StrokeLineCap;
 
 public class PointComp extends Component {
 
-    private double end;
 
-    public PointComp(double start, Boolean reverse, int id){
+    public PointComp(double[] start, double[] upper, double[] lower, Boolean reverse, int id){
     	
     	super(id);
-    	
-        double upperY;
-        double lowerY;
-        this.end = start + 25;
 
-        if(reverse){
-            upperY = 200.0;
-            lowerY = 150.0;
-        }else{
-            upperY = 150.0;
-            lowerY = 200.0;
-        }
+        Line upperLine = new Line();
+        upperLine.setStroke(Color.RED);
+        upperLine.setStrokeWidth(5);
+        upperLine.setStrokeLineCap(StrokeLineCap.ROUND);
+        upperLine.setStartX(start[0]);
+        upperLine.setStartY(start[1]);
+        upperLine.setEndX(upper[0]);
+        upperLine.setEndY(upper[1]);
+        
+        Line lowerLine = new Line();
+        lowerLine.setStroke(Color.RED);
+        lowerLine.setStrokeWidth(5);
+        lowerLine.setStrokeLineCap(StrokeLineCap.ROUND);
+        upperLine.setStartX(start[0]);
+        upperLine.setStartY(start[1]);
+        upperLine.setEndX(lower[0]);
+        upperLine.setEndY(lower[1]);
 
-        Line upper = new Line();
-        upper.setStroke(Color.RED);
-        upper.setStrokeWidth(5);
-        upper.setStrokeLineCap(StrokeLineCap.ROUND);
-        Line lower = new Line();
-        lower.setStroke(Color.RED);
-        lower.setStrokeWidth(5);
-        lower.setStrokeLineCap(StrokeLineCap.ROUND);
-
-        upper.setStartX(start);
-        lower.setStartX(start);
-        upper.setEndX(end);
-        lower.setEndX(end);
-
-        upper.setStartY(lowerY);
-        upper.setEndY(upperY);
-        lower.setStartY(200.0);
-        lower.setEndY(200.0);
-        this.getChildren().addAll(upper, lower);
+        this.getChildren().addAll(upperLine, lowerLine);
     }
 
-    public double getEnd(){
-        return end;
-    }
 }

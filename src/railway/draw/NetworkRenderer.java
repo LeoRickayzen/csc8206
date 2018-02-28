@@ -74,7 +74,7 @@ public class NetworkRenderer {
     }
     
     public NetworkComp draw(Block block, Network network, Boolean first, Boolean upper){
-        double start = 10;
+        /*double start = 10;
         if(block.getClass() == Point.class){
         	Point point = (Point)block;
         	if(!first){
@@ -113,6 +113,7 @@ public class NetworkRenderer {
                 draw(network.getBlock(s.getUpNeigh()), network, false, null);
             }
         }
-        return new NetworkComp(components);
+        return new NetworkComp(components);*/
+    	return null;
     }
 }
