@@ -173,8 +173,6 @@ public class Network {
 	public boolean removePointFromNetwork(Point point) {
 		return this.points.remove(point);
 	}
-<<<<<<< HEAD
-=======
 
 	/**
 	 * <p>Returns a list of IDs of endpoints of the network.</p>
@@ -199,5 +197,4 @@ public class Network {
     {
         return "Points: " + this.getPoints().size() + ", Sections: " + this.getSections().size() + ", Signals: " + this.getSignals().size();
     }
->>>>>>> 6323fa204a80710a924b4713cc3f0b3c90d7f4c4
 }

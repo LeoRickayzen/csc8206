@@ -4,13 +4,6 @@ import java.util.UUID;
 
 public class Point extends Block{
 
-<<<<<<< HEAD
-	boolean plus;                
-	int mainNeigh;     
-	int mNeigh; //minus Neighbour         
-	int pNeigh; //plus Neighbour
-	
-=======
 	private boolean plus;
 	private int mainNeigh;
 	private int mNeigh; //minus Neighbour
@@ -19,7 +12,6 @@ public class Point extends Block{
 
 	public Point(){}
 
->>>>>>> 6323fa204a80710a924b4713cc3f0b3c90d7f4c4
 	// the constructor	
 	public Point(int id, boolean plus, int mainNeigh, int mNeigh, int pNeigh, boolean reverse) {
 		super(id);
