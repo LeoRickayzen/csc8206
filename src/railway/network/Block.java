@@ -2,11 +2,17 @@ package railway.network;
 
 
 public class Block {
+<<<<<<< HEAD
+	int id;
+	String currentDirection;
+	
+=======
 	private int id;
 	private String currentDirection;
 
 	Block(){}
 
+>>>>>>> 6323fa204a80710a924b4713cc3f0b3c90d7f4c4
 	//constructor
 	Block(int id) {
 		this.id=id;

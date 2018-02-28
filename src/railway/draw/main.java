@@ -17,12 +17,18 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+<<<<<<< HEAD
+import railway.draw.Point;
+import railway.draw.Signal;
+import railway.draw.TrackSection;
+=======
 import railway.file.RailwayFile;
 import railway.network.Network;
 import railway.network.Point;
 import railway.network.Section;
 
 import java.io.IOException;
+>>>>>>> 6323fa204a80710a924b4713cc3f0b3c90d7f4c4
 
 
 public class main extends Application{
@@ -133,6 +139,8 @@ public class main extends Application{
     }
 
     public static void main(String args[]){
+<<<<<<< HEAD
+=======
         //TODO: Remove CLI testing
         try
         {
@@ -148,6 +156,7 @@ public class main extends Application{
             System.out.println(e.getMessage());
         }
 
+>>>>>>> 6323fa204a80710a924b4713cc3f0b3c90d7f4c4
         launch(args);
     }
 }
