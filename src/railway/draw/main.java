@@ -63,8 +63,8 @@ public class main extends Application{
         
         Pane root = new Pane();
         
-        NetworkRenderer renderer = new NetworkRenderer();
         Network network = new Network();
+        NetworkRenderer renderer = new NetworkRenderer(network);
         
         Section s1 = new Section();
         s1.setId(1);

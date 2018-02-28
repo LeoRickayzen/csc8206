@@ -41,7 +41,11 @@ public class NetworkRenderer {
     	ArrayList<Point> points = new ArrayList<Point>();
     	Block block = network.getBlock(y);
     	while(block.hasNext(backwards)){
-    		index = index + 1;
+    		if(backwards){
+        		index = index - 1;
+    		}else{
+    			index = index + 1;
+    		}
         	Block nextBlock = network.getBlock(block.getNext(backwards));
         	nextBlock.setLevel(level);
         	nextBlock.setIndex(index);
