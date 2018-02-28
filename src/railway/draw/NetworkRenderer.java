@@ -36,8 +36,11 @@ public class NetworkRenderer {
     	return null;
     }
     
-    public void leveler(int y, Boolean backwards, int index){
+    public void leveler(int y, Point point, Boolean backwards, int index){
     	level = level+1;
+    	if(point != null){
+    		point.setTopLevel(level);
+    	}
     	ArrayList<Point> points = new ArrayList<Point>();
     	Block block = network.getBlock(y);
     	while(block.hasNext(backwards)){
@@ -54,7 +57,7 @@ public class NetworkRenderer {
         	}
     	}
     	for(int i = points.size(); i > -1; i--){
-        	leveler(points.get(i).getmNeigh(), points.get(i).isReverse(), points.get(i).getIndex());
+        	leveler(points.get(i).getmNeigh(), points.get(i), points.get(i).isReverse(), points.get(i).getIndex());
     	}
     }
     
