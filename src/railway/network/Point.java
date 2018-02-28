@@ -59,8 +59,4 @@ public class Point extends Block{
 	public void setReverse(boolean reverse) {
 		this.reverse = reverse;
 	}
-
-	
-
-
 }
