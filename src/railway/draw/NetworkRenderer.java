@@ -1,6 +1,5 @@
 package railway.draw;
 
-import javafx.scene.Group;
 import railway.network.Block;
 import railway.network.Network;
 import railway.network.Point;

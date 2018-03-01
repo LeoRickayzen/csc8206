@@ -37,6 +37,7 @@ public class Block {
      *
      * @return    up or down
      */
+	@JsonIgnore
     public String getDirection() {
 		return this.currentDirection;
 	}

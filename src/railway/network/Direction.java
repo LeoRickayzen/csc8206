@@ -6,5 +6,6 @@ package railway.network;
  *
  */
 public enum Direction {
-	UP, DOWN;
+	UP,
+    DOWN
 }
