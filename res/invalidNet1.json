@@ -1,0 +1,25 @@
+{
+"signals":[
+	{"id":2,"clear":true,"direction":"up","upNeigh":3,"downNeigh":1},
+	{"id":5,"clear":true,"direction":"up","upNeigh":17,"downNeigh":4},
+	{"id":6,"clear":true,"direction":"up","upNeigh":14,"downNeigh":4},
+	{"id":8,"clear":true,"direction":"up","upNeigh":9,"downNeigh":7},
+	{"id":10,"clear":true,"direction":"up","upNeigh":11,"downNeigh":7},
+	{"id":12,"clear":true,"direction":"down","upNeigh":13,"downNeigh":11},
+	{"id":15,"clear":true,"direction":"up","upNeigh":13,"downNeigh":14}
+],
+"sections":[
+	{"id":1,"occupied":false,"upNeigh":2,"downNeigh":0},
+	{"id":3,"occupied":false,"upNeigh":4,"downNeigh":0},
+	{"id":18,"occupied":false,"upNeigh":0,"downNeigh":2},
+	{"id":17,"occupied":false,"upNeigh":7,"downNeigh":5},
+	{"id":14,"occupied":false,"upNeigh":15,"downNeigh":6},
+	{"id":9,"occupied":false,"upNeigh":0,"downNeigh":8},
+	{"id":11,"occupied":false,"upNeigh":12,"downNeigh":10},
+	{"id":16,"occupied":false,"upNeigh":0,"downNeigh":13}
+],
+"points":[
+	{"id":4,"plus":true,"mainNeigh":3,"mNeigh":5,"pNeigh":6,"reverse":false},
+	{"id":7,"plus":true,"mainNeigh":17,"mNeigh":8,"pNeigh":10,"reverse":false},
+	{"id":13,"plus":true,"mainNeigh":16,"mNeigh":12,"pNeigh":15,"reverse":true}
+]}
