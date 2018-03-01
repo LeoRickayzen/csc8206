@@ -1,5 +1,7 @@
 package railway.network;
 
+import java.util.UUID;
+
 public class Point extends Block{
 
 	private boolean plus;
@@ -7,6 +9,7 @@ public class Point extends Block{
 	private int mNeigh; //minus Neighbour
 	private int pNeigh; //plus Neighbour
 	private boolean reverse;
+	private int topHeight;
 
 	public Point(){}
 
@@ -59,8 +62,20 @@ public class Point extends Block{
 	public void setReverse(boolean reverse) {
 		this.reverse = reverse;
 	}
-
 	
+	public int getTopHeight() {
+		return topHeight;
+	}
 
-
+	public void setTopLevel(int topHeight) {
+		this.topHeight = topHeight;
+	}
+	
+	public Boolean hasNext(Boolean reverse){
+		return pNeigh != 0;
+	}
+	
+	public int getNext(Boolean reverse){
+		return mNeigh;
+	}
 }

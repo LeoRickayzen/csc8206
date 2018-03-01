@@ -40,6 +40,20 @@ public class Section extends Block{
 		this.occupied = occupied;
 	}
   
+	public Boolean hasNext(Boolean reverse){
+		if(reverse){
+			return downNeigh != 0;
+		}else{
+			return upNeigh != 0;
+		}
+	}
 	
+	public int getNext(Boolean reverse){
+		if(reverse){
+			return downNeigh;
+		}else{
+			return upNeigh;
+		}
+	}
 
 }

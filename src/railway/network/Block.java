@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Block {
 	private int id;
-    private String currentDirection;
+	private String currentDirection;
+	private int level;
+	private int index;
 
 	Block(){}
 
@@ -41,5 +43,30 @@ public class Block {
     public String getDirection() {
 		return this.currentDirection;
 	}
+
+	public Boolean hasNext(Boolean reverse){
+		return true;
+	};
+
+	public int getNext(Boolean reverse){
+		return 0;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public void setIndex(int index){
+		this.index = index;
+	}
+
+	public int getIndex(){
+		return index;
+	}
+
 }
 
