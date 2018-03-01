@@ -28,6 +28,7 @@ import railway.validation.NetValidation;
 import railway.validation.ValidationInfo;
 
 import java.io.IOException;
+import java.net.URL;
 
 
 public class main extends Application{
@@ -79,7 +80,7 @@ public class main extends Application{
         Network network = null;
         try
         {
-            RailwayFile file = new RailwayFile("res/railway.json");
+            RailwayFile file = new RailwayFile(main.class.getResource("/railway.json").getFile());
             network = file.read();
             System.out.println(network);
             System.out.println(network);
@@ -137,7 +138,7 @@ public class main extends Application{
         //TODO: Remove CLI testing=
         try
         {
-            RailwayFile file = new RailwayFile("res/railway.json");
+            RailwayFile file = new RailwayFile(main.class.getResource("/railway.json").getFile());
             Network n = file.read();
             System.out.println(n);
             System.out.println(n);
@@ -145,7 +146,7 @@ public class main extends Application{
             System.out.println(file.readJson());
             
             
-            RailwayFile testFile = new RailwayFile("res/testNetwork.json");
+            RailwayFile testFile = new RailwayFile(main.class.getResource("/testNetwork.json").getFile());
             Network testNet = testFile.read();
             NetValidation netValidation = new NetValidation();
             ValidationInfo vInfo = netValidation.Validate(testNet);
