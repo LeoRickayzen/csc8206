@@ -76,6 +76,6 @@ public class Point extends Block{
 	}
 	
 	public int getNext(Boolean reverse){
-		return mNeigh;
+		return pNeigh;
 	}
 }

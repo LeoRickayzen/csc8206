@@ -15,7 +15,7 @@ public class TrackSection extends Component {
         line.setStartX(start[0]);
         line.setStartY(start[1]);
         line.setEndX(end[0]);
-        line.setEndX(end[1]);
+        line.setEndY(end[1]);
         line.setStroke(Color.YELLOW);
         line.setStrokeWidth(5);
         line.setStrokeLineCap(StrokeLineCap.ROUND);

@@ -39,38 +39,17 @@ public class main extends Application{
 
         GridPane gridPane = new GridPane();
         gridPane.setMinSize(400, 200);
-
+        
+        Pane root = new Pane();
         /*
-        TrackSection a1 = new TrackSection(10.0, false);
-        Point p1 = new Point(a1.getEnd(), false);
-        TrackSection a2 = new TrackSection(p1.getEnd(), true);
-        TrackSection a4 = new TrackSection(p1.getEnd(), false);
-        Point p2 = new Point(a2.getEnd(), true);
-        TrackSection a3 = new TrackSection(p2.getEnd(), false);
-        Signal s1 = new Signal(p2.getEnd(), false, false);
-
-        //Creating a Group
-        Pane root = new Pane();
-        
-        root.getChildren().add(a1);
-        root.getChildren().add(p1);
-        root.getChildren().add(a2);
-        root.getChildren().add(p2);
-        root.getChildren().add(a3);
-        root.getChildren().add(a4);
-        root.getChildren().add(s1);
-        */
-        
-        Pane root = new Pane();
-        
         Network network = new Network();
-        NetworkRenderer renderer = new NetworkRenderer(network);
         
         Section s1 = new Section();
         s1.setId(1);
         
         Point p2 = new Point();
         p2.setId(2);
+        p2.setReverse(false);
         
         Section s3 = new Section();
         s3.setId(3);
@@ -94,8 +73,25 @@ public class main extends Application{
         network.addSectionToNetwork(s3);
         network.addSectionToNetwork(s4);
         network.addPointToNetwork(p2);
+		*/
+        Network network = null;
+        try
+        {
+            RailwayFile file = new RailwayFile("res/railway.json");
+            network = file.read();
+            System.out.println(network);
+            System.out.println(network);
+            file.write(network);
+            System.out.println(file.readJson());
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
         
-        NetworkComp networkComp = renderer.Render(network);
+        NetworkRenderer renderer = new NetworkRenderer(network);
+        NetworkComp networkComp = renderer.draw();
+        
         
         root.getChildren().addAll(networkComp);
         
@@ -137,19 +133,7 @@ public class main extends Application{
 
     public static void main(String args[]){
         //TODO: Remove CLI testing
-        try
-        {
-            RailwayFile file = new RailwayFile("res/railway.json");
-            Network n = file.read();
-            System.out.println(n);
-            System.out.println(n);
-            file.write(n);
-            System.out.println(file.readJson());
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
+        
         launch(args);
     }
 }
