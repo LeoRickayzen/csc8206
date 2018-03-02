@@ -11,7 +11,9 @@ import railway.network.Signal;
 import java.util.ArrayList;
 
 public class NetworkComp extends Group {
-	double gap = 30;
+	double gap = 50;
+	double xstart = 100;
+	double ystart = 200;
     
 	public NetworkComp(){
     }
@@ -104,8 +106,8 @@ public class NetworkComp extends Group {
 	
 	public double[] getCoords(int level, int column){
 		double[] coords = new double[2];
-		coords[0] = column*gap;
-		coords[1] = level*gap;
+		coords[0] = column*gap + xstart;
+		coords[1] = level*-gap + ystart;
 		return coords;
 	}
 	

@@ -15,7 +15,7 @@ public class SignalComp extends Component {
         leftUp.setStartX(start[0]);
         leftUp.setEndX(start[0]);
         leftUp.setStartY(start[1]);
-        leftUp.setEndY(start[1]+5);
+        leftUp.setEndY(start[1]-5);
         leftUp.setStroke(Color.ALICEBLUE);
         leftUp.setStrokeWidth(2);
 
@@ -23,13 +23,13 @@ public class SignalComp extends Component {
         rightUp.setStartX(start[0]+5);
         rightUp.setEndX(start[0]+5);
         rightUp.setStartY(start[1]);
-        rightUp.setEndY(start[1]+5);
+        rightUp.setEndY(start[1]-5);
         rightUp.setStroke(Color.ALICEBLUE);
         rightUp.setStrokeWidth(2);
 
         Line top = new Line();
-        top.setStartY(start[1]+5);
-        top.setEndY(start[1]+5);
+        top.setStartY(start[1]-5);
+        top.setEndY(start[1]-5);
         top.setStartX(start[0]);
         top.setEndX(start[0]+5);
         top.setStroke(Color.ALICEBLUE);
