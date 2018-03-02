@@ -1,13 +1,12 @@
 package railway.file;
 
-//import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import railway.network.Network;
+import railway.validation.NetValidation;
+import railway.validation.ValidationException;
+import railway.validation.ValidationInfo;
 
 import java.io.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-//import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * This class handles all file operations for the JSON representing the railway.
@@ -28,10 +27,19 @@ public class RailwayFile extends File
      *
      * @return Network the network object
      */
-    public Network read() throws IOException
+    public Network read() throws IOException, ValidationException
     {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(this.getAbsoluteFile(), Network.class);
+        Network n = mapper.readValue(this.getAbsoluteFile(), Network.class);
+        ValidationInfo networkValidation = NetValidation.Validate(n);
+        if(networkValidation.isValid())
+        {
+            return n;
+        }
+        else
+        {
+            throw new ValidationException(networkValidation.toString());
+        }
     }
 
     /**
@@ -53,7 +61,7 @@ public class RailwayFile extends File
         StringBuilder sb = new StringBuilder("");
 
         while((line = bufferedReader.readLine()) != null) {
-            sb.append(line + "\n");
+            sb.append(line).append("\n");
         }
 
         bufferedReader.close();

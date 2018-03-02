@@ -10,6 +10,8 @@ import railway.file.RailwayFile;
 import railway.network.Network;
 import railway.network.Route;
 import routeCalculation.RouteConflict;
+import railway.validation.NetValidation;
+import railway.validation.ValidationException;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +29,7 @@ import java.io.IOException;
 
 public class Driver extends Application
 {
-    public void start(Stage stage)
+    public void start(Stage stage) throws ValidationException
     {
         try
         {
@@ -76,12 +78,7 @@ public class Driver extends Application
         }
         catch (IOException e)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Something has gone wrong");
-            alert.setContentText(e.getMessage());
-
-            alert.showAndWait();
+            NetValidation.showErrorMessage(e, "Cannot load.");
         }
     }
 
