@@ -55,24 +55,43 @@ public class NetworkComp extends Group {
 					end = getCoords(upPoint.getLevel(), upPoint.getIndex());
 				}
 			}else{
-				end = getCoords(downNeigh.getLevel(), downNeigh.getIndex());
+				end = getCoords(upNeigh.getLevel(), upNeigh.getIndex());
 			}
 		}else{
 			end = getCoords(section.getLevel(), section.getIndex()+1);
 		}
-		System.out.println("id: " + section.getId() + "start: " + start[0] + ',' + start[1] + "end: " + end[0] + ',' + end[1]);
 		return new TrackSection(start, end, section.getId());
 	}
 	
 	public void plot(Network network){
 		for(Point point: network.getPoints()){
-			double[] start = getCoords(point.getLevel(), point.getIndex());
-			double[] upper = getCoords(point.getTopHeight(), point.getIndex()+1);
-			double[] lower = getCoords(point.getLevel(), point.getIndex()+1);
+			double[] start;
+			double[] upper;
+			double[] lower;
+			if(!point.isReverse()){
+				start = getCoords(point.getLevel(), point.getIndex());
+				upper = getCoords(point.getTopHeight(), point.getIndex()+1);
+				lower = getCoords(point.getLevel(), point.getIndex()+1);
+			}else{
+				start = getCoords(point.getLevel(), point.getIndex());
+				upper = getCoords(point.getTopHeight(), point.getIndex()-1);
+				lower = getCoords(point.getLevel(), point.getIndex()-1);
+			}
 			PointComp pointComp = new PointComp(start, upper, lower, point.isReverse(), point.getId());
 			this.getChildren().add(pointComp);
+			System.out.println("id: " + point.getId() + "start: " + start[0] + ',' + start[1] + "upper: " + upper[0] + ',' + upper[1] + "lower: " + lower[0] + ',' + lower[1]);
 		}
 		for(Signal signal: network.getSignals()){
+			//if signal has down neighbor that is a point set the index to be the point index+1
+			if(signal.getDownNeigh() != 0 && network.getBlock(signal.getDownNeigh()).getClass() == Point.class){
+				Point point = (Point)(network.getBlock(signal.getDownNeigh()));
+				signal.setIndex(point.getIndex()+1);
+			}
+			//if signal has up neighbor that is a point, set the index to be the point index-1
+			if(signal.getUpNeigh() != 0 && network.getBlock(signal.getUpNeigh()).getClass() == Point.class){
+				Point point = (Point)(network.getBlock(signal.getUpNeigh()));
+				signal.setIndex(point.getIndex()-1);
+			}
 			double[] start = getCoords(signal.getLevel(), signal.getIndex());
 			SignalComp signalComp = new SignalComp(start, true, signal.getId());
 			this.getChildren().add(signalComp);

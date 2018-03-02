@@ -18,8 +18,9 @@ public class PointComp extends Component {
     	this.setStart(start);
     	this.setUpper(upper);
     	this.setLower(lower);
-    	
         Line upperLine = new Line();
+        Line lowerLine = new Line();
+        
         upperLine.setStroke(Color.RED);
         upperLine.setStrokeWidth(5);
         upperLine.setStrokeLineCap(StrokeLineCap.ROUND);
@@ -28,7 +29,6 @@ public class PointComp extends Component {
         upperLine.setEndX(upper[0]);
         upperLine.setEndY(upper[1]);
         
-        Line lowerLine = new Line();
         lowerLine.setStroke(Color.RED);
         lowerLine.setStrokeWidth(5);
         lowerLine.setStrokeLineCap(StrokeLineCap.ROUND);

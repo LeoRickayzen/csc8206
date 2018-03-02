@@ -72,10 +72,18 @@ public class Point extends Block{
 	}
 	
 	public Boolean hasNext(Boolean reverse){
-		return pNeigh != 0;
+		if(this.reverse){
+			return mainNeigh != 0;
+		}else{
+			return pNeigh != 0;
+		}
 	}
 	
 	public int getNext(Boolean reverse){
-		return pNeigh;
+		if(this.reverse){
+			return mainNeigh;
+		}else{
+			return pNeigh;
+		}
 	}
 }

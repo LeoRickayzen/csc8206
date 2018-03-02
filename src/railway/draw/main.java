@@ -79,7 +79,7 @@ public class main extends Application{
         Network network = null;
         try
         {
-            RailwayFile file = new RailwayFile("res/railway.json");
+            RailwayFile file = new RailwayFile("res/testNetwork.json");
             network = file.read();
             System.out.println(network);
             System.out.println(network);
@@ -134,27 +134,7 @@ public class main extends Application{
     }
 
     public static void main(String args[]){
-        //TODO: Remove CLI testing=
-        try
-        {
-            RailwayFile file = new RailwayFile("res/railway.json");
-            Network n = file.read();
-            System.out.println(n);
-            System.out.println(n);
-            file.write(n);
-            System.out.println(file.readJson());
-            
-            
-            RailwayFile testFile = new RailwayFile("res/testNetwork.json");
-            Network testNet = testFile.read();
-            NetValidation netValidation = new NetValidation();
-            ValidationInfo vInfo = netValidation.Validate(testNet);
-            System.out.println(vInfo.toString());
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
+        
         launch(args);
     }
 }
