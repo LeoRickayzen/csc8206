@@ -60,7 +60,7 @@ public class Driver extends Application
             r5.calculateRoute();
             System.out.println("r5 " + r5.getBlocks());
             
-            ArrayList<Route> routeList=new ArrayList<Route>();
+            ArrayList<Route> routeList= new ArrayList<>();
             routeList.add(r1);
             routeList.add(r2);
             routeList.add(r3);
@@ -68,24 +68,30 @@ public class Driver extends Application
             routeList.add(r5);
             System.out.println("conflict stuff...");
             RouteConflict rConflict=new RouteConflict(routeList,n2);
-            HashMap<Integer,ArrayList<Integer>> conflictList=new HashMap<Integer,ArrayList<Integer>>(); 
-            conflictList=rConflict.calculateConflictRoute();
+            HashMap<Integer,ArrayList<Integer>> conflictList = rConflict.calculateConflictRoute();
             System.out.println("Conflict list: "+conflictList);
             
-            HashMap<Integer,ArrayList<Integer>> paths=new HashMap<Integer,ArrayList<Integer>>(); 
-            paths=rConflict.calculatePath();
+            HashMap<Integer,ArrayList<Integer>> paths = rConflict.calculatePath();
             System.out.println("path list: "+paths);
         }
         catch (IOException e)
         {
-            NetValidation.showErrorMessage(e, "Cannot load.");
+            showErrorMessage(e, "Cannot load.");
         }
     }
 
-    public static void main(String args[]) throws IOException
+    public static void showErrorMessage(Exception e, String header)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(header);
+        alert.setContentText(e.getMessage());
+
+        alert.showAndWait();
+    }
+
+    public static void main(String args[])
     {
         launch(args);
-        
-        
     }
 }

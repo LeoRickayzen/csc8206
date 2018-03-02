@@ -32,7 +32,7 @@ public class NetValidation {
 	 */
 	public static ValidationInfo Validate(Network network) {
 		ValidationInfo vInfo = new ValidationInfo();
-		ArrayList<String> issues = new ArrayList<String>();
+		ArrayList<String> issues = new ArrayList<>();
 		
 		//Validate network parts and save issues if they exist.
 		issues.addAll(ValidatePoints(network));
@@ -42,7 +42,7 @@ public class NetValidation {
 		//If there are no issues with the above checks, check that the whole network is connected.
 		if(issues.isEmpty()) {
 			for(Map.Entry<Integer[], Boolean> entry : validateConnectedNetwork(network).entrySet()) {
-				if(entry.getValue() == false) {
+				if(!entry.getValue()) {
 					issues.add("Connection between endpoints " + Arrays.toString(entry.getKey()) + " has not been made.");
 				}
 			}
@@ -70,7 +70,7 @@ public class NetValidation {
 	private static ArrayList<String> ValidatePoints(Network network) {
 		ArrayList<Point> points = network.getPoints();
 		
-		ArrayList<String> pointIssues = new ArrayList<String>();
+		ArrayList<String> pointIssues = new ArrayList<>();
 		
 		//For each point, check for null (val = 0) neighbours and log if required.
 		for(Point p : points) {
@@ -136,7 +136,7 @@ public class NetValidation {
 	private static ArrayList<String> ValidateSections(Network network) {
 		ArrayList<Section> sections = network.getSections();
 		
-		ArrayList<String> sectionIssues = new ArrayList<String>();
+		ArrayList<String> sectionIssues = new ArrayList<>();
 		
 		//For each section, check if both neighbours are null. If so, log an issue.
 		for(Section s : sections) {
@@ -187,7 +187,7 @@ public class NetValidation {
 	private static ArrayList<String> ValidateSignals(Network network) {
 		ArrayList<Signal> signals = network.getSignals();
 		
-		ArrayList<String> signalIssues = new ArrayList<String>();
+		ArrayList<String> signalIssues = new ArrayList<>();
 		
 		//For each signal, check for null neighbours and log if required.
 		for(Signal s : signals) {
@@ -226,7 +226,7 @@ public class NetValidation {
 	}
 	
 	private static Map<Integer[], Boolean> validateConnectedNetwork(Network network) {
-		HashMap<Integer[], Boolean> connections = new HashMap<Integer[], Boolean>();
+		HashMap<Integer[], Boolean> connections = new HashMap<>();
 		
 		//For each endpoint, check if they are connected to each other, if not set invalid.
 		for(int source : network.getEndpoints()) {
@@ -235,7 +235,7 @@ public class NetValidation {
 				Integer[] connection = new Integer[] {source, destination};
 				
 				//If there is no route, connection invalid. Else valid.
-				if(calculateRoute(network, network.getBlock(source), network.getBlock(destination)) == false) {
+				if(!calculateRoute(network, network.getBlock(source), network.getBlock(destination))) {
 					connections.put(connection, false);
 				}
 				else {
@@ -255,17 +255,13 @@ public class NetValidation {
 	/**
 	 * <p>Calculate the blocks needed to reach the destination from the source.</p>
 	 */
-	private static boolean calculateRoute(Network network, Block source, Block destination) {
-		//Try looking down the network, if no route found, look up the network. If no routes are found either way, route will be null.
-		boolean tempRoute = calcNextNeighbour(source, Direction.DOWN, 0, network, destination, new ArrayList<Integer>());
-		if(tempRoute == false) {
-			//System.out.println("Looking up the network");
-			return tempRoute = calcNextNeighbour(source, Direction.UP, 0, network, destination, new ArrayList<Integer>());
-		}
-		else {
-			return tempRoute;
-		}
-	}
+	private static boolean calculateRoute(Network network, Block source, Block destination)
+    {
+        //Try looking down the network, if no route found, look up the network. If no routes are found either way, route will be null.
+        boolean tempRoute = calcNextNeighbour(source, Direction.DOWN, 0, network, destination, new ArrayList<>());
+        //System.out.println("Looking up the network");
+        return tempRoute || calcNextNeighbour(source, Direction.UP, 0, network, destination, new ArrayList<>());
+    }
 	
 	/**
 	 * <p>Searched the whole network for a route to the destination.</p>
@@ -337,16 +333,14 @@ public class NetValidation {
 				
 				boolean nextBlock = calcNextNeighbour(thisBlock, direction, previousPoint.getId(), network, destination, visited);
 				//If the minus neighbour returned null, meaning the destination was not found, try the plus route.
-				if(nextBlock == false) {
-					thisBlock = network.getBlock(previousPoint.getpNeigh());
-					
-					//If this block is the destination return true.
-					if(thisBlock.getId() == destination.getId()) {
-						return true;
-					}
-					return calcNextNeighbour(thisBlock, direction, previousPoint.getId(), network, destination, visited);
-				}
-				return nextBlock;
+				if(!nextBlock)
+                {
+                    thisBlock = network.getBlock(previousPoint.getpNeigh());
+
+                    //If this block is the destination return true.
+                    return thisBlock.getId() == destination.getId() || calcNextNeighbour(thisBlock, direction, previousPoint.getId(), network, destination, visited);
+                }
+				return true;
 			}
 			
 			//if we have come from the minus neighbour, try the plus and main paths.
@@ -361,16 +355,14 @@ public class NetValidation {
 				
 				boolean nextBlock = calcNextNeighbour(thisBlock, direction, previousPoint.getId(), network, destination, visited);
 				//If the main neighbour returned null, meaning the destination was not found, try the plus route.
-				if(nextBlock == false) {
-					thisBlock = network.getBlock(previousPoint.getpNeigh());
-					
-					//If this block is the destination return true.
-					if(thisBlock.getId() == destination.getId()) {
-						return true;
-					}
-					return calcNextNeighbour(thisBlock, direction.toggle(), previousPoint.getId(), network, destination, visited);
-				}
-				return nextBlock;
+				if(!nextBlock)
+                {
+                    thisBlock = network.getBlock(previousPoint.getpNeigh());
+
+                    //If this block is the destination return true.
+                    return thisBlock.getId() == destination.getId() || calcNextNeighbour(thisBlock, direction.toggle(), previousPoint.getId(), network, destination, visited);
+                }
+				return true;
 			}
 			
 			//if we have come from the plus neighbour, try the main and minus paths.
@@ -385,20 +377,17 @@ public class NetValidation {
 				
 				boolean nextBlock = calcNextNeighbour(thisBlock, direction.toggle(), previousPoint.getId(), network, destination, visited);
 				//If the minus neighbour returned null, meaning the destination was not found, try the main route.
-				if(nextBlock == false) {
-					thisBlock = network.getBlock(previousPoint.getMainNeigh());
-					
-					//If this block is the destination return true.
-					if(thisBlock.getId() == destination.getId()) {
-						return true;
-					}
-					return calcNextNeighbour(thisBlock, direction, previousPoint.getId(), network, destination, visited);
-				}
-				return nextBlock;
+				if(!nextBlock)
+                {
+                    thisBlock = network.getBlock(previousPoint.getMainNeigh());
+
+                    //If this block is the destination return true.
+                    return thisBlock.getId() == destination.getId() || calcNextNeighbour(thisBlock, direction, previousPoint.getId(), network, destination, visited);
+                }
+				return true;
 			}
 		}
 		
-		//System.out.println("Final null return");
 		return false;
 	}
 	
@@ -429,14 +418,4 @@ public class NetValidation {
 		}
 		return signal.getDownNeigh();
 	}
-
-	public static void showErrorMessage(Exception e, String header)
-    {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(header);
-        alert.setContentText(e.getMessage());
-
-        alert.showAndWait();
-    }
 }
