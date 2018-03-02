@@ -3,6 +3,7 @@ package railway.draw;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 
 public class SignalComp extends Component {
 
@@ -24,25 +25,15 @@ public class SignalComp extends Component {
         leftUp.setStroke(Color.ALICEBLUE);
         leftUp.setStrokeWidth(2);
         
-        /*
-        Line rightUp = new Line();
-        rightUp.setStartX(start[0]+2);
-        rightUp.setEndX(start[0]+2);
-        rightUp.setStartY(start[1]);
-        rightUp.setEndY(start[1]-15);
-        rightUp.setStroke(Color.ALICEBLUE);
-        rightUp.setStrokeWidth(2);
-
-        Line top = new Line();
-        top.setStartY(start[1]-15);
-        top.setEndY(start[1]-15);
-        top.setStartX(start[0]);
-        top.setEndX(start[0]+2);
-        top.setStroke(Color.ALICEBLUE);
-        top.setStrokeWidth(2);
-
-        this.getChildren().addAll(leftUp, top, rightUp);
-        */
-        this.getChildren().addAll(leftUp);
+        double labelx = start[0];
+        double labely = start[1] + 20;
+        
+        Text label = new Text();
+        label.setText("s" + id);
+        label.setX(labelx);
+        label.setY(labely);
+        label.setStroke(Color.WHITE);
+        
+        this.getChildren().addAll(leftUp, label);
     }
 }
