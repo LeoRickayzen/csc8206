@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-<<<<<<< HEAD
 import railway.file.RailwayFile;
 import railway.network.Network;
 import railway.network.Route;
@@ -19,11 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
-=======
-
 import java.io.File;
 import java.io.IOException;
->>>>>>> de630003e092d3d1ee403e33faa989da4d942fc8
 
 /**
  * Driver class.
@@ -45,11 +41,11 @@ public class Driver extends Application
             RailwayFile testFile = new RailwayFile("res/testNetwork.json");
             Network n2 = testFile.read();
             
-            Route r1=new Route(1,2,15,new ArrayList<Integer>(),n2);
-            Route r2=new Route(2,2,10,new ArrayList<Integer>(),n2);
-            Route r3=new Route(3,2,8,new ArrayList<Integer>(),n2);
-            Route r4=new Route(4,5,8,new ArrayList<Integer>(),n2);
-            Route r5=new Route(5,6,15,new ArrayList<Integer>(),n2);
+            Route r1=new Route(1,2,15,n2);
+            Route r2=new Route(2,2,10,n2);
+            Route r3=new Route(3,2,8,n2);
+            Route r4=new Route(4,5,8,n2);
+            Route r5=new Route(5,6,15,n2);
             
             r1.calculateRoute();
             System.out.println("r1 " + r1.getBlocks());
