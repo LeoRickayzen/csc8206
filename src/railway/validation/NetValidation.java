@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.scene.control.Alert;
 import railway.network.Block;
 import railway.network.Direction;
 import railway.network.Network;
@@ -29,7 +30,7 @@ public class NetValidation {
 	 * @param network The network to validate.
 	 * @return ValidationInfo object. Call isValid() for simple boolean check. getIssues() for detailed list if invalid.
 	 */
-	public ValidationInfo Validate(Network network) {
+	public static ValidationInfo Validate(Network network) {
 		ValidationInfo vInfo = new ValidationInfo();
 		ArrayList<String> issues = new ArrayList<String>();
 		
@@ -63,10 +64,10 @@ public class NetValidation {
 	 * <p>Validates a list of points. Ensures each point has three neighbours.</p>
 	 * <p>Points cannot neighbour Points.</p>
 	 * 
-	 * @param points A list of points to validate.
+	 * @param network A network with a list of points to validate.
 	 * @return A list of issues with any problem points.
 	 */
-	private ArrayList<String> ValidatePoints(Network network) {
+	private static ArrayList<String> ValidatePoints(Network network) {
 		ArrayList<Point> points = network.getPoints();
 		
 		ArrayList<String> pointIssues = new ArrayList<String>();
@@ -132,7 +133,7 @@ public class NetValidation {
 	 * @param network The network with sections to validate.
 	 * @return A list of issues with any problem sections.
 	 */
-	private ArrayList<String> ValidateSections(Network network) {
+	private static ArrayList<String> ValidateSections(Network network) {
 		ArrayList<Section> sections = network.getSections();
 		
 		ArrayList<String> sectionIssues = new ArrayList<String>();
@@ -183,7 +184,7 @@ public class NetValidation {
 	 * @param network The network with signals to validate.
 	 * @return A list of issues with any problem signals.
 	 */
-	private ArrayList<String> ValidateSignals(Network network) {
+	private static ArrayList<String> ValidateSignals(Network network) {
 		ArrayList<Signal> signals = network.getSignals();
 		
 		ArrayList<String> signalIssues = new ArrayList<String>();
@@ -224,7 +225,7 @@ public class NetValidation {
 		return signalIssues;
 	}
 	
-	private Map<Integer[], Boolean> validateConnectedNetwork(Network network) {
+	private static Map<Integer[], Boolean> validateConnectedNetwork(Network network) {
 		HashMap<Integer[], Boolean> connections = new HashMap<Integer[], Boolean>();
 		
 		//For each endpoint, check if they are connected to each other, if not set invalid.
@@ -254,7 +255,7 @@ public class NetValidation {
 	/**
 	 * <p>Calculate the blocks needed to reach the destination from the source.</p>
 	 */
-	private boolean calculateRoute(Network network, Block source, Block destination) {
+	private static boolean calculateRoute(Network network, Block source, Block destination) {
 		//Try looking down the network, if no route found, look up the network. If no routes are found either way, route will be null.
 		boolean tempRoute = calcNextNeighbour(source, Direction.DOWN, 0, network, destination, new ArrayList<Integer>());
 		if(tempRoute == false) {
@@ -272,10 +273,12 @@ public class NetValidation {
 	 * @param previousNeighbour The block which called this method. Initially this is the source.
 	 * @param direction The direction of travel when searching. Should be determined by the sources null neighbour.
 	 * @param from The ID of the Block before the previousNeighbour. Should be 0 to start.
-	 * @param theOldRoute The list of Blocks which make up the route. Pass it an empty ArrayList<Block> to start.
-	 * @return An ArrayList of Blocks which make up the route from source to destination.
+	 * @param network The network with a list of Blocks which make up the route. Pass it an empty ArrayList<Block> to start.
+	 * @param destination The destination Block.
+	 * @param visited The list of IDs which have been visited.
+	 * @return boolean
 	 */
-	private boolean calcNextNeighbour(Block previousNeighbour, Direction direction, int from, Network network, Block destination, ArrayList<Integer> visited) {
+	private static boolean calcNextNeighbour(Block previousNeighbour, Direction direction, int from, Network network, Block destination, ArrayList<Integer> visited) {
 		//If previousNeighbour already been checked, go back.
 		if(visited.contains(previousNeighbour.getId())){
 			return false;
@@ -406,7 +409,7 @@ public class NetValidation {
 	 * @param direction The direction of the desired neighbour.
 	 * @return an int ID of a neighbour.
 	 */
-	private int getDirectionNeighbour(Section section, Direction direction) {
+	private static int getDirectionNeighbour(Section section, Direction direction) {
 		if(direction == Direction.UP) {
 			return section.getUpNeigh();
 		}
@@ -420,10 +423,20 @@ public class NetValidation {
 	 * @param direction The direction of the desired neighbour.
 	 * @return an int ID of a neighbour.
 	 */
-	private int getDirectionNeighbour(Signal signal, Direction direction) {
+	private static int getDirectionNeighbour(Signal signal, Direction direction) {
 		if(direction == Direction.UP) {
 			return signal.getUpNeigh();
 		}
 		return signal.getDownNeigh();
 	}
+
+	public static void showErrorMessage(Exception e, String header)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(header);
+        alert.setContentText(e.getMessage());
+
+        alert.showAndWait();
+    }
 }
