@@ -1,17 +1,12 @@
 package railway.draw;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
+<<<<<<< HEAD
 import railway.file.RailwayFile;
 import railway.network.Network;
 import railway.network.Route;
@@ -24,6 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
+=======
+
+import java.io.File;
+import java.io.IOException;
+>>>>>>> de630003e092d3d1ee403e33faa989da4d942fc8
 
 /**
  * Driver class.

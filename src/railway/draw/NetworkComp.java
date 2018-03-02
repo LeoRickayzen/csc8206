@@ -18,6 +18,13 @@ public class NetworkComp extends Group {
 	public NetworkComp(){
     }
 	
+	/**
+	 * Draws a track from it's down neighbor to it's up neighbor
+	 * 
+	 * @param section
+	 * @param network
+	 * @return
+	 */
 	public TrackSection drawTrack(Section section, Network network){
 		Block downNeigh = network.getBlock(section.getDownNeigh());
 		Block upNeigh = network.getBlock(section.getUpNeigh());
@@ -65,6 +72,11 @@ public class NetworkComp extends Group {
 		return new TrackSection(start, end, section.getId());
 	}
 	
+	/**
+	 * plot a given network onto this component
+	 * 
+	 * @param network
+	 */
 	public void plot(Network network){
 		for(Point point: network.getPoints()){
 			double[] start;
@@ -95,7 +107,8 @@ public class NetworkComp extends Group {
 				signal.setIndex(point.getIndex()-1);
 			}
 			double[] start = getCoords(signal.getLevel(), signal.getIndex());
-			SignalComp signalComp = new SignalComp(start, true, signal.getId());
+			Boolean reverse = signal.getDirection() == "DOWN";
+			SignalComp signalComp = new SignalComp(start, reverse, signal.getId());
 			this.getChildren().add(signalComp);
 		}
 		for(Section section: network.getSections()){	
@@ -104,6 +117,13 @@ public class NetworkComp extends Group {
 		}
 	}
 	
+	/**
+	 * given a grid position return the actual coordinates
+	 * 
+	 * @param level
+	 * @param column
+	 * @return the coordinates in the form [x, y]
+	 */
 	public double[] getCoords(int level, int column){
 		double[] coords = new double[2];
 		coords[0] = column*gap + xstart;
@@ -111,6 +131,12 @@ public class NetworkComp extends Group {
 		return coords;
 	}
 	
+	/**
+	 * get a component by it's id
+	 * 
+	 * @param id
+	 * @return the component
+	 */
 	public Component getCompById(int id){
 		for(Node node: this.getChildren()){
 			Component component = (Component)node;

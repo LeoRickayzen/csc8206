@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.text.Text;
 
 public class PointComp extends Component {
 	
@@ -36,8 +37,17 @@ public class PointComp extends Component {
         lowerLine.setStartY(start[1]);
         lowerLine.setEndX(lower[0]);
         lowerLine.setEndY(lower[1]);
+        
+        double labelx = start[0];
+        double labely = start[1] + 20;
+        
+        Text label = new Text();
+        label.setText("p" + id);
+        label.setX(labelx);
+        label.setY(labely);
+        label.setStroke(Color.WHITE);
 
-        this.getChildren().addAll(upperLine, lowerLine);
+        this.getChildren().addAll(upperLine, lowerLine, label);
     }
 
 	public double[] getStart() {

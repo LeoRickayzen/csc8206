@@ -3,7 +3,7 @@
     {
       "id": 2,
       "clear": true,
-      "direction": "up",
+      "direction": "down",
       "upNeigh": 3,
       "downNeigh": 1
     },
