@@ -19,11 +19,15 @@ public class Route {
 	 * @param blocks
 	 * @param network
 	 */
-	public Route(int routeID, int source, int destination, Network network) {
+	public Route(int routeID, int source, int destination, Network network) throws IllegalArgumentException {
 		this.routeID = routeID;
 		this.source = (Signal)network.getBlock(source);
 		this.destination = (Signal)network.getBlock(destination);
 		this.network = network;
+		calculateRoute();
+		if(blocks == null) {
+			throw new IllegalArgumentException("No Route can be calculated from " + source + " to " + destination);
+		}
 	}
 	
 	/**
