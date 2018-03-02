@@ -42,7 +42,7 @@ public class RailwayFile extends File
     public void write(Network network) throws IOException
     {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(this.getAbsoluteFile(), network);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(this.getAbsoluteFile(), network);
     }
 
     public String readJson() throws IOException
@@ -53,7 +53,7 @@ public class RailwayFile extends File
         StringBuilder sb = new StringBuilder("");
 
         while((line = bufferedReader.readLine()) != null) {
-            sb.append(line);
+            sb.append(line + "\n");
         }
 
         bufferedReader.close();

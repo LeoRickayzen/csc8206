@@ -7,14 +7,14 @@ package railway.network;
  */
 public enum Direction {
 	UP, DOWN;
-	
+
 	private Direction opposite;
-	
+
 	static {
 		UP.opposite = DOWN;
 		DOWN.opposite = UP;
 	}
-	
+
 	public Direction toggle() {
 		return opposite;
 	}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="railway.draw.LayoutController"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@stylesheets/style.css"
+            fx:id="anchorPane">
+
+    <HBox>
+        <VBox fx:id="left">
+            <Pane fx:id="visualRender"></Pane>
+            <Pane fx:id="networkEditor"></Pane>
+        </VBox>
+
+        <VBox fx:id="right">
+            <HBox fx:id="entryBoxControl">
+                <ComboBox fx:id="jsonFileOptions" onAction="#loadJson"></ComboBox>
+                <Button fx:id="clearBtn" text="Clear" onAction="#clear"/>
+            </HBox>
+            <TextArea fx:id="entryBox" editable="false"/>
+            <Button fx:id="renderBtn" text="Render" onAction="#render"/>
+        </VBox>
+    </HBox>
+
+</AnchorPane>
