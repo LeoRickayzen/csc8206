@@ -2,10 +2,12 @@ package railway.network;
 
 public class Section extends Block{
 	
-	boolean occupied;          
-	int upNeigh;          
-	int downNeigh;
+	private boolean occupied;
+	private int upNeigh;
+	private int downNeigh;
 
+	public Section(){}
+	
 	// the constructor	
 	public Section (int id, boolean occupied, int upNeigh, int downNeigh) {
 		super(id);
@@ -29,10 +31,6 @@ public class Section extends Block{
 	public void setDownNeigh(int downNeigh) {
 		this.downNeigh = downNeigh;
 	}
-	
-	public int getId() {
-		return id;
-	}
 
 	public boolean isOccupied() {
 		return occupied;
@@ -42,6 +40,20 @@ public class Section extends Block{
 		this.occupied = occupied;
 	}
   
+	public Boolean hasNext(Boolean reverse){
+		if(reverse){
+			return downNeigh != 0;
+		}else{
+			return upNeigh != 0;
+		}
+	}
 	
+	public int getNext(Boolean reverse){
+		if(reverse){
+			return downNeigh;
+		}else{
+			return upNeigh;
+		}
+	}
 
 }

@@ -1,0 +1,17 @@
+#left{
+    -fx-alignment:top-left;
+}
+
+#right{
+    -fx-alignment:top-right;
+    -fx-pref-width: 200;
+}
+
+#renderBtn{
+    -fx-pref-height: 50;
+    -fx-text-alignment: center;
+}
+
+#visualRender{
+    -fx-background-color: black;
+}
