@@ -83,9 +83,9 @@ public class LayoutController
 
     public void render(ActionEvent actionEvent)
     {
-        NetworkRenderer renderer = new NetworkRenderer();
+        NetworkRenderer renderer = new NetworkRenderer(network);
 
-        NetworkComp networkComp = renderer.Render(network);
+        NetworkComp networkComp = renderer.draw();
 
         visualRender.getChildren().addAll(networkComp);
 

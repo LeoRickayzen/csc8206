@@ -5,7 +5,9 @@ import railway.network.Network;
 
 import java.io.*;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+//import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * This class handles all file operations for the JSON representing the railway.

@@ -6,13 +6,21 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 
 public class PointComp extends Component {
-
+	
+	private double[] start; 
+	private double[] upper;
+	private double[] lower;
 
     public PointComp(double[] start, double[] upper, double[] lower, Boolean reverse, int id){
     	
     	super(id);
-
+    	
+    	this.setStart(start);
+    	this.setUpper(upper);
+    	this.setLower(lower);
         Line upperLine = new Line();
+        Line lowerLine = new Line();
+        
         upperLine.setStroke(Color.RED);
         upperLine.setStrokeWidth(5);
         upperLine.setStrokeLineCap(StrokeLineCap.ROUND);
@@ -21,16 +29,39 @@ public class PointComp extends Component {
         upperLine.setEndX(upper[0]);
         upperLine.setEndY(upper[1]);
         
-        Line lowerLine = new Line();
         lowerLine.setStroke(Color.RED);
         lowerLine.setStrokeWidth(5);
         lowerLine.setStrokeLineCap(StrokeLineCap.ROUND);
-        upperLine.setStartX(start[0]);
-        upperLine.setStartY(start[1]);
-        upperLine.setEndX(lower[0]);
-        upperLine.setEndY(lower[1]);
+        lowerLine.setStartX(start[0]);
+        lowerLine.setStartY(start[1]);
+        lowerLine.setEndX(lower[0]);
+        lowerLine.setEndY(lower[1]);
 
         this.getChildren().addAll(upperLine, lowerLine);
     }
+
+	public double[] getStart() {
+		return start;
+	}
+
+	public void setStart(double[] start) {
+		this.start = start;
+	}
+
+	public double[] getLower() {
+		return lower;
+	}
+
+	public void setLower(double[] lower) {
+		this.lower = lower;
+	}
+
+	public double[] getUpper() {
+		return upper;
+	}
+
+	public void setUpper(double[] upper) {
+		this.upper = upper;
+	}
 
 }

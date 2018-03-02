@@ -7,6 +7,10 @@ public class Signal extends Block{
 	private int upNeigh;       
 	private int downNeigh;
 	
+	public Signal(){
+		
+	}
+	
 	// the constructor	
 	public Signal(int id, boolean clear, String direction, int upNeigh, int downNeigh) {
 		super(id);
