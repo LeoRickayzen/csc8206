@@ -19,11 +19,10 @@ public class Route {
 	 * @param blocks
 	 * @param network
 	 */
-	public Route(int routeID, int source, int destination, ArrayList<Integer> blocks, Network network) {
+	public Route(int routeID, int source, int destination, Network network) {
 		this.routeID = routeID;
 		this.source = (Signal)network.getBlock(source);
 		this.destination = (Signal)network.getBlock(destination);
-		this.blocks = blocks;
 		this.network = network;
 	}
 	
