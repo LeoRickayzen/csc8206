@@ -24,8 +24,8 @@
     {
       "id": 4,
       "occupied": false,
-      "upNeigh": 3,
-      "downNeigh": 0
+      "upNeigh": 0,
+      "downNeigh": 3
     }
   ],
   "points": [
