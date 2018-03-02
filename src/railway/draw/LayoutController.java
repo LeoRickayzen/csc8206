@@ -60,6 +60,7 @@ public class LayoutController
 
     public void clear(ActionEvent actionEvent)
     {
+        visualRender.getChildren().clear();
         jsonFileOptions.getSelectionModel().clearSelection();
         entryBox.clear();
     }
@@ -87,6 +88,8 @@ public class LayoutController
 
         NetworkComp networkComp = renderer.draw();
 
+        visualRender.getChildren().clear();
+        
         visualRender.getChildren().addAll(networkComp);
 
     }
