@@ -1,7 +1,5 @@
 package railway.network;
 
-import java.util.UUID;
-
 public class Point extends Block{
 
 	private boolean plus;
