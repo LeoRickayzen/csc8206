@@ -3,7 +3,9 @@ package railway.validation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import railway.network.Block;
 import railway.network.Direction;
@@ -37,6 +39,7 @@ public class NetValidation {
 		issues.addAll(ValidatePoints(network));
 		issues.addAll(ValidateSections(network));
 		issues.addAll(ValidateSignals(network));
+		issues.addAll(ValidateUniqueIds(network));
 		
 		//If there are no issues with the above checks, check that the whole network is connected.
 		if(issues.isEmpty()) {
@@ -57,6 +60,75 @@ public class NetValidation {
 		}
 		
 		return vInfo;
+	}
+	
+	/**
+	 * <p>Checks that no ID is duplicated in the network.<p>
+	 * @param network The {@link Network} to check.
+	 * @return A list detailing any ID duplications
+	 */
+	private static ArrayList<String> ValidateUniqueIds(Network network){
+		ArrayList<String> issues = new ArrayList<String>();
+		HashSet<Integer> allIds = new HashSet<Integer>();
+		for(Section section : network.getSections()) {
+			if(!allIds.add(section.getId())) {
+				issues.add("A Block with the ID " + section.getId() + " already exists. Please change one of them.");
+			}
+		}
+		
+		for(Signal signal : network.getSignals()) {
+			if(!allIds.add(signal.getId())) {
+				issues.add("A Block with the ID " + signal.getId() + " already exists. Please change one of them.");
+			}
+		}
+		
+		for(Point point : network.getPoints()) {
+			if(!allIds.add(point.getId())) {
+				issues.add("A Block with the ID " + point.getId() + " already exists. Please change one of them.");
+			}
+		}
+		
+		return issues;
+	}
+	
+	//WORK IN PROGRESS
+	//TODO figure out how to ensure neighbours are duplicated between blocks.
+	//This is difficult because two signals could both have the same down neighbour if it is a Point.
+	//Was gonna do some sort of mapping thing but thats hard when points have different neighbours than just up and down.
+	private static ArrayList<String> ValidateUniqueNeighbours(Network network){
+		ArrayList<String> issues = new ArrayList<String>();
+		HashMap<Integer, ArrayList<Integer>> sectionUp = new HashMap<Integer, ArrayList<Integer>>();
+		HashMap<Integer, ArrayList<Integer>> sectionDown = new HashMap<Integer, ArrayList<Integer>>();
+		
+		//For each section, add its ID to a list in a map where the key is the ID of the up/down neighbour
+		for(Section section : network.getSections()) {
+			ArrayList<Integer> blocksWithSameUp;
+			blocksWithSameUp = sectionUp.get(section.getUpNeigh());
+			if(blocksWithSameUp == null) {
+				blocksWithSameUp = new ArrayList<Integer>();
+			}
+			blocksWithSameUp.add(section.getId());
+			sectionUp.put(section.getUpNeigh(), blocksWithSameUp);
+			
+			ArrayList<Integer> blocksWithSameDown;
+			blocksWithSameDown = sectionDown.get(section.getDownNeigh());
+			if(blocksWithSameDown == null) {
+				blocksWithSameDown = new ArrayList<Integer>();
+			}
+			blocksWithSameDown.add(section.getId());
+			sectionDown.put(section.getDownNeigh(), blocksWithSameDown);
+		}
+		
+		for(Entry<Integer, ArrayList<Integer>> entry : sectionUp.entrySet()) {
+			if(entry.getValue().size() >= 3) {
+				issues.add("Too many Sections declare " + network.getBlock(entry.getKey()).getClass().getName() + entry.getKey() + " as their up neighbour.");
+			}
+			if(entry.getValue().size() == 2) {
+				
+			}
+		}
+		
+		return issues;
 	}
 	
 	/**
