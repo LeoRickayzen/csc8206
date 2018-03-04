@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.scene.control.Alert;
 import railway.network.Block;
 import railway.network.Direction;
 import railway.network.Network;
@@ -100,9 +99,14 @@ public class NetValidation {
 					pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "ID given for minus neighbour is invalid");
 				}
 				else {
-					//If the minus neighbour is of the same class as this (Point), log issue.
-					if(network.getBlock(p.getmNeigh()).getClass().equals(p.getClass())) {
-						pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "minus neighbour can't be Point");
+					//If the minus neighbour is not a Signal, log issue.
+					if(!network.getBlock(p.getmNeigh()).getClass().equals(Signal.class)) {
+						pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "minus neighbour must be a Signal");
+					}
+					else {
+						if(((Signal)network.getBlock(p.getmNeigh())).getDirectionEnum().equals(p.getTravelDirection())){
+							pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "minus neighbour must be a Signal set to direction " + p.getTravelDirection().toggle());
+						}
 					}
 				}
 			}
@@ -116,9 +120,14 @@ public class NetValidation {
 					pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "ID given for plus neighbour is invalid");
 				}
 				else {
-					//If the plus neighbour is of the same class as this (Point), log issue.
-					if(network.getBlock(p.getpNeigh()).getClass().equals(p.getClass())) {
-						pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "plus neighbour can't be Point");
+					//If the plus neighbour not a Signal, log issue.
+					if(!network.getBlock(p.getpNeigh()).getClass().equals(Signal.class)) {
+						pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "plus neighbour must be a Signal");
+					}
+					else {
+						if(((Signal)network.getBlock(p.getpNeigh())).getDirectionEnum().equals(p.getTravelDirection())){
+							pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "plus neighbour must be a Signal set to direction " + p.getTravelDirection().toggle());
+						}
 					}
 				}
 			}
