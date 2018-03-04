@@ -1,5 +1,7 @@
 package railway.network;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Point extends Block{
 
 	private boolean plus;
@@ -8,6 +10,7 @@ public class Point extends Block{
 	private int pNeigh; //plus Neighbour
 	private boolean reverse;
 	private int topHeight;
+	private Direction travelDirection;
 
 	public Point(){}
 
@@ -18,7 +21,8 @@ public class Point extends Block{
 		this.mainNeigh=mainNeigh;
 		this.mNeigh=mNeigh;
 		this.pNeigh=pNeigh;
-		this.reverse=reverse;		
+		this.reverse=reverse;
+		this.travelDirection = (reverse ? Direction.DOWN : Direction.UP);
 	}
 
 	public boolean isPlus() {
@@ -84,4 +88,16 @@ public class Point extends Block{
 			return pNeigh;
 		}
 	}
+
+	@JsonIgnore
+	public Direction getTravelDirection() {
+		return travelDirection;
+	}
+
+	@JsonIgnore
+	public void setTravelDirection(Direction direction) {
+		this.travelDirection = direction;
+	}
+	
+	
 }

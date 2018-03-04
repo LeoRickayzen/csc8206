@@ -31,6 +31,104 @@ public class Route {
 		}
 	}
 	
+	public void doInterlocking() {
+		//For each Block along the Route
+		for(int i = 0; i < blocks.size(); i++) {
+			int currentBlockID = blocks.get(i);
+			//If the current Block is a Point
+			if(network.getBlock(currentBlockID).getClass().equals(Point.class)) {
+				Point thisPoint = (Point)network.getBlock(currentBlockID);
+				//If the Point has the same direction as this Route
+				if(thisPoint.getTravelDirection().equals(direction)){
+					//If the next block is the minus neighbour
+					if(blocks.get(i+1) == thisPoint.getmNeigh()) {
+						//Set the Point to minus
+						thisPoint.setPlus(false);
+						//GO DOWN PLUS AND FIND FIRST SIGNAL AND SET TO STOP
+						Signal pNeigh = (Signal)network.getBlock(thisPoint.getpNeigh());
+						pNeigh.setClear(false);
+					}
+					else {
+						//Set the Point to plus
+						thisPoint.setPlus(true);
+						//GO DOWN MINUS AND FIND FIRST SIGNAL AND SET TO STOP
+						Signal mNeigh = (Signal)network.getBlock(thisPoint.getmNeigh());
+						mNeigh.setClear(false);
+					}
+				}
+				else {
+					//Else if the Point is in the opposite Direction of travel.
+					//If the previous block was on the minus neighbour
+					if(blocks.get(i-1) == thisPoint.getmNeigh()) {
+						//Set the Point to plus.
+						thisPoint.setPlus(true);
+					}
+					else {
+						//Set the Point to minus
+						thisPoint.setPlus(false);
+					}
+				}
+			}
+			
+			//If the current Block is a Signal
+			if(network.getBlock(currentBlockID).getClass().equals(Signal.class)) {
+				Signal thisSignal = (Signal)network.getBlock(currentBlockID);
+				//If the Signal has the same direction as this Route
+				if(thisSignal.getDirectionEnum().equals(direction)) {
+					//Set to clear.
+					thisSignal.setClear(true);
+				}
+				else {
+					//Else set to STOP
+					thisSignal.setClear(false);
+				}
+			}
+		}
+		
+		//LOOK AFTER ROUTE(UP) DESTINATION AND GET EITHER FIRST SIGNAL(DOWN) OR FIRST POINT(DOWN)
+		//AND SET TO STOP/OTHER NEIGHBOUR.
+		boolean found = false;
+		Block nextNeighbour = network.getBlock(getDirectionNeighbour(destination, direction));
+		int comeFrom = destination.getId();
+		while(!found) {
+			//If the next neighbour is a signal check if its the correct direction and if so set it to stop
+			if(nextNeighbour.getClass().equals(Signal.class)) {
+				Signal nextSignal = (Signal)nextNeighbour;
+				if(nextSignal.getDirectionEnum().equals(direction.toggle())) {
+					nextSignal.setClear(false);
+					found = true;
+				}
+				else {
+					comeFrom = nextNeighbour.getId();
+					nextNeighbour = network.getBlock(getDirectionNeighbour(nextSignal, direction));
+				}
+			}
+			
+			//If the next neighbour is a point
+			if(nextNeighbour.getClass().equals(Point.class)) {
+				Point nextPoint = (Point)nextNeighbour;
+				if(nextPoint.getTravelDirection().equals(direction.toggle())) {
+					if(nextPoint.getmNeigh() == comeFrom) {
+						nextPoint.setPlus(true);
+					}
+					else {
+						nextPoint.setPlus(false);
+					}
+					found = true;
+				}
+				else {
+					//If the point is in the same direction then just set the neighbouring signals to stop.
+					Signal mNeigh = (Signal)network.getBlock(nextPoint.getmNeigh());
+					Signal pNeigh = (Signal)network.getBlock(nextPoint.getpNeigh());
+					
+					mNeigh.setClear(false);
+					pNeigh.setClear(false);
+					found = true;
+				}
+			}
+		}
+	}
+	
 	/**
 	 * <p>Calculate the blocks needed to reach the destination from the source.</p>
 	 */

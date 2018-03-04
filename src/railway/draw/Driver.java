@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import railway.file.RailwayFile;
+import railway.network.Block;
 import railway.network.Network;
 import railway.network.Route;
 import railway.network.Signal;
@@ -46,7 +47,7 @@ public class Driver extends Application
             Network n2 = testFile.read();
             
             for(Signal s : n2.getSignals()) {
-            	System.out.println("Signal direction..abc: " + s.getId() + " " + s.getDirection());
+            	System.out.println("Signal direction..bbc: " + s.getId() + " " + s.getDirection());
             }
         }
         catch (IOException e)

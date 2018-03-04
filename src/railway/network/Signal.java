@@ -24,6 +24,11 @@ public class Signal extends Block{
 		this.downNeigh=downNeigh;
 	}
 
+	/**
+	 * <p>Getter for direction to be used for everything but JSON.</p>
+	 * 
+	 * @return Enum of Direction
+	 */
 	@JsonIgnore
 	public Direction getDirectionEnum() {
 		return direction;
@@ -53,12 +58,18 @@ public class Signal extends Block{
 		this.clear = clear;
 	}
 
-	
+	/**
+	 * <p>Getter for direction for JSON.</p>
+	 */
 	public String getDirection() {
 		return direction.name().toLowerCase();
 	}
 
-	
+	/**
+	 * <p>Setter for direction for JSON.</p>
+	 * 
+	 * @param direction String of direction ("up"/"down") to be set as enum.
+	 */
 	public void setDirection(String direction) {
 		this.direction = Direction.valueOf(direction.toUpperCase());
 	}

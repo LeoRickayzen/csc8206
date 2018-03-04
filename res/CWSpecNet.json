@@ -1,0 +1,116 @@
+{
+  "signals": [
+    {
+      "id": 11,
+      "clear": true,
+      "direction": "up",
+      "upNeigh": 12,
+      "downNeigh": 21
+    },
+    {
+      "id": 12,
+      "clear": true,
+      "direction": "down",
+      "upNeigh": 22,
+      "downNeigh": 11
+    },
+    {
+      "id": 13,
+      "clear": true,
+      "direction": "down",
+      "upNeigh": 23,
+      "downNeigh": 31
+    },
+    {
+      "id": 14,
+      "clear": true,
+      "direction": "up",
+      "upNeigh": 32,
+      "downNeigh": 23
+    },
+    {
+      "id": 15,
+      "clear": true,
+      "direction": "down",
+      "upNeigh": 24,
+      "downNeigh": 31
+    },
+    {
+      "id": 16,
+      "clear": true,
+      "direction": "up",
+      "upNeigh": 32,
+      "downNeigh": 24
+    },
+    {
+      "id": 17,
+      "clear": true,
+      "direction": "up",
+      "upNeigh": 18,
+      "downNeigh": 25
+    },
+    {
+      "id": 18,
+      "clear": true,
+      "direction": "down",
+      "upNeigh": 26,
+      "downNeigh": 17
+    }
+  ],
+  "sections": [
+    {
+      "id": 21,
+      "occupied": false,
+      "upNeigh": 11,
+      "downNeigh": 0
+    },
+    {
+      "id": 22,
+      "occupied": false,
+      "upNeigh": 31,
+      "downNeigh": 12
+    },
+    {
+      "id": 23,
+      "occupied": false,
+      "upNeigh": 14,
+      "downNeigh": 13
+    },
+    {
+      "id": 24,
+      "occupied": false,
+      "upNeigh": 16,
+      "downNeigh": 15
+    },
+    {
+      "id": 25,
+      "occupied": false,
+      "upNeigh": 17,
+      "downNeigh": 32
+    },
+    {
+      "id": 26,
+      "occupied": false,
+      "upNeigh": 0,
+      "downNeigh": 18
+    }
+  ],
+  "points": [
+    {
+      "id": 31,
+      "plus": true,
+      "mainNeigh": 22,
+      "mNeigh": 15,
+      "pNeigh": 13,
+      "reverse": false
+    },
+    {
+      "id": 32,
+      "plus": true,
+      "mainNeigh": 25,
+      "mNeigh": 14,
+      "pNeigh": 16,
+      "reverse": true
+    }
+  ]
+}
