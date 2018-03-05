@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import railway.file.RailwayFile;
 import railway.network.Block;
 import railway.network.Network;
+import railway.network.Point;
 import railway.network.Route;
 import railway.network.Signal;
 import routeCalculation.RouteConflict;
@@ -42,13 +43,6 @@ public class Driver extends Application
             stage.setTitle("Railway");
             stage.show();
             
-            
-            RailwayFile testFile = new RailwayFile("res/testNetwork.json");
-            Network n2 = testFile.read();
-            
-            for(Signal s : n2.getSignals()) {
-            	System.out.println("Signal direction..bbc: " + s.getId() + " " + s.getDirection());
-            }
         }
         catch (IOException e)
         {

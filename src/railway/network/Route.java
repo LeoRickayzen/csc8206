@@ -31,6 +31,9 @@ public class Route {
 		}
 	}
 	
+	
+	//This is broken but it doesn't even matter. Saving so we can adapt into the real calc function.
+	/*
 	public void doInterlocking() {
 		//For each Block along the Route
 		for(int i = 0; i < blocks.size(); i++) {
@@ -39,7 +42,7 @@ public class Route {
 			if(network.getBlock(currentBlockID).getClass().equals(Point.class)) {
 				Point thisPoint = (Point)network.getBlock(currentBlockID);
 				//If the Point has the same direction as this Route
-				if(thisPoint.getTravelDirection().equals(direction)){
+				if(thisPoint.getTravelDirection() == direction){
 					//If the next block is the minus neighbour
 					if(blocks.get(i+1) == thisPoint.getmNeigh()) {
 						//Set the Point to minus
@@ -127,14 +130,16 @@ public class Route {
 				}
 			}
 		}
-	}
+	}*/
 	
 	/**
 	 * <p>Calculate the blocks needed to reach the destination from the source.</p>
 	 */
 	public void calculateRoute() {
 		//Try looking down the network, if no route found, look up the network. If no routes are found either way, route will be null.	
+		System.out.println("source: " + source);
 		ArrayList<Integer> tempRoute = calcNextNeighbour(source, Direction.DOWN, 0, new ArrayList<>());
+		
 		if(tempRoute == null) {
 			setBlocks(calcNextNeighbour(source, Direction.UP, 0, new ArrayList<>()));
 			direction = Direction.UP;
@@ -156,6 +161,7 @@ public class Route {
 	 */
 	private ArrayList<Integer> calcNextNeighbour(Block previousNeighbour, Direction direction, int from, ArrayList<Integer> theOldRoute) {
 		ArrayList<Integer> theRoute = new ArrayList<>(theOldRoute);
+		System.out.println(previousNeighbour);
 		theRoute.add(previousNeighbour.getId());
 		
 		//If the prev neighbour is a Section
