@@ -276,6 +276,17 @@ public class NetValidation {
 					if(network.getBlock(p.getMainNeigh()).getClass().equals(p.getClass())) {
 						pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "main neighbour can't be Point");
 					}
+					else {
+						//Check that Section is between Points on main neighbour.
+						Block nextBlock = network.getBlock(p.getMainNeigh());
+						while(!nextBlock.getClass().equals(Section.class)) {
+							if(nextBlock.getClass().equals(Point.class)) {
+								pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "there must be a Section between Points. Main neighbour.");
+								break;
+							}
+							nextBlock = network.getBlock(getDirectionNeighbour((Signal)nextBlock, p.getTravelDirection()));
+						}
+					}
 				}
 			}
 			
@@ -293,8 +304,26 @@ public class NetValidation {
 						pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "minus neighbour must be a Signal");
 					}
 					else {
+						//If the Signal neighbour is in the wrong direction, log issue.
 						if(((Signal)network.getBlock(p.getmNeigh())).getDirectionEnum().equals(p.getTravelDirection())){
 							pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "minus neighbour must be a Signal set to direction " + p.getTravelDirection().toggle());
+						}
+						else { //Check for Section between Points.
+							Signal signal = (Signal)network.getBlock(p.getmNeigh());
+							Block afterSignal = network.getBlock(getDirectionNeighbour(signal, p.getTravelDirection()));
+							switch(afterSignal.getClass().getSimpleName()) {
+							case "Signal": //(point, signal, signal)
+								//If the third neighbour (point, signal1, signal2, n3) is not a Section, log issue.
+								if(!network.getBlock(getDirectionNeighbour((Signal)afterSignal, p.getTravelDirection())).getClass().equals(Section.class)) {
+									pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "there must be a Section between Points. Minus neighbour.");
+								}
+								break;
+							case "Point": //(point, signal, point)
+								pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "there must be a Section between Points. Minus neighbour.");
+								break;
+							default:
+								break;
+							}
 						}
 					}
 				}
@@ -316,6 +345,23 @@ public class NetValidation {
 					else {
 						if(((Signal)network.getBlock(p.getpNeigh())).getDirectionEnum().equals(p.getTravelDirection())){
 							pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "plus neighbour must be a Signal set to direction " + p.getTravelDirection().toggle());
+						}
+						else {
+							Signal signal = (Signal)network.getBlock(p.getpNeigh());
+							Block afterSignal = network.getBlock(getDirectionNeighbour(signal, p.getTravelDirection()));
+							switch(afterSignal.getClass().getSimpleName()) {
+							case "Signal": //(point, signal, signal)
+								//If the third neighbour (point, signal1, signal2, n3) is not a Section, log issue.
+								if(!network.getBlock(getDirectionNeighbour((Signal)afterSignal, p.getTravelDirection())).getClass().equals(Section.class)) {
+									pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "there must be a Section between Points. Plus neighbour.");
+								}
+								break;
+							case "Point": //(point, signal, point)
+								pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "there must be a Section between Points. Plus neighbour.");
+								break;
+							default:
+								break;
+							}
 						}
 					}
 				}
