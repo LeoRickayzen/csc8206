@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import railway.file.RailwayFile;
 import railway.network.Network;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
@@ -38,6 +41,7 @@ public class Driver extends Application
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Railway");
+            stage.getIcons().add(new Image("file:layout/images/latest.png"));
             stage.show();
             
             RailwayFile testFile = new RailwayFile("res/testNetwork.json");
@@ -86,7 +90,7 @@ public class Driver extends Application
         alert.setTitle("Error");
         alert.setHeaderText(header);
         alert.setContentText(e.getMessage());
-
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
     }
 

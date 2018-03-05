@@ -123,10 +123,13 @@ public class NetworkRenderer {
      * 
      * @return	drawing of the network
      */
-    public NetworkComp draw(){
+    public NetworkComp draw(LayoutController layoutController){
         leveler(network.getFirst(), null, false, 0, network, 0);
-        NetworkComp netComp = new NetworkComp();
-        netComp.plot(network);
+        NetworkComp netComp = new NetworkComp(
+                100,
+                layoutController.anchorPane.heightProperty().divide(2).doubleValue()
+        );
+        netComp.plot(network, layoutController);
         return netComp;
     }
     
