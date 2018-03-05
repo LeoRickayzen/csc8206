@@ -84,6 +84,168 @@ public class RouteConflict {
 		}
 		return routePath;
 	}
+	
+	// for calculating point setting for each routes
+		public HashMap<Integer,ArrayList<String>> calculatePointsSetting() {
+			for(int i = 0; i<routes.size(); i++) {
+			Route route = routes.get(i);
+			//get the id of first route to calculate 'the point setting'
+			int currentRouteID=route.getRouteID();
+			ArrayList<String> pointSetting=new ArrayList<String>();
+			        //to find all points within the route's path
+					for(int blockID:routes.get(i).getBlocks()) {
+							//checks if this block is of type 'point'
+							if(network.getBlock(blockID).getClass().equals(Point.class)) { 
+								Point point=(Point) network.getBlock(blockID);
+							if((routes.get(i).getBlocks().contains(point.getmNeigh())) && (routes.get(i).getBlocks().contains(point.getMainNeigh()))) {
+							pointSetting.add(blockID+":m");
+							}else if((routes.get(i).getBlocks().contains(point.getpNeigh())) && (routes.get(i).getBlocks().contains(point.getMainNeigh()))) {
+								pointSetting.add(blockID+":p");
+							}
+							}
+					}
+							//for up direction
+							// check if up neighbour of the destination signal is point
+						if((route.getDirection() == Direction.UP) && network.getBlock(route.getDestination().getUpNeigh()).getClass().equals(Point.class)) {
+								Point point=(Point) network.getBlock(route.getDestination().getUpNeigh());
+			
+								//if the destination is a plus neighbour of the point, the setting has to be minus for protection
+								if(route.getDestination().getId()== point.getpNeigh()) {
+								if(!pointSetting.contains(route.getDestination().getUpNeigh()+":m"))
+									pointSetting.add(route.getDestination().getUpNeigh()+":m");		
+								}
+								//if the destination is a minus neighbour of the point, the setting has to be plus for protection
+								if(route.getDestination().getId()== point.getmNeigh()) {
+									if(!pointSetting.contains(route.getDestination().getUpNeigh()+":p"))
+										pointSetting.add(route.getDestination().getUpNeigh()+":p");
+											
+									}
+									}
+						
+							//for down direction
+							if((route.getDirection() == Direction.DOWN) && network.getBlock(route.getDestination().getDownNeigh()).getClass().equals(Point.class)) {
+								Point point=(Point) network.getBlock(route.getDestination().getDownNeigh());
+								//if the destination is a plus neighbour of the point, the setting has to be minus for protection
+								if(route.getDestination().getId()== point.getpNeigh()) {
+								if(!pointSetting.contains(route.getDestination().getDownNeigh()+":m"))
+									pointSetting.add(route.getDestination().getDownNeigh()+":m");
+								}
+								//if the destination is a minus neighbour of the point, the setting has to be plus for protection
+								if(route.getDestination().getId()== point.getmNeigh()) {
+									if(!pointSetting.contains(route.getDestination().getDownNeigh()+":p"))
+										pointSetting.add(route.getDestination().getDownNeigh()+":p");
+									}
+										
+									} 
+							
+							//to find a point if the route's direction UP
+							if((route.getDirection() == Direction.UP)) {
+							int j=route.getDestination().getUpNeigh();
+							while(network.getBlock(j)!= null && !network.getBlock(j).getClass().equals(Point.class)) {
+								//------
+								if(network.getBlock(j).getClass().equals(Section.class)) {
+									Section section=(Section) network.getBlock(j);
+									//----------------u
+									if(network.getBlock(section.getUpNeigh())!= null && network.getBlock(section.getUpNeigh()).getClass().equals(Point.class) ) {
+										Point point=(Point) network.getBlock(section.getUpNeigh());
+										//if the section is a plus neighbour of the point, the setting has to be minus for protection
+										if(network.getBlock(j).getId()== point.getpNeigh()) {
+										if(!pointSetting.contains(point.getId()+":m")) {
+											pointSetting.add(point.getId()+":m");
+											j=section.getUpNeigh();
+										}
+										
+									}
+										if(network.getBlock(j).getId()== point.getmNeigh()) {
+											if(!pointSetting.contains(point.getId()+":p")) {
+												pointSetting.add(point.getId()+":p");
+												j=section.getUpNeigh();
+											}
+								}
+								}else j=section.getUpNeigh();
+									}else if(network.getBlock(j).getClass().equals(Signal.class)) {
+										Signal signal=(Signal) network.getBlock(j);
+										if(network.getBlock(signal.getUpNeigh())!= null && network.getBlock(signal.getUpNeigh()).getClass().equals(Point.class)) {
+											Point point=(Point) network.getBlock(signal.getUpNeigh());
+											//if the section is a plus neighbour of the point, the setting has to be minus for protection
+											if(network.getBlock(j).getId()== point.getpNeigh()) {
+											if(!pointSetting.contains(point.getId()+":m")) {
+												pointSetting.add(point.getId()+":m");
+												j=signal.getUpNeigh();
+											}
+											
+										}
+											if(network.getBlock(j).getId()== point.getmNeigh()) {
+												if(!pointSetting.contains(point.getId()+":p")) {
+													pointSetting.add(point.getId()+":p");
+													j=signal.getUpNeigh();
+												}
+									}
+									}else j=signal.getUpNeigh();
+									}
+				
+							}
+					
+							}
+							
+							// from here for DOWN direction
+							//to find a point
+							if((route.getDirection() == Direction.DOWN)) {
+							int j=route.getDestination().getDownNeigh();
+							while(network.getBlock(j)!= null && !network.getBlock(j).getClass().equals(Point.class)) {
+								//------
+								if(network.getBlock(j).getClass().equals(Section.class)) {
+									Section section=(Section) network.getBlock(j);
+									//----------------
+									if(network.getBlock(section.getDownNeigh())!= null && network.getBlock(section.getDownNeigh()).getClass().equals(Point.class) ) {
+										Point point=(Point) network.getBlock(section.getDownNeigh());
+										//if the section is a plus neighbour of the point, the setting has to be minus for protection
+										if(network.getBlock(j).getId()== point.getpNeigh()) {
+										if(!pointSetting.contains(point.getId()+":m")) {
+											pointSetting.add(point.getId()+":m");
+											j=section.getDownNeigh();
+										}
+										
+									}
+										if(network.getBlock(j).getId()== point.getmNeigh()) {
+											if(!pointSetting.contains(point.getId()+":p")) {
+												pointSetting.add(point.getId()+":p");
+												j=section.getDownNeigh();
+											}
+								}
+								}else j=section.getDownNeigh();
+									}else if(network.getBlock(j).getClass().equals(Signal.class)) {
+										Signal signal=(Signal) network.getBlock(j);
+										if(network.getBlock(signal.getDownNeigh())!= null && network.getBlock(signal.getDownNeigh()).getClass().equals(Point.class)) {
+											Point point=(Point) network.getBlock(signal.getDownNeigh());
+											//if the section is a plus neighbour of the point, the setting has to be minus for protection
+											if(network.getBlock(j).getId()== point.getpNeigh()) {
+											if(!pointSetting.contains(point.getId()+":m")) {
+												pointSetting.add(point.getId()+":m");
+												j=signal.getDownNeigh();
+											}
+											
+										}
+											if(network.getBlock(j).getId()== point.getmNeigh()) {
+												if(!pointSetting.contains(point.getId()+":p")) {
+													pointSetting.add(point.getId()+":p");
+													j=signal.getDownNeigh();
+												}
+									}
+									}else j=signal.getDownNeigh();
+									}
+				
+							}
+					
+							}//----------------------------------------
+			this.routePointsSetting.put(currentRouteID, pointSetting);
+		}
+			return this.routePointsSetting;
+		}
+	//----------------	
+		
+		
+		
 
 	
 

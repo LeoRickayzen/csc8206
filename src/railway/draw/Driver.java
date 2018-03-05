@@ -42,7 +42,6 @@ public class Driver extends Application
             stage.setScene(scene);
             stage.setTitle("Railway");
             stage.show();
-            
         }
         catch (IOException e)
         {
