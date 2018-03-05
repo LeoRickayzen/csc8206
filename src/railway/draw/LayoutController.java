@@ -1,11 +1,8 @@
 package railway.draw;
 
-//import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -15,9 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import railway.file.RailwayFile;
 import railway.network.Network;
-import railway.validation.NetValidation;
 import railway.validation.ValidationException;
-//import sun.nio.ch.Net;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,6 +60,7 @@ public class LayoutController
 
     public void clear(ActionEvent actionEvent)
     {
+        visualRender.getChildren().clear();
         jsonFileOptions.getSelectionModel().clearSelection();
         entryBox.clear();
     }
@@ -73,6 +69,7 @@ public class LayoutController
     {
         if(!jsonFileOptions.getSelectionModel().isEmpty())
         {
+            visualRender.getChildren().clear();
             entryBox.clear();
             RailwayFile file = new RailwayFile("res/" + jsonFileOptions.getValue());
 
@@ -83,11 +80,11 @@ public class LayoutController
             }
             catch (ValidationException e)
             {
-                NetValidation.showErrorMessage(e, "Invalid Network");
+                Driver.showErrorMessage(e, "Invalid Network");
             }
             catch (IOException e)
             {
-                NetValidation.showErrorMessage(e, "Something has gone wrong");
+                Driver.showErrorMessage(e, "Something has gone wrong");
             }
         }
     }
@@ -98,6 +95,8 @@ public class LayoutController
 
         NetworkComp networkComp = renderer.draw();
 
+        visualRender.getChildren().clear();
+        
         visualRender.getChildren().addAll(networkComp);
 
     }

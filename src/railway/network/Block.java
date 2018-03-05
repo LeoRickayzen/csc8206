@@ -46,7 +46,7 @@ public class Block {
 
 	public Boolean hasNext(Boolean reverse){
 		return true;
-	};
+	}
 
 	public int getNext(Boolean reverse){
 		return 0;
