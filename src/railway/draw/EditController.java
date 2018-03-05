@@ -11,9 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import railway.file.RailwayFile;
 import railway.network.*;
-import railway.validation.NetValidation;
 import railway.validation.ValidationException;
-import railway.validation.ValidationInfo;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,6 +26,7 @@ public class EditController implements Initializable
     public Button addBtn;
     public AnchorPane anchorPane;
     public VBox controls;
+    public ComboBox pointSelection;
 
     EditController(LayoutController layoutController, Block block)
     {
@@ -40,6 +39,32 @@ public class EditController implements Initializable
     {
         controls.prefHeightProperty().bind(anchorPane.heightProperty());
         controls.prefWidthProperty().bind(anchorPane.widthProperty());
+
+        if (block instanceof Point)
+        {
+            Point p = (Point) block;
+            if (p.getmNeigh() != 0 || p.getpNeigh() != 0)
+            {
+                deleteBtn.setDisable(true);
+            }
+            pointSelection.setDisable(false);
+        }
+        else
+        {
+            addBtn.setDisable(false);
+        }
+    }
+
+    public void pointTypeChange(ActionEvent actionEvent)
+    {
+        if(!componentSelection.getSelectionModel().isEmpty() && !pointSelection.getSelectionModel().isEmpty())
+        {
+            addBtn.setDisable(false);
+        }
+        else
+        {
+            addBtn.setDisable(true);
+        }
     }
 
     public void delete(ActionEvent actionEvent)
@@ -80,7 +105,7 @@ public class EditController implements Initializable
         else if(parentBlock instanceof Point)
         {
             Point prevP = (Point)parentBlock;
-            if(prevP.getmNeigh() == parentBlock.getId())
+            if(prevP.getmNeigh() == block.getId())
             {
                 prevP.setmNeigh(0);
             }
@@ -118,13 +143,13 @@ public class EditController implements Initializable
                 layoutController.getNetwork().addSignalToNetwork(signal);
                 break;
         }
-        alterEndpoint(block, newId);
+        createNewEndpoint(block, newId);
         layoutController.render(actionEvent);
         Stage stage = (Stage) addBtn.getScene().getWindow();
         stage.close();
     }
 
-    private void alterEndpoint(Block b, int newEndpointId)
+    private void createNewEndpoint(Block b, int newEndpointId)
     {
         if(b instanceof Signal)
         {
@@ -139,7 +164,14 @@ public class EditController implements Initializable
         else if(b instanceof Point)
         {
             Point point = (Point)b;
-            //TODO: Which neighbour are we adding onto?
+            if(pointSelection.getSelectionModel().getSelectedItem().equals("Plus"))
+            {
+                point.setpNeigh(newEndpointId);
+            }
+            else if(pointSelection.getSelectionModel().getSelectedItem().equals("Minus"))
+            {
+                point.setmNeigh(newEndpointId);
+            }
         }
     }
 }

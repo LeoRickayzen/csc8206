@@ -9,9 +9,17 @@
 
 #renderBtn{
     -fx-pref-height: 50;
-    -fx-text-alignment: center;
 }
 
 #visualRender{
     -fx-background-color: black;
+}
+
+#networkEditorControls{
+    -fx-alignment: top-right;
+}
+
+#controls > *{
+    -fx-padding: 15;
+    -fx-spacing: 10;
 }

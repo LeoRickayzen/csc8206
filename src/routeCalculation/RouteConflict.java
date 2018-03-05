@@ -67,20 +67,22 @@ public class RouteConflict {
      * @return    all routes with all blocks on their path
      */
 	public HashMap<Integer,ArrayList<Integer>> calculatePath() {
-		for(int i = 0; i<routes.size(); i++) {
-		Route route = routes.get(i);
-		int currentRouteID=route.getRouteID();
-		ArrayList<Integer> path=new ArrayList<Integer>();
-				for(int blockID:routes.get(i).getBlocks()) {
-					//the path of the route is all the sections and points from source to destination
-						//checks if this block is of type section or point
-						if(network.getBlock(blockID).getClass().equals(Section.class) || (network.getBlock(blockID).getClass().equals(Point.class)) ) { 
-						if(!path.contains(blockID))
+		for (Route route : routes)
+		{
+			int currentRouteID = route.getRouteID();
+			ArrayList<Integer> path = new ArrayList<Integer>();
+			for (int blockID : route.getBlocks())
+			{
+				//the path of the route is all the sections and points from source to destination
+				//checks if this block is of type section or point
+				if (network.getBlock(blockID).getClass().equals(Section.class) || (network.getBlock(blockID).getClass().equals(Point.class)))
+				{
+					if (!path.contains(blockID))
 						path.add(blockID);
-						}
-					}
-				
-		routePath.put(currentRouteID, path);
+				}
+			}
+
+			routePath.put(currentRouteID, path);
 		}
 		return routePath;
 	}

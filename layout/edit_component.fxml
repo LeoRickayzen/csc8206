@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@stylesheets/style.css"
+            prefHeight="100.0" prefWidth="350.0"
+            fx:id="anchorPane">
+
+    <VBox fx:id="controls" alignment="CENTER">
+        <HBox alignment="CENTER">
+            <ComboBox fx:id="componentSelection">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:id="sectionOption" fx:value="Section" />
+                        <String fx:id="signalOption" fx:value="Signal" />
+                        <String fx:id="pointOption" fx:value="Point" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <ComboBox fx:id="pointSelection" disable="true" onAction="#pointTypeChange">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:id="plusOption" fx:value="Plus"/>
+                        <String fx:id="minusOption" fx:value="Minus"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <Button fx:id="addBtn" onAction="#add" text="Add Next" disable="true"/>
+        </HBox>
+        <Text>Or</Text>
+        <HBox alignment="CENTER">
+            <Button fx:id="deleteBtn" onAction="#delete" text="Delete Selected Item"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

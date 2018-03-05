@@ -12,8 +12,8 @@
 
     <HBox>
         <VBox fx:id="left">
-            <Pane fx:id="visualRender"></Pane>
-            <Pane fx:id="networkEditor"></Pane>
+            <Pane fx:id="visualRender">
+            </Pane>
         </VBox>
 
         <VBox fx:id="right">
@@ -22,6 +22,7 @@
                 <Button fx:id="clearBtn" text="Clear" onAction="#clear"/>
             </HBox>
             <TextArea fx:id="entryBox" editable="false"/>
+            <Button fx:id="editorToggle" text="Turn On Editor" onAction="#toggleEditor"/>
             <Button fx:id="renderBtn" text="Render" onAction="#render"/>
         </VBox>
     </HBox>

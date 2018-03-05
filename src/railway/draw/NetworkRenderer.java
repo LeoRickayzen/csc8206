@@ -69,7 +69,10 @@ public class NetworkRenderer {
     		//go to the last point in the list, and level from the upneighbor
         	Point nextPoint = points.get(points.size()-1);
         	points.remove(points.size()-1);
-            leveler(network.getBlock(nextPoint.getmNeigh()), nextPoint, nextPoint.isReverse(), nextPoint.getIndex()+1, network, level);
+        	if(nextPoint.getmNeigh() != 0)
+			{
+				leveler(network.getBlock(nextPoint.getmNeigh()), nextPoint, nextPoint.isReverse(), nextPoint.getIndex() + 1, network, level);
+			}
     	}	
     }
     
