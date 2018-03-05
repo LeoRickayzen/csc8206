@@ -8,7 +8,6 @@ import railway.network.Point;
 import railway.network.Section;
 import railway.network.Signal;
 
-import java.util.ArrayList;
 
 public class NetworkComp extends Group {
 	double gap = 50;
@@ -107,7 +106,7 @@ public class NetworkComp extends Group {
 				signal.setIndex(point.getIndex()-1);
 			}
 			double[] start = getCoords(signal.getLevel(), signal.getIndex());
-			Boolean reverse = signal.getDirection() == "DOWN";
+			Boolean reverse = signal.getDirection() == "down";
 			SignalComp signalComp = new SignalComp(start, reverse, signal.getId());
 			this.getChildren().add(signalComp);
 		}
