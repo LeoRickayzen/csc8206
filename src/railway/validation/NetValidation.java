@@ -40,6 +40,7 @@ public class NetValidation {
 		issues.addAll(ValidateSections(network));
 		issues.addAll(ValidateSignals(network));
 		issues.addAll(ValidateUniqueIds(network));
+		issues.addAll(ValidateUniqueNeighbours(network));
 		
 		//If there are no issues with the above checks, check that the whole network is connected.
 		if(issues.isEmpty()) {
@@ -97,34 +98,150 @@ public class NetValidation {
 	//Was gonna do some sort of mapping thing but thats hard when points have different neighbours than just up and down.
 	private static ArrayList<String> ValidateUniqueNeighbours(Network network){
 		ArrayList<String> issues = new ArrayList<String>();
-		HashMap<Integer, ArrayList<Integer>> sectionUp = new HashMap<Integer, ArrayList<Integer>>();
-		HashMap<Integer, ArrayList<Integer>> sectionDown = new HashMap<Integer, ArrayList<Integer>>();
+		HashMap<Integer, ArrayList<Integer>> upNeighbours = new HashMap<Integer, ArrayList<Integer>>();
+		HashMap<Integer, ArrayList<Integer>> downNeighbours = new HashMap<Integer, ArrayList<Integer>>();
 		
 		//For each section, add its ID to a list in a map where the key is the ID of the up/down neighbour
 		for(Section section : network.getSections()) {
 			ArrayList<Integer> blocksWithSameUp;
-			blocksWithSameUp = sectionUp.get(section.getUpNeigh());
+			blocksWithSameUp = upNeighbours.get(section.getUpNeigh());
 			if(blocksWithSameUp == null) {
 				blocksWithSameUp = new ArrayList<Integer>();
 			}
 			blocksWithSameUp.add(section.getId());
-			sectionUp.put(section.getUpNeigh(), blocksWithSameUp);
+			upNeighbours.put(section.getUpNeigh(), blocksWithSameUp);
 			
 			ArrayList<Integer> blocksWithSameDown;
-			blocksWithSameDown = sectionDown.get(section.getDownNeigh());
+			blocksWithSameDown = downNeighbours.get(section.getDownNeigh());
 			if(blocksWithSameDown == null) {
 				blocksWithSameDown = new ArrayList<Integer>();
 			}
 			blocksWithSameDown.add(section.getId());
-			sectionDown.put(section.getDownNeigh(), blocksWithSameDown);
+			downNeighbours.put(section.getDownNeigh(), blocksWithSameDown);
 		}
 		
-		for(Entry<Integer, ArrayList<Integer>> entry : sectionUp.entrySet()) {
+		//For each Signal, add its ID to a list in a map where the key is the ID of the up/down neighbour
+		for(Signal signal : network.getSignals()) {
+			ArrayList<Integer> blocksWithSameUp;
+			blocksWithSameUp = upNeighbours.get(signal.getUpNeigh());
+			if(blocksWithSameUp == null) {
+				blocksWithSameUp = new ArrayList<Integer>();
+			}
+			blocksWithSameUp.add(signal.getId());
+			upNeighbours.put(signal.getUpNeigh(), blocksWithSameUp);
+			
+			ArrayList<Integer> blocksWithSameDown;
+			blocksWithSameDown = downNeighbours.get(signal.getDownNeigh());
+			if(blocksWithSameDown == null) {
+				blocksWithSameDown = new ArrayList<Integer>();
+			}
+			blocksWithSameDown.add(signal.getId());
+			downNeighbours.put(signal.getDownNeigh(), blocksWithSameDown);
+		}
+		
+		for(Point point : network.getPoints()) {
+			ArrayList<Integer> blocksWithSameUp;
+			ArrayList<Integer> pointsWithSameUp2;
+			ArrayList<Integer> blocksWithSameDown;
+			ArrayList<Integer> pointsWithSameDown2;
+			if(point.getTravelDirection() == Direction.UP) {
+				//If point travel is up, the up neighbours are plus and minus.
+				blocksWithSameUp = upNeighbours.get(point.getmNeigh());
+				pointsWithSameUp2 = upNeighbours.get(point.getpNeigh());
+				
+				if(blocksWithSameUp == null) {
+					blocksWithSameUp = new ArrayList<Integer>();
+				}
+				
+				if(pointsWithSameUp2 == null) {
+					pointsWithSameUp2 = new ArrayList<Integer>();
+				}
+				
+				blocksWithSameUp.add(point.getId());
+				pointsWithSameUp2.add(point.getId());
+				
+				upNeighbours.put(point.getmNeigh(), blocksWithSameUp);
+				upNeighbours.put(point.getpNeigh(), pointsWithSameUp2);
+				
+				//If point travel is up, the down neighbour is main.
+				blocksWithSameDown = downNeighbours.get(point.getMainNeigh());
+				
+				if(blocksWithSameDown == null) {
+					blocksWithSameDown = new ArrayList<Integer>();
+				}
+				
+				blocksWithSameDown.add(point.getId());
+				
+				downNeighbours.put(point.getMainNeigh(), blocksWithSameDown);
+			}
+			else {
+				//Else if point travel is down, the up neigh is just the main.
+				blocksWithSameUp = upNeighbours.get(point.getMainNeigh());
+				
+				if(blocksWithSameUp == null) {
+					blocksWithSameUp = new ArrayList<Integer>();
+				}
+				
+				blocksWithSameUp.add(point.getId());
+				upNeighbours.put(point.getMainNeigh(), blocksWithSameUp);
+				
+				//Else if point travel is down, the down neighbours are plus and minus.
+				blocksWithSameDown = downNeighbours.get(point.getmNeigh());
+				pointsWithSameDown2 = downNeighbours.get(point.getpNeigh());
+				
+				if(blocksWithSameDown == null) {
+					blocksWithSameDown = new ArrayList<Integer>();
+				}
+				
+				if(pointsWithSameDown2 == null) {
+					pointsWithSameDown2 = new ArrayList<Integer>();
+				}
+				
+				blocksWithSameDown.add(point.getId());
+				pointsWithSameDown2.add(point.getId());
+				
+				downNeighbours.put(point.getmNeigh(), blocksWithSameDown);
+				downNeighbours.put(point.getpNeigh(), pointsWithSameDown2);
+			}
+		}
+		
+		//Validity check up up neighbours
+		for(Entry<Integer, ArrayList<Integer>> entry : upNeighbours.entrySet()) {
+			if(entry.getValue().size() >= 3 && entry.getKey() != 0) {
+				issues.add("Too many Blocks declare " + network.getBlock(entry.getKey()).getClass().getSimpleName() + " " + entry.getKey() + " as their up neighbour.\t" + entry.getValue());
+			}
+			if(entry.getValue().size() == 2 && entry.getKey() != 0) {
+				if(network.getBlock(entry.getKey()).getClass().equals(Point.class)) {
+					Point thisPoint = (Point)network.getBlock(entry.getKey());
+					if(thisPoint.getTravelDirection() != Direction.DOWN) {
+						//If its a point but direction isn't down
+						issues.add("Too many Blocks declare " + network.getBlock(entry.getKey()).getClass().getSimpleName() + " " + entry.getKey() + " as their up neighbour.\t" + entry.getValue());
+					}
+				}
+				else {
+					//not point
+					issues.add("Too many Blocks declare " + network.getBlock(entry.getKey()).getClass().getSimpleName() + " " + entry.getKey() + " as their up neighbour.\t" + entry.getValue());
+				}
+			}
+		}
+		
+		//Validity check on down neighbours
+		for(Entry<Integer, ArrayList<Integer>> entry : downNeighbours.entrySet()) {
 			if(entry.getValue().size() >= 3) {
-				issues.add("Too many Sections declare " + network.getBlock(entry.getKey()).getClass().getName() + entry.getKey() + " as their up neighbour.");
+				issues.add("Too many Blocks declare " + network.getBlock(entry.getKey()).getClass().getSimpleName() + " " + entry.getKey() + " as their down neighbour.\t" + entry.getValue());
 			}
 			if(entry.getValue().size() == 2) {
-				
+				if(network.getBlock(entry.getKey()).getClass().equals(Point.class)) {
+					Point thisPoint = (Point)network.getBlock(entry.getKey());
+					if(thisPoint.getTravelDirection() != Direction.UP) {
+						//If its a point but direction isn't up
+						issues.add("Too many Blocks declare " + network.getBlock(entry.getKey()).getClass().getSimpleName() + " " + entry.getKey() + " as their down neighbour.\t" + entry.getValue());
+					}
+				}
+				else {
+					//not point
+					issues.add("Too many Blocks declare " + network.getBlock(entry.getKey()).getClass().getSimpleName() + " " + entry.getKey() + " as their down neighbour.\t" + entry.getValue());
+				}
 			}
 		}
 		

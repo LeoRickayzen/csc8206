@@ -22,7 +22,6 @@ public class Point extends Block{
 		this.mNeigh=mNeigh;
 		this.pNeigh=pNeigh;
 		this.reverse=reverse;
-		this.travelDirection = (reverse ? Direction.DOWN : Direction.UP);
 	}
 
 	public boolean isPlus() {
@@ -55,6 +54,7 @@ public class Point extends Block{
 
 	public void setpNeigh(int pNeigh) {
 		this.pNeigh = pNeigh;
+		
 	}
 
 	public boolean isReverse() {
@@ -63,6 +63,7 @@ public class Point extends Block{
 
 	public void setReverse(boolean reverse) {
 		this.reverse = reverse;
+		this.travelDirection = (reverse ? Direction.DOWN : Direction.UP);
 	}
 	
 	public int getTopHeight() {
