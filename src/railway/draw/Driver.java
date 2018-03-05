@@ -72,6 +72,9 @@ public class Driver extends Application
             conflictList=rConflict.calculateConflictRoute();
             System.out.println("Conflict list: "+conflictList);
             
+            HashMap<Integer,ArrayList<String>> pointSetting=new HashMap<Integer,ArrayList<String>>(); 
+            pointSetting=rConflict.calculatePointsSetting();
+            System.out.println("point setting list: "+pointSetting);
             HashMap<Integer,ArrayList<Integer>> paths=new HashMap<Integer,ArrayList<Integer>>(); 
             paths=rConflict.calculatePath();
             System.out.println("path list: "+paths);
