@@ -2,6 +2,8 @@ package railway.network;
 
 import java.util.ArrayList;
 
+import railway.validation.NetValidation;
+
 public class Route {
 	private int routeID;
 	private Signal source;
@@ -22,12 +24,29 @@ public class Route {
 	 */
 	public Route(int routeID, int source, int destination, Network network) throws IllegalArgumentException {
 		this.routeID = routeID;
-		this.source = (Signal)network.getBlock(source);
-		this.destination = (Signal)network.getBlock(destination);
+		
+		if(NetValidation.isSignal(source, network)) {
+			this.source = (Signal)network.getBlock(source);
+		}
+		else {
+			throw new IllegalArgumentException("ID given for source of Route does not refer to a Signal in this Network.");
+		}
+		
+		if(NetValidation.isSignal(destination, network)) {
+			this.destination = (Signal)network.getBlock(destination);
+		}
+		else {
+			throw new IllegalArgumentException("ID given for destination of Route does not refer to a Signal in this Network.");
+		}
+		
 		this.network = network;
 		calculateRoute();
 		if(blocks == null) {
 			throw new IllegalArgumentException("No Route can be calculated from " + source + " to " + destination);
+		}
+		
+		if(!network.addRoute(this)) {
+			throw new IllegalArgumentException("A Route with this ID (" + routeID + ") already exists on this Network.");
 		}
 	}
 	
@@ -129,6 +148,10 @@ public class Route {
 					found = true;
 				}
 			}
+			if(nextNeighbour.getClass().equals(Section.class)) {
+				comeFrom = nextNeighbour.getId();
+				nextNeighbour = network.getBlock(getDirectionNeighbour((Section)nextNeighbour, direction));
+			}
 		}
 	}*/
 	
@@ -137,7 +160,6 @@ public class Route {
 	 */
 	public void calculateRoute() {
 		//Try looking down the network, if no route found, look up the network. If no routes are found either way, route will be null.	
-		System.out.println("source: " + source);
 		ArrayList<Integer> tempRoute = calcNextNeighbour(source, Direction.DOWN, 0, new ArrayList<>());
 		
 		if(tempRoute == null) {
@@ -161,7 +183,12 @@ public class Route {
 	 */
 	private ArrayList<Integer> calcNextNeighbour(Block previousNeighbour, Direction direction, int from, ArrayList<Integer> theOldRoute) {
 		ArrayList<Integer> theRoute = new ArrayList<>(theOldRoute);
-		System.out.println(previousNeighbour);
+		
+		//Stop the route going round in circles if there is a cyclic network.
+		if(theRoute.contains(previousNeighbour.getId())) {
+			return null;
+		}
+		
 		theRoute.add(previousNeighbour.getId());
 		
 		//If the prev neighbour is a Section

@@ -50,10 +50,12 @@ public class Signal extends Block{
 		this.downNeigh = downNeigh;
 	}
 
+	@JsonIgnore
 	public boolean isClear() {
 		return clear;
 	}
 
+	@JsonIgnore
 	public void setClear(boolean clear) {
 		this.clear = clear;
 	}

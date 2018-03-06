@@ -11,6 +11,7 @@ import railway.network.Block;
 import railway.network.Direction;
 import railway.network.Network;
 import railway.network.Point;
+import railway.network.Route;
 import railway.network.Section;
 import railway.network.Signal;
 
@@ -41,6 +42,7 @@ public class NetValidation {
 		issues.addAll(ValidateSignals(network));
 		issues.addAll(ValidateUniqueIds(network));
 		issues.addAll(ValidateUniqueNeighbours(network));
+		issues.addAll(ValidateNonCyclic(network));
 		
 		//If there are no issues with the above checks, check that the whole network is connected.
 		if(issues.isEmpty()) {
@@ -61,6 +63,23 @@ public class NetValidation {
 		}
 		
 		return vInfo;
+	}
+	
+	//TODO stack overflow occuring because route finding keeps going on the minus neigh when its trying to find a destination on a plus.
+	//This is when there is a cycle so it can't find the destination that would say it is a cycle.
+	//Maybe some note that you've already got to a point? If a block is already in the route go another way? Return null?
+	private static ArrayList<String> ValidateNonCyclic(Network network){
+		ArrayList<String> issues = new ArrayList<String>();
+		for(Signal signal : network.getSignals()) {
+			try {
+				Route route = new Route(-1, signal.getId(), signal.getId(), network);
+				issues.add("Network cannot be cyclical. Can create cyclic Route with Signal " + signal.getId());
+			}
+			catch(IllegalArgumentException e) {
+				//If there is an exception it means that the network isn't cyclical. This is good.
+			}
+		}
+		return issues;
 	}
 	
 	/**
@@ -227,10 +246,10 @@ public class NetValidation {
 		
 		//Validity check on down neighbours
 		for(Entry<Integer, ArrayList<Integer>> entry : downNeighbours.entrySet()) {
-			if(entry.getValue().size() >= 3) {
+			if(entry.getValue().size() >= 3 && entry.getKey() != 0) {
 				issues.add("Too many Blocks declare " + network.getBlock(entry.getKey()).getClass().getSimpleName() + " " + entry.getKey() + " as their down neighbour.\t" + entry.getValue());
 			}
-			if(entry.getValue().size() == 2) {
+			if(entry.getValue().size() == 2 && entry.getKey() != 0) {
 				if(network.getBlock(entry.getKey()).getClass().equals(Point.class)) {
 					Point thisPoint = (Point)network.getBlock(entry.getKey());
 					if(thisPoint.getTravelDirection() != Direction.UP) {
@@ -276,6 +295,17 @@ public class NetValidation {
 					if(network.getBlock(p.getMainNeigh()).getClass().equals(p.getClass())) {
 						pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "main neighbour can't be Point");
 					}
+					else {
+						//Check that Section is between Points on main neighbour.
+						Block nextBlock = network.getBlock(p.getMainNeigh());
+						while(!nextBlock.getClass().equals(Section.class)) {
+							if(nextBlock.getClass().equals(Point.class)) {
+								pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "there must be a Section between Points. Main neighbour.");
+								break;
+							}
+							nextBlock = network.getBlock(getDirectionNeighbour((Signal)nextBlock, p.getTravelDirection()));
+						}
+					}
 				}
 			}
 			
@@ -293,8 +323,26 @@ public class NetValidation {
 						pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "minus neighbour must be a Signal");
 					}
 					else {
+						//If the Signal neighbour is in the wrong direction, log issue.
 						if(((Signal)network.getBlock(p.getmNeigh())).getDirectionEnum().equals(p.getTravelDirection())){
 							pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "minus neighbour must be a Signal set to direction " + p.getTravelDirection().toggle());
+						}
+						else { //Check for Section between Points.
+							Signal signal = (Signal)network.getBlock(p.getmNeigh());
+							Block afterSignal = network.getBlock(getDirectionNeighbour(signal, p.getTravelDirection()));
+							switch(afterSignal.getClass().getSimpleName()) {
+							case "Signal": //(point, signal, signal)
+								//If the third neighbour (point, signal1, signal2, n3) is not a Section, log issue.
+								if(!network.getBlock(getDirectionNeighbour((Signal)afterSignal, p.getTravelDirection())).getClass().equals(Section.class)) {
+									pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "there must be a Section between Points. Minus neighbour.");
+								}
+								break;
+							case "Point": //(point, signal, point)
+								pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "there must be a Section between Points. Minus neighbour.");
+								break;
+							default:
+								break;
+							}
 						}
 					}
 				}
@@ -316,6 +364,23 @@ public class NetValidation {
 					else {
 						if(((Signal)network.getBlock(p.getpNeigh())).getDirectionEnum().equals(p.getTravelDirection())){
 							pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "plus neighbour must be a Signal set to direction " + p.getTravelDirection().toggle());
+						}
+						else {
+							Signal signal = (Signal)network.getBlock(p.getpNeigh());
+							Block afterSignal = network.getBlock(getDirectionNeighbour(signal, p.getTravelDirection()));
+							switch(afterSignal.getClass().getSimpleName()) {
+							case "Signal": //(point, signal, signal)
+								//If the third neighbour (point, signal1, signal2, n3) is not a Section, log issue.
+								if(!network.getBlock(getDirectionNeighbour((Signal)afterSignal, p.getTravelDirection())).getClass().equals(Section.class)) {
+									pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "there must be a Section between Points. Plus neighbour.");
+								}
+								break;
+							case "Point": //(point, signal, point)
+								pointIssues.add(p.getId() + "\t|\t" + "Point" + "\t|\t" + "there must be a Section between Points. Plus neighbour.");
+								break;
+							default:
+								break;
+							}
 						}
 					}
 				}
@@ -615,5 +680,18 @@ public class NetValidation {
 			return signal.getUpNeigh();
 		}
 		return signal.getDownNeigh();
+	}
+	
+	/**
+	 * <p>Return true if the given ID refers to a {@link Signal} in the given {@link Network}.</p>
+	 * @param id ID of block to check.
+	 * @param network Network to check in.
+	 * @return True if ID refers to a Signal. False if its not a Signal or if the ID is invalid.
+	 */
+	public static boolean isSignal(int id, Network network) {
+		if(network.getBlock(id) != null) {
+			return network.getBlock(id).getClass().equals(Signal.class);
+		}
+		return false;
 	}
 }
