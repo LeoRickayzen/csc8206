@@ -101,7 +101,7 @@ public class LayoutController implements Initializable
             }
             catch (IOException e)
             {
-                Driver.showErrorMessage(e, "Something has gone wrong");
+                Driver.showErrorMessage(e);
             }
         }
     }
@@ -124,7 +124,7 @@ public class LayoutController implements Initializable
             }
             else
             {
-                Driver.showErrorMessage(new ValidationException(networkValidation.toString()), "Validation Exception");
+                Driver.showErrorMessage(new ValidationException(networkValidation.toString()));
             }
         }
     }
@@ -157,12 +157,12 @@ public class LayoutController implements Initializable
                 }
                 else
                 {
-                    Driver.showErrorMessage(new ValidationException(networkValidation.toString()), "Invalid Network");
+                    Driver.showErrorMessage(new ValidationException(networkValidation.toString()));
                 }
             }
             catch (IOException e)
             {
-                Driver.showErrorMessage(e, "Could not save network file");
+                Driver.showErrorMessage(e);
             }
         }
         else

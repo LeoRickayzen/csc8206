@@ -1,7 +1,7 @@
 package railway.draw;
 
-import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -9,11 +9,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import railway.file.RailwayFile;
 import railway.network.*;
-import railway.validation.ValidationException;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,6 +24,7 @@ public class EditController implements Initializable
     public AnchorPane anchorPane;
     public VBox controls;
     public ComboBox pointSelection;
+    public ComboBox<String> secondarySelection;
 
     EditController(LayoutController layoutController, Block block)
     {
@@ -43,10 +41,47 @@ public class EditController implements Initializable
         if (block instanceof Point)
         {
             Point p = (Point) block;
-            if (p.getmNeigh() != 0 || p.getpNeigh() != 0)
+            if(!p.isReverse())
             {
-                deleteBtn.setDisable(true);
+                if (p.getmNeigh() != 0 || p.getpNeigh() != 0)
+                {
+                    deleteBtn.setDisable(true);
+                }
+                pointSelection.setDisable(false);
             }
+        }
+    }
+
+    public void typeSelected(ActionEvent actionEvent)
+    {
+        pointSelection.getSelectionModel().clearSelection();
+        secondarySelection.getSelectionModel().clearSelection();
+        pointSelection.setDisable(true);
+        secondarySelection.setDisable(true);
+        addBtn.setDisable(true);
+
+        if(componentSelection.getSelectionModel().getSelectedItem().equals("Reverse Point"))
+        {
+            pointSelection.setDisable(false);
+            secondarySelection.setDisable(false);
+
+            ObservableList<String> options = FXCollections.observableArrayList();
+
+            //List all possible
+            for (Signal s: layoutController.getNetwork().getSignals())
+            {
+                if(s.getUpNeigh() == 0 && s.getId()!=block.getId())
+                {
+                    options.add(String.valueOf(s.getId()));
+                }
+            }
+            secondarySelection.getItems().addAll(options);
+
+            pointSelection.setDisable(false);
+            secondarySelection.setDisable(false);
+        }
+        else if(componentSelection.getSelectionModel().getSelectedItem().equals("Point"))
+        {
             pointSelection.setDisable(false);
         }
         else
@@ -57,13 +92,25 @@ public class EditController implements Initializable
 
     public void pointTypeChange(ActionEvent actionEvent)
     {
-        if(!componentSelection.getSelectionModel().isEmpty() && !pointSelection.getSelectionModel().isEmpty())
+        addBtn.setDisable(true);
+
+        if(componentSelection.getSelectionModel().getSelectedItem().equals("Point") && !pointSelection.getSelectionModel().isEmpty())
         {
             addBtn.setDisable(false);
         }
-        else
+        else if(!pointSelection.getSelectionModel().isEmpty() && !secondarySelection.getSelectionModel().isEmpty())
         {
-            addBtn.setDisable(true);
+            addBtn.setDisable(false);
+        }
+    }
+
+    public void secondaryChange(ActionEvent actionEvent)
+    {
+        addBtn.setDisable(true);
+
+        if(!componentSelection.getSelectionModel().isEmpty() && !pointSelection.getSelectionModel().isEmpty() && !secondarySelection.getSelectionModel().isEmpty())
+        {
+            addBtn.setDisable(false);
         }
     }
 
@@ -79,7 +126,15 @@ public class EditController implements Initializable
         else if(block instanceof Point)
         {
             Point p = (Point)block;
-            doDelete(p.getMainNeigh());
+            if(p.isReverse())
+            {
+                doDelete(p.getmNeigh());
+                doDelete(p.getpNeigh());
+            }
+            else
+            {
+                doDelete(p.getMainNeigh());
+            }
             layoutController.getNetwork().removePointFromNetwork((Point)block);
         }
         else if(block instanceof Signal)
@@ -105,13 +160,19 @@ public class EditController implements Initializable
         else if(parentBlock instanceof Point)
         {
             Point prevP = (Point)parentBlock;
-            if(prevP.getmNeigh() == block.getId())
+            if(prevP.isReverse())
             {
-                prevP.setmNeigh(0);
+                prevP.setMainNeigh(0);
             }
             else
             {
-                prevP.setpNeigh(0);
+                if (prevP.getmNeigh() == block.getId())
+                {
+                    prevP.setmNeigh(0);
+                } else
+                {
+                    prevP.setpNeigh(0);
+                }
             }
         }
         else if(parentBlock instanceof Signal)
@@ -130,9 +191,21 @@ public class EditController implements Initializable
         {
             //TODO: Check constructor arguments
             case "Point":
-                //TODO: reverse points
                 Point point = new Point(newId, false, block.getId(), 0, 0, false);
                 layoutController.getNetwork().addPointToNetwork(point);
+                break;
+            case "Reverse Point":
+                Point reversePoint;
+                if(pointSelection.getSelectionModel().getSelectedItem().equals("Minus"))
+                {
+                    reversePoint = new Point(newId, false, 0, block.getId(), Integer.parseInt(secondarySelection.getSelectionModel().getSelectedItem()), true);
+                }
+                else
+                {
+                    reversePoint = new Point(newId, false, 0, Integer.parseInt(secondarySelection.getSelectionModel().getSelectedItem()), block.getId(), true);
+                }
+                createNewEndpoint(layoutController.getNetwork().getBlockById(Integer.parseInt(secondarySelection.getSelectionModel().getSelectedItem())), newId);
+                layoutController.getNetwork().addPointToNetwork(reversePoint);
                 break;
             case "Section":
                 Section section = new Section(newId, false, 0, block.getId());
@@ -164,13 +237,20 @@ public class EditController implements Initializable
         else if(b instanceof Point)
         {
             Point point = (Point)b;
-            if(pointSelection.getSelectionModel().getSelectedItem().equals("Plus"))
+            if(point.isReverse())
             {
-                point.setpNeigh(newEndpointId);
+                point.setMainNeigh(newEndpointId);
             }
-            else if(pointSelection.getSelectionModel().getSelectedItem().equals("Minus"))
+            else
             {
-                point.setmNeigh(newEndpointId);
+                if (pointSelection.getSelectionModel().getSelectedItem().equals("Plus"))
+                {
+                    point.setpNeigh(newEndpointId);
+                }
+                else if (pointSelection.getSelectionModel().getSelectedItem().equals("Minus"))
+                {
+                    point.setmNeigh(newEndpointId);
+                }
             }
         }
     }
