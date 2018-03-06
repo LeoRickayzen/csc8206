@@ -32,7 +32,7 @@ import java.io.IOException;
 
 public class Driver extends Application
 {
-    public void start(Stage stage) throws ValidationException
+    public void start(Stage stage)
     {
         try
         {
@@ -46,15 +46,15 @@ public class Driver extends Application
         }
         catch (IOException e)
         {
-            showErrorMessage(e, "Cannot load.");
+            showErrorMessage(e);
         }
     }
 
-    public static void showErrorMessage(Exception e, String header)
+    public static void showErrorMessage(Exception e)
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText(header);
+        alert.setHeaderText(e.getClass().getSimpleName());
         alert.setContentText(e.getMessage());
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
