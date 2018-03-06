@@ -7,7 +7,7 @@ import javafx.scene.text.Text;
 
 public class SignalComp extends Component {
 
-	int reverseConstant = 1;
+	double reverseConstant = 1;
 
     public SignalComp(double[] start, Boolean reverse, int id){
         
@@ -26,7 +26,7 @@ public class SignalComp extends Component {
         leftUp.setStrokeWidth(2);
         
         double labelx = start[0];
-        double labely = start[1] + 20;
+        double labely = start[1] + (reverseConstant*30);
         
         Text label = new Text();
         label.setText("s" + id);

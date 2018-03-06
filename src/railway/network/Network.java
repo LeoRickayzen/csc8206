@@ -179,6 +179,7 @@ public class Network {
 	 *
 	 * @return ArrayList of endpoint IDs.
 	 */
+	@JsonIgnore
 	public ArrayList<Integer> getEndpoints(){
 		ArrayList<Integer> endpoints = new ArrayList<Integer>();
 

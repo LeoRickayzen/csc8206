@@ -10,35 +10,35 @@
     {
       "id": 5,
       "clear": true,
-      "direction": "up",
+      "direction": "down",
       "upNeigh": 17,
       "downNeigh": 4
     },
     {
       "id": 6,
       "clear": true,
-      "direction": "up",
+      "direction": "down",
       "upNeigh": 14,
       "downNeigh": 4
     },
     {
       "id": 8,
       "clear": true,
-      "direction": "up",
+      "direction": "down",
       "upNeigh": 9,
       "downNeigh": 7
     },
     {
       "id": 10,
       "clear": true,
-      "direction": "up",
+      "direction": "down",
       "upNeigh": 11,
       "downNeigh": 7
     },
     {
       "id": 12,
       "clear": true,
-      "direction": "down",
+      "direction": "up",
       "upNeigh": 13,
       "downNeigh": 11
     },
@@ -119,10 +119,5 @@
       "pNeigh": 15,
       "reverse": true
     }
-  ],
-  "endpoints": [
-    1,
-    9,
-    16
   ]
 }

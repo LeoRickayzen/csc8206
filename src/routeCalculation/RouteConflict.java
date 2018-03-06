@@ -3,6 +3,7 @@ package routeCalculation;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import railway.network.Block;
 import railway.network.Direction;
 import railway.network.Network;
 import railway.network.Point;
@@ -50,11 +51,12 @@ public class RouteConflict {
 					//if currentRoute shares a part (Section or Point) of the path with secondRoute
 					if(secondRoute.getBlocks().contains(blockID)) {
 						//checks if this block is of type section or point
-						if(network.getBlock(blockID).getClass().equals(Section.class) || (network.getBlock(blockID).getClass().equals(Point.class)) ) { 
+					//	if(network.getBlock(blockID).getClass().equals(Section.class) || (network.getBlock(blockID).getClass().equals(Point.class)) ) { 
 						if(!conflicts.contains(secondRoute.getRouteID()))
 						conflicts.add(secondRoute.getRouteID());
 						break;
-						}
+						
+					//	}
 					}
 				}
 				
@@ -290,6 +292,130 @@ public class RouteConflict {
 								}
 								}
 						}
+						
+						//----------------------------
+						
+						//LOOK AFTER ROUTE(UP) DESTINATION AND GET EITHER FIRST SIGNAL(DOWN) OR FIRST POINT(DOWN)
+						//AND SET TO STOP/OTHER NEIGHBOUR.
+						boolean found = false;
+						Block nextNeighbour = network.getBlock(getDirectionNeighbour(route.getDestination(), route.getDirection()));
+						System.out.println(nextNeighbour);
+						System.out.println(route.getDestination());
+						System.out.println(route.getDirection());
+						System.out.println(getDirectionNeighbour(route.getDestination(), route.getDirection()));
+						int comeFrom = route.getDestination().getId();
+						while(!found) {
+							//If the next neighbour is a signal check if its the correct direction and if so set it to stop
+							if(nextNeighbour.getClass() !=null && nextNeighbour.getClass().equals(Signal.class)) {
+								Signal nextSignal = (Signal)nextNeighbour;
+								if(nextSignal.getDirectionEnum().equals(route.getDirection().toggle())) {
+									//nextSignal.setClear(false);
+									signalSetting.add(nextSignal.getId());
+									found = true;
+								}
+								else {
+									comeFrom = nextNeighbour.getId();
+									nextNeighbour = network.getBlock(getDirectionNeighbour(nextSignal, route.getDirection()));
+								}
+							}
+							
+							//If the next neighbour is a point
+							if(nextNeighbour.getClass().equals(Point.class)) {
+								Point nextPoint = (Point)nextNeighbour;
+								if(nextPoint.getTravelDirection().equals(route.getDirection().toggle())) {
+									if(nextPoint.getmNeigh() == comeFrom) {
+										nextPoint.setPlus(true);
+									}
+									else {
+										nextPoint.setPlus(false);
+									}
+									found = true;
+								}
+								else {
+									//If the point is in the same direction then just set the neighbouring signals to stop.
+									Signal mNeigh = (Signal)network.getBlock(nextPoint.getmNeigh());
+									Signal pNeigh = (Signal)network.getBlock(nextPoint.getpNeigh());
+									signalSetting.add(mNeigh.getId());
+									signalSetting.add(pNeigh.getId());
+								//	mNeigh.setClear(false);
+								//	pNeigh.setClear(false);
+									found = true;
+								}
+							}
+							if(nextNeighbour.getClass().equals(Section.class)) {
+								//---------
+								comeFrom = nextNeighbour.getId();
+								if(getDirectionNeighbour((Section) nextNeighbour, route.getDirection())!=0) {
+								nextNeighbour = network.getBlock(getDirectionNeighbour((Section) nextNeighbour, route.getDirection()));
+							
+							}else found=true;
+								}
+						}
+						
+						//--- for the source -----
+						//LOOK AFTER ROUTE(Down) Source AND GET EITHER FIRST SIGNAL(Up) OR FIRST POINT(Up)
+						//AND SET TO STOP/OTHER NEIGHBOUR.
+						boolean found1 = false;
+						Block nextNeighbour1 = network.getBlock(getDirectionNeighbour(route.getSource(), route.getDirection().toggle()));
+						System.out.println("-->"+nextNeighbour);
+						System.out.println("-->"+route.getSource());
+						System.out.println("-->"+route.getDirection().toggle());
+						System.out.println("-->"+getDirectionNeighbour(route.getSource(), route.getDirection().toggle()));
+						int comeFrom1 = route.getSource().getId();
+						while(!found1) {
+							//If the next neighbour is a signal check if its the correct direction and if so set it to stop
+							if(nextNeighbour1.getClass() !=null && nextNeighbour1.getClass().equals(Signal.class)) {
+								Signal nextSignal = (Signal)nextNeighbour1;
+								if(nextSignal.getDirectionEnum().equals(route.getDirection())) {
+									//nextSignal.setClear(false);
+									signalSetting.add(nextSignal.getId());
+									System.out.println("adding at a: " + nextSignal.getId());
+									found1 = true;
+								}
+								else {
+									comeFrom1 = nextNeighbour1.getId();
+									nextNeighbour1 = network.getBlock(getDirectionNeighbour(nextSignal, route.getDirection().toggle()));
+								}
+							}
+							
+							//If the next neighbour is a point
+							if(nextNeighbour1.getClass().equals(Point.class)) {
+								Point nextPoint = (Point)nextNeighbour1;
+								if( nextPoint.getTravelDirection().equals(route.getDirection())) {
+								//	nextNeighbour1  = network.getBlock(nextPoint.getMainNeigh());
+									found1=true;
+								}
+								else {
+									//If the point is in the same direction then just set the neighbouring signals to stop.
+									Signal mNeigh = (Signal)network.getBlock(nextPoint.getmNeigh());
+									Signal pNeigh = (Signal)network.getBlock(nextPoint.getpNeigh());
+									System.out.println("adding at b: " + mNeigh.getId());
+									System.out.println("adding at b: " + pNeigh.getId());
+									signalSetting.add(mNeigh.getId());
+									signalSetting.add(pNeigh.getId());
+									
+								//	mNeigh.setClear(false);
+								//	pNeigh.setClear(false);
+									found1 = true;
+								}
+							}
+							if(nextNeighbour1.getClass().equals(Section.class)) {
+								//---------
+								comeFrom1 = nextNeighbour1.getId();
+								if(getDirectionNeighbour((Section) nextNeighbour1, route.getDirection().toggle())!=0) {
+								nextNeighbour1 = network.getBlock(getDirectionNeighbour((Section) nextNeighbour1, route.getDirection().toggle()));
+							
+							}else found1=true;
+								}
+						}
+						
+						
+						
+						//---- End of the checking the source 
+					
+						
+						/*
+						//----------------------------
 						//---------------------- search after the destination from here
 						//to find a point if the route's direction UP
 						if((route.getDirection() == Direction.UP)) {
@@ -323,7 +449,7 @@ public class RouteConflict {
 			
 						}
 				
-						}//--
+						}//--*/
 						
 			routeSignal.put(currentRouteID,signalSetting);
 			}
@@ -331,10 +457,49 @@ public class RouteConflict {
 			
 		}//--------  
 		
-	//	public Signal findSignal(int BlockID) {
-			
-	//		return  ;
-	//	} 
+	
+		
+		/**
+		 * <p>Get the up or down neighbour of a Section, dependent on provide direction.</p>
+		 * 
+		 * @param section The Section to provide a neighbour of.
+		 * @param direction The direction of the desired neighbour.
+		 * @return an int ID of a neighbour.
+		 */
+		private int getDirectionNeighbour(Section section, Direction direction) {
+			if(direction == Direction.UP) {
+				return section.getUpNeigh();
+			}
+			return section.getDownNeigh();
+		}
+		
+		/**
+		 * <p>Get the up or down neighbour of a Signal, dependent on provide direction.</p>
+		 * 
+		 * @param signal The Signal to provide a neighbour of.
+		 * @param direction The direction of the desired neighbour.
+		 * @return an int ID of a neighbour.
+		 */
+		private int getDirectionNeighbour(Signal signal, Direction direction) {
+			if(direction == Direction.UP) {
+				return signal.getUpNeigh();
+			}
+			return signal.getDownNeigh();
+		}
+		
+		/**
+		 * <p>Get the up or down neighbour of a Signal, dependent on provide direction.</p>
+		 * 
+		 * @param signal The Signal to provide a neighbour of.
+		 * @param direction The direction of the desired neighbour.
+		 * @return an int ID of a neighbour.
+		 */
+		private int getDifferentDirectionNeighbour(Signal signal, Direction direction) {
+			if(direction == Direction.UP) {
+				return signal.getDownNeigh();
+			}
+			return signal.getUpNeigh();
+		}
 		
 }
 		

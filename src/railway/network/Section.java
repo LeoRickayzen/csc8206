@@ -1,5 +1,7 @@
 package railway.network;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Section extends Block{
 	
 	private boolean occupied;
@@ -32,10 +34,12 @@ public class Section extends Block{
 		this.downNeigh = downNeigh;
 	}
 
+	@JsonIgnore
 	public boolean isOccupied() {
 		return occupied;
 	}
 
+	@JsonIgnore
 	public void setOccupied(boolean occupied) {
 		this.occupied = occupied;
 	}
