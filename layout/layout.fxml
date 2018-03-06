@@ -16,19 +16,19 @@
             <VBox fx:id="journeyPane">
             	<TableView fx:id="conflictsTable">
             		<columns>
-            			<TableColumn text="Id">
+            			<TableColumn fx:id="idColumn" text="Id">
             			</TableColumn>
-            			<TableColumn text="Source">
+            			<TableColumn fx:id="sourceColumn" text="Source">
             			</TableColumn>
-            			<TableColumn text="Dest">
+            			<TableColumn fx:id="destColumn" text="Dest">
             			</TableColumn>
-            			<TableColumn text="Points">
+            			<TableColumn fx:id="pointsColumn" text="Points">
             			</TableColumn>
-            			<TableColumn text="Signals">
+            			<TableColumn fx:id="signalsColumn" text="Signals">
             			</TableColumn>
-            			<TableColumn text="Path">
+            			<TableColumn fx:id="pathColumn" text="Path">
             			</TableColumn>
-            			<TableColumn text="Conflicts">
+            			<TableColumn fx:id="conflictColumn" text="Conflicts">
             			</TableColumn>
             		</columns>
             	</TableView>
@@ -36,7 +36,7 @@
             		<TextField fx:id="idBox" promptText="id"/>
             		<TextField fx:id="sourceBox" promptText="source"/>
             		<TextField fx:id="destBox" promptText="destination"/>
-            		<Button text="Add"></Button>
+            		<Button text="Add" onAction="#addRow"></Button>
             	</HBox>
             </VBox>
         </VBox>

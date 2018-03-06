@@ -6,22 +6,29 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import railway.file.RailwayFile;
 import railway.network.Network;
+import railway.network.Route;
 import railway.validation.NetValidation;
 import railway.validation.ValidationException;
 import railway.validation.ValidationInfo;
+import routeCalculation.RouteConflict;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -36,13 +43,25 @@ public class LayoutController implements Initializable
     public AnchorPane anchorPane;
     public Button clearBtn;
     public Button renderBtn;
+    public HBox tableControls;
     public HBox entryBoxControl;
     public Button editorToggle;
     public TableView conflictsTable;
+    public TableColumn idColumn;
+    public TableColumn sourceColumn;
+    public TableColumn destColumn;
+    public TableColumn pointsColumn;
+    public TableColumn signalsColumn;
+    public TableColumn pathColumn;
+    public TableColumn conflictColumn;
+    public TextField idBox;
+    public TextField sourceBox;
+    public TextField destBox;
     private Network network;
     private boolean editorEnabled;
     private ValidationInfo networkValidation;
     private RailwayFile file;
+    private ArrayList<Route> routes = new ArrayList<Route>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -76,6 +95,52 @@ public class LayoutController implements Initializable
         editorToggle.prefWidthProperty().bind(right.widthProperty());
         journeyPane.prefWidthProperty().bind(left.widthProperty());
         journeyPane.prefHeightProperty().bind(anchorPane.heightProperty().multiply(0.33));
+        
+        idColumn.setCellValueFactory(
+        		new PropertyValueFactory<Row,String>("id")
+        );      
+        sourceColumn.setCellValueFactory(
+        		new PropertyValueFactory<Row,String>("source")
+        );    
+        destColumn.setCellValueFactory(
+        		new PropertyValueFactory<Row,String>("dest")
+        );     
+        pointsColumn.setCellValueFactory(
+        		new PropertyValueFactory<Row,String>("points")
+        );  
+        signalsColumn.setCellValueFactory(
+        		new PropertyValueFactory<Row,String>("signals")
+        );  
+        pathColumn.setCellValueFactory(
+        		new PropertyValueFactory<Row,String>("paths")
+        );  
+        conflictColumn.setCellValueFactory(
+        		new PropertyValueFactory<Row,String>("conflicts")
+        );  
+    }
+    
+    public void addRow(ActionEvent actionEvent)
+    {
+    	int id = Integer.parseInt(idBox.getText());
+    	int start = Integer.parseInt(sourceBox.getText());
+    	int dest = Integer.parseInt(destBox.getText());
+    	System.out.println("id: " + id);
+    	System.out.println("start: " + start);
+    	System.out.println("dest: " + dest);
+    	if(network.getBlock(start) != null && network.getBlock(dest) != null)
+    	{
+    		routes.add(new Route(id, start, dest, network));
+    	    RouteConflict conflicts = new RouteConflict(routes, network);
+    	    conflictsTable.getItems().clear();
+    	    HashMap<Integer, ArrayList<Integer>> conflictsList = conflicts.calculateConflictRoute();
+    	    for(Route route: routes){
+    	    	String conflictsString = "";
+    	    	for(int routeId : conflictsList.get(route.getRouteID())){
+        	    	conflictsString = conflictsString + String.valueOf(routeId);
+        	    }
+    	    	conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), "", "", "", conflictsString));
+    	    }
+    	}
     }
 
     public void clear(ActionEvent actionEvent)
