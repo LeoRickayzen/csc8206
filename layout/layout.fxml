@@ -13,6 +13,7 @@
     <HBox>
         <VBox fx:id="left">
             <Pane fx:id="visualRender">
+            <Pane fx:id="networkEditor"></Pane>
             </Pane>
         </VBox>
 

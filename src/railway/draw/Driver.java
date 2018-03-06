@@ -43,40 +43,6 @@ public class Driver extends Application
             stage.setTitle("Railway");
             stage.getIcons().add(new Image("file:layout/images/latest.png"));
             stage.show();
-            
-            RailwayFile testFile = new RailwayFile("res/testNetwork.json");
-            Network n2 = testFile.read();
-            
-            Route r1=new Route(1,2,15,n2);
-            Route r2=new Route(2,2,10,n2);
-            Route r3=new Route(3,2,8,n2);
-            Route r4=new Route(4,5,8,n2);
-            Route r5=new Route(5,6,15,n2);
-            
-            r1.calculateRoute();
-            System.out.println("r1 " + r1.getBlocks());
-            r2.calculateRoute();
-            System.out.println("r2 " + r2.getBlocks());
-            r3.calculateRoute();
-            System.out.println("r3 " + r3.getBlocks());
-            r4.calculateRoute();
-            System.out.println("r4 " + r4.getBlocks());
-            r5.calculateRoute();
-            System.out.println("r5 " + r5.getBlocks());
-            
-            ArrayList<Route> routeList= new ArrayList<>();
-            routeList.add(r1);
-            routeList.add(r2);
-            routeList.add(r3);
-            routeList.add(r4);
-            routeList.add(r5);
-            System.out.println("conflict stuff...");
-            RouteConflict rConflict=new RouteConflict(routeList,n2);
-            HashMap<Integer,ArrayList<Integer>> conflictList = rConflict.calculateConflictRoute();
-            System.out.println("Conflict list: "+conflictList);
-            
-            HashMap<Integer,ArrayList<Integer>> paths = rConflict.calculatePath();
-            System.out.println("path list: "+paths);
         }
         catch (IOException e)
         {
