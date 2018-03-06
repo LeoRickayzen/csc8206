@@ -17,8 +17,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import railway.file.RailwayFile;
+import railway.network.Block;
 import railway.network.Network;
 import railway.network.Route;
+import railway.network.Signal;
 import railway.validation.NetValidation;
 import railway.validation.ValidationException;
 import railway.validation.ValidationInfo;
@@ -129,17 +131,31 @@ public class LayoutController implements Initializable
     	System.out.println("dest: " + dest);
     	if(network.getBlock(start) != null && network.getBlock(dest) != null)
     	{
-    		routes.add(new Route(id, start, dest, network));
-    	    RouteConflict conflicts = new RouteConflict(routes, network);
-    	    conflictsTable.getItems().clear();
-    	    HashMap<Integer, ArrayList<Integer>> conflictsList = conflicts.calculateConflictRoute();
-    	    for(Route route: routes){
-    	    	String conflictsString = "";
-    	    	for(int routeId : conflictsList.get(route.getRouteID())){
-        	    	conflictsString = conflictsString + String.valueOf(routeId);
-        	    }
-    	    	conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), "", "", "", conflictsString));
-    	    }
+    		if(network.getBlock(start).getClass() == Signal.class && network.getBlock(dest).getClass() == Signal.class){
+    			try{
+    				routes.add(new Route(id, start, dest, network));
+            	    RouteConflict conflicts = new RouteConflict(routes, network);
+            	    conflictsTable.getItems().clear();
+            	    HashMap<Integer, ArrayList<Integer>> conflictsList = conflicts.calculateConflictRoute();
+            	    for(Route route: routes){
+            	    	String conflictsString = "";
+            	    	String journey = "";
+            	    	for(int block: route.getBlocks()){
+            	    		journey = journey + String.valueOf(block) + "-";
+            	    	}
+            	    	for(int routeId : conflictsList.get(route.getRouteID())){
+                	    	conflictsString = conflictsString + String.valueOf(routeId);
+                	    }
+            	    	conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), "", "", journey, conflictsString));
+            	    }
+    			}catch(Exception e){
+    				
+    			}
+    		}else{
+    			
+    		}
+    	}else{
+    		
     	}
     }
 
