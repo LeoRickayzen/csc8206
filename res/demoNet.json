@@ -47,7 +47,7 @@
       "clear": true,
       "direction": "up",
       "upNeigh": 13,
-      "downNeigh": 14
+      "downNeigh": 34
     },
     {
       "id": 18,
@@ -166,7 +166,7 @@
     },
     {
       "id": 14,
-      "upNeigh": 15,
+      "upNeigh": 25,
       "downNeigh": 6
     },
     {

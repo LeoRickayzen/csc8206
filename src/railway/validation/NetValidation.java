@@ -246,10 +246,10 @@ public class NetValidation {
 		
 		//Validity check on down neighbours
 		for(Entry<Integer, ArrayList<Integer>> entry : downNeighbours.entrySet()) {
-			if(entry.getValue().size() >= 3) {
+			if(entry.getValue().size() >= 3 && entry.getKey() != 0) {
 				issues.add("Too many Blocks declare " + network.getBlock(entry.getKey()).getClass().getSimpleName() + " " + entry.getKey() + " as their down neighbour.\t" + entry.getValue());
 			}
-			if(entry.getValue().size() == 2) {
+			if(entry.getValue().size() == 2 && entry.getKey() != 0) {
 				if(network.getBlock(entry.getKey()).getClass().equals(Point.class)) {
 					Point thisPoint = (Point)network.getBlock(entry.getKey());
 					if(thisPoint.getTravelDirection() != Direction.UP) {

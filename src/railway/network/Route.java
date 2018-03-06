@@ -48,7 +48,7 @@ public class Route {
 	
 	
 	//This is broken but it doesn't even matter. Saving so we can adapt into the real calc function.
-	
+	/*
 	public void doInterlocking() {
 		//For each Block along the Route
 		for(int i = 0; i < blocks.size(); i++) {
