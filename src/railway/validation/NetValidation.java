@@ -11,6 +11,7 @@ import railway.network.Block;
 import railway.network.Direction;
 import railway.network.Network;
 import railway.network.Point;
+import railway.network.Route;
 import railway.network.Section;
 import railway.network.Signal;
 
@@ -41,6 +42,7 @@ public class NetValidation {
 		issues.addAll(ValidateSignals(network));
 		issues.addAll(ValidateUniqueIds(network));
 		issues.addAll(ValidateUniqueNeighbours(network));
+		issues.addAll(ValidateNonCyclic(network));
 		
 		//If there are no issues with the above checks, check that the whole network is connected.
 		if(issues.isEmpty()) {
@@ -61,6 +63,23 @@ public class NetValidation {
 		}
 		
 		return vInfo;
+	}
+	
+	//TODO stack overflow occuring because route finding keeps going on the minus neigh when its trying to find a destination on a plus.
+	//This is when there is a cycle so it can't find the destination that would say it is a cycle.
+	//Maybe some note that you've already got to a point? If a block is already in the route go another way? Return null?
+	private static ArrayList<String> ValidateNonCyclic(Network network){
+		ArrayList<String> issues = new ArrayList<String>();
+		for(Signal signal : network.getSignals()) {
+			try {
+				Route route = new Route(-1, signal.getId(), signal.getId(), network);
+				issues.add("Network cannot be cyclical. Can create cyclic Route with Signal " + signal.getId());
+			}
+			catch(IllegalArgumentException e) {
+				//If there is an exception it means that the network isn't cyclical. This is good.
+			}
+		}
+		return issues;
 	}
 	
 	/**
