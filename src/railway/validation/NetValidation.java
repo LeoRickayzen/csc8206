@@ -681,4 +681,17 @@ public class NetValidation {
 		}
 		return signal.getDownNeigh();
 	}
+	
+	/**
+	 * <p>Return true if the given ID refers to a {@link Signal} in the given {@link Network}.</p>
+	 * @param id ID of block to check.
+	 * @param network Network to check in.
+	 * @return True if ID refers to a Signal. False if its not a Signal or if the ID is invalid.
+	 */
+	public static boolean isSignal(int id, Network network) {
+		if(network.getBlock(id) != null) {
+			return network.getBlock(id).getClass().equals(Signal.class);
+		}
+		return false;
+	}
 }

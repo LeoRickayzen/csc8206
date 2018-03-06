@@ -2,6 +2,8 @@ package railway.network;
 
 import java.util.ArrayList;
 
+import railway.validation.NetValidation;
+
 public class Route {
 	private int routeID;
 	private Signal source;
@@ -22,8 +24,21 @@ public class Route {
 	 */
 	public Route(int routeID, int source, int destination, Network network) throws IllegalArgumentException {
 		this.routeID = routeID;
-		this.source = (Signal)network.getBlock(source);
-		this.destination = (Signal)network.getBlock(destination);
+		
+		if(NetValidation.isSignal(source, network)) {
+			this.source = (Signal)network.getBlock(source);
+		}
+		else {
+			throw new IllegalArgumentException("ID given for source of Route does not refer to a Signal in this Network.");
+		}
+		
+		if(NetValidation.isSignal(destination, network)) {
+			this.destination = (Signal)network.getBlock(destination);
+		}
+		else {
+			throw new IllegalArgumentException("ID given for destination of Route does not refer to a Signal in this Network.");
+		}
+		
 		this.network = network;
 		calculateRoute();
 		if(blocks == null) {
@@ -33,7 +48,7 @@ public class Route {
 	
 	
 	//This is broken but it doesn't even matter. Saving so we can adapt into the real calc function.
-	/*
+	
 	public void doInterlocking() {
 		//For each Block along the Route
 		for(int i = 0; i < blocks.size(); i++) {
@@ -128,6 +143,10 @@ public class Route {
 					pNeigh.setClear(false);
 					found = true;
 				}
+			}
+			if(nextNeighbour.getClass().equals(Section.class)) {
+				comeFrom = nextNeighbour.getId();
+				nextNeighbour = network.getBlock(getDirectionNeighbour((Section)nextNeighbour, direction));
 			}
 		}
 	}*/

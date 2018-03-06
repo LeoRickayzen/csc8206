@@ -24,10 +24,12 @@ public class Point extends Block{
 		this.reverse=reverse;
 	}
 
+	@JsonIgnore
 	public boolean isPlus() {
 		return plus;
 	}
 
+	@JsonIgnore
 	public void setPlus(boolean plus) {
 		this.plus = plus;
 	}
