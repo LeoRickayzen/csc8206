@@ -44,6 +44,10 @@ public class Route {
 		if(blocks == null) {
 			throw new IllegalArgumentException("No Route can be calculated from " + source + " to " + destination);
 		}
+		
+		if(!network.addRoute(this)) {
+			throw new IllegalArgumentException("A Route with this ID (" + routeID + ") already exists on this Network.");
+		}
 	}
 	
 	

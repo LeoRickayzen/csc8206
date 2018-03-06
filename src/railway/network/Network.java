@@ -10,12 +10,14 @@ public class Network {
 	private ArrayList<Signal> signals;
 	private ArrayList<Section> sections;
 	private ArrayList<Point> points;
+	private ArrayList<Route> routes;
 
 	//Constructor
 	public Network() {
-		signals=new ArrayList<>();
-		sections=new ArrayList<>();
-		points=	new ArrayList<>();
+		signals = new ArrayList<>();
+		sections = new ArrayList<>();
+		points = new ArrayList<>();
+		routes = new ArrayList<>();
 		
 	}
 		
@@ -23,7 +25,8 @@ public class Network {
 	public Network(ArrayList<Signal> signals,ArrayList<Section> sections, ArrayList<Point> points) {
 		this.signals=signals;
 		this.sections=sections;
-		this.points=points;	
+		this.points=points;
+		routes = new ArrayList<>();
 	}
 	
 	/**
@@ -192,6 +195,32 @@ public class Network {
 		}
 
 		return endpoints;
+	}
+	
+	/**
+	 * <p>Returns a list of all the {@link Route Routes} created on this Network.</p>
+	 * 
+	 * @return List of Routes
+	 */
+	@JsonIgnore
+	public ArrayList<Route> getRoutes() {
+		return routes;
+	}
+	
+	/**
+	 * <p>Adds a new {@link Route} to the list of Routes in this Network, so long as its ID is unique.</p>
+	 * 
+	 * @param newRoute The Route to be added.
+	 * @return True if the Route has been added. False if a Route with that ID already exists in this Network.
+	 */
+	@JsonIgnore
+	public boolean addRoute(Route newRoute) {
+		for(Route route : routes) {
+			if(route.getRouteID() == newRoute.getRouteID()) {
+				return false;
+			}
+		}
+		return routes.add(newRoute);
 	}
 
 	public String toString()
