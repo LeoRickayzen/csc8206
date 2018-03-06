@@ -12,9 +12,33 @@
 
     <HBox>
         <VBox fx:id="left">
-            <Pane fx:id="visualRender">
-            <Pane fx:id="networkEditor"></Pane>
-            </Pane>
+            <Pane fx:id="visualRender"></Pane>
+            <VBox fx:id="journeyPane">
+            	<TableView fx:id="conflictsTable">
+            		<columns>
+            			<TableColumn text="Id">
+            			</TableColumn>
+            			<TableColumn text="Source">
+            			</TableColumn>
+            			<TableColumn text="Dest">
+            			</TableColumn>
+            			<TableColumn text="Points">
+            			</TableColumn>
+            			<TableColumn text="Signals">
+            			</TableColumn>
+            			<TableColumn text="Path">
+            			</TableColumn>
+            			<TableColumn text="Conflicts">
+            			</TableColumn>
+            		</columns>
+            	</TableView>
+            	<HBox fx:id="tableControls" spacing = "20">
+            		<TextField fx:id="idBox" promptText="id"/>
+            		<TextField fx:id="sourceBox" promptText="source"/>
+            		<TextField fx:id="destBox" promptText="destination"/>
+            		<Button text="Add"></Button>
+            	</HBox>
+            </VBox>
         </VBox>
 
         <VBox fx:id="right">

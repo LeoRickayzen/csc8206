@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
@@ -29,6 +30,7 @@ public class LayoutController implements Initializable
     public TextArea entryBox;
     public ComboBox<String> jsonFileOptions;
     public Pane visualRender;
+    public VBox journeyPane;
     public VBox left;
     public VBox right;
     public AnchorPane anchorPane;
@@ -36,6 +38,7 @@ public class LayoutController implements Initializable
     public Button renderBtn;
     public HBox entryBoxControl;
     public Button editorToggle;
+    public TableView conflictsTable;
     private Network network;
     private boolean editorEnabled;
     private ValidationInfo networkValidation;
@@ -66,11 +69,13 @@ public class LayoutController implements Initializable
         );
         left.prefWidthProperty().bind(anchorPane.widthProperty().subtract(right.prefWidthProperty()));
         visualRender.prefWidthProperty().bind(left.widthProperty());
-        visualRender.prefHeightProperty().bind(anchorPane.heightProperty());
+        visualRender.prefHeightProperty().bind(anchorPane.heightProperty().multiply(0.66));
         jsonFileOptions.prefWidthProperty().bind(entryBoxControl.widthProperty().multiply(0.7));
         clearBtn.prefWidthProperty().bind(entryBoxControl.widthProperty().multiply(0.3));
         renderBtn.prefWidthProperty().bind(right.widthProperty());
         editorToggle.prefWidthProperty().bind(right.widthProperty());
+        journeyPane.prefWidthProperty().bind(left.widthProperty());
+        journeyPane.prefHeightProperty().bind(anchorPane.heightProperty().multiply(0.33));
     }
 
     public void clear(ActionEvent actionEvent)
