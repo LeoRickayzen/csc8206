@@ -68,12 +68,12 @@ public class Component extends Group {
                 }
                 catch (IOException e)
                 {
-                    Driver.showErrorMessage(e, "Could not load editor.");
+                    Driver.showErrorMessage(e);
                 }
             }
             else
             {
-                Driver.showErrorMessage(new UnsupportedOperationException("Can only alter end points."), "Not Supported");
+                Driver.showErrorMessage(new UnsupportedOperationException("Can only alter end points."));
             }
         }
 

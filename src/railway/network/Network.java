@@ -215,6 +215,10 @@ public class Network {
 			{
 				endpoints.add(p.getId());
 			}
+			else if(p.isReverse() && p.getMainNeigh() == 0)
+			{
+				endpoints.add(p.getId());
+			}
 		}
 		for (Signal s: signals)
 		{
