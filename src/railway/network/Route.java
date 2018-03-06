@@ -137,7 +137,6 @@ public class Route {
 	 */
 	public void calculateRoute() {
 		//Try looking down the network, if no route found, look up the network. If no routes are found either way, route will be null.	
-		System.out.println("source: " + source);
 		ArrayList<Integer> tempRoute = calcNextNeighbour(source, Direction.DOWN, 0, new ArrayList<>());
 		
 		if(tempRoute == null) {
@@ -161,7 +160,12 @@ public class Route {
 	 */
 	private ArrayList<Integer> calcNextNeighbour(Block previousNeighbour, Direction direction, int from, ArrayList<Integer> theOldRoute) {
 		ArrayList<Integer> theRoute = new ArrayList<>(theOldRoute);
-		System.out.println(previousNeighbour);
+		
+		//Stop the route going round in circles if there is a cyclic network.
+		if(theRoute.contains(previousNeighbour.getId())) {
+			return null;
+		}
+		
 		theRoute.add(previousNeighbour.getId());
 		
 		//If the prev neighbour is a Section
