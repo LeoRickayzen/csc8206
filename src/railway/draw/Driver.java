@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import railway.file.RailwayFile;
 import railway.network.Network;
 import railway.network.Route;
+import railway.network.Signal;
 import routeCalculation.RouteConflict;
 import railway.validation.NetValidation;
 import railway.validation.ValidationException;
@@ -49,6 +50,18 @@ public class Driver extends Application
             Route r4=new Route(4,5,8,n2);
             Route r5=new Route(5,6,15,n2);
             
+            for(Signal s:n2.getSignals()) {
+            	if(s.getId()==12) {
+            	System.out.println("newtwork " + s.getId()+" "+s.getDirection());
+            	s.setDirection("down");
+            	System.out.println("newtwork " + s.getId()+" "+s.getDirection());
+            	}else {
+            		System.out.println("newtwork " + s.getId()+" "+s.getDirection());
+                	s.setDirection("up");
+                	System.out.println("newtwork " + s.getId()+" "+s.getDirection());
+            		
+            	}
+            }
             r1.calculateRoute();
             System.out.println("r1 " + r1.getBlocks());
             r2.calculateRoute();
@@ -77,6 +90,10 @@ public class Driver extends Application
             System.out.println("point setting list: "+pointSetting);
             HashMap<Integer,ArrayList<Integer>> paths=new HashMap<Integer,ArrayList<Integer>>(); 
             paths=rConflict.calculatePath();
+            
+           HashMap<Integer,ArrayList<Integer>> signals=new HashMap<Integer,ArrayList<Integer>>();
+           signals=rConflict.calculateSignal();
+            System.out.println("Signal setting list: "+signals);
 
           //HashMap<Integer,ArrayList<Integer>> paths = rConflict.calculatePath();
 

@@ -19,6 +19,8 @@ public class RouteConflict {
 	private HashMap<Integer,ArrayList<Integer>> routePath;
 	//key is a route ID and the value is a list of pointID+status (plus or minus)
 	private HashMap<Integer,ArrayList<String>> routePointsSetting;
+	//key is a route ID and the value is a list of blocks ID (Siganl that must set to STOP)
+	private HashMap<Integer,ArrayList<Integer>> routeSignal;
 	
 	//constructor
 	public RouteConflict(ArrayList<Route> routes,Network network) {
@@ -27,6 +29,7 @@ public class RouteConflict {
 		this.routesConflict=new HashMap<Integer,ArrayList<Integer>>(); 
 		this.routePath=new HashMap<Integer,ArrayList<Integer>>();
 		this.routePointsSetting=new HashMap<Integer,ArrayList<String>>();
+		this.routeSignal=new HashMap<Integer,ArrayList<Integer>>();
 	}
 	
 	/**
@@ -85,7 +88,7 @@ public class RouteConflict {
 		return routePath;
 	}
 	
-	// for calculating point setting for each routes
+	     // for calculating point setting for each routes
 		public HashMap<Integer,ArrayList<String>> calculatePointsSetting() {
 			for(int i = 0; i<routes.size(); i++) {
 			Route route = routes.get(i);
@@ -186,7 +189,7 @@ public class RouteConflict {
 				
 							}
 					
-							}
+							}//--
 							
 							// from here for DOWN direction
 							//to find a point
@@ -243,10 +246,103 @@ public class RouteConflict {
 			return this.routePointsSetting;
 		}
 	//----------------	
+		/**
+	     * calculate the Signal setting of all routes
+	     *
+	     * @return    all Signal that must set to STOP for all routes
+	    */
+		public HashMap<Integer,ArrayList<Integer>> calculateSignal() {
+			for(int i = 0; i<routes.size(); i++) {
+				Route route = routes.get(i);
+				//get the id of first route to calculate 'the Signal setting'
+				int currentRouteID=route.getRouteID();
+				ArrayList<Integer> signalSetting=new ArrayList<Integer>();
+				        //to find all Signal, that has an opposite direction, within the route's path
+						for(int blockID:routes.get(i).getBlocks()) {
+								//checks if this block is of type 'Signal'
+								if(network.getBlock(blockID).getClass().equals(Signal.class)) { 
+									Signal signal=(Signal) network.getBlock(blockID);
+									// if the signal has an opposite direction to the route direction, add this signal to the 'STOP' list
+								if(route.getDirection()== Direction.UP && signal.getDirection().equals("down")) {
+									signalSetting.add(blockID);
+								}else if(route.getDirection()== Direction.DOWN && signal.getDirection().equals("up")) {
+									signalSetting.add(blockID);
+								}
+						}
+								//if this block is point
+								//checks if this block is of type 'point'
+								if(network.getBlock(blockID).getClass().equals(Point.class)) { 
+									Point point=(Point) network.getBlock(blockID);
+									//if minus neighbour is not part of the route
+								if(!(routes.get(i).getBlocks().contains(point.getmNeigh()))) {
+								    if(network.getBlock(point.getmNeigh()).getClass().equals(Signal.class)) {
+								    	signalSetting.add(point.getmNeigh());
+								    }
+								}else if(!(routes.get(i).getBlocks().contains(point.getpNeigh()))) {
+									if(network.getBlock(point.getpNeigh()).getClass().equals(Signal.class)) {
+								    	signalSetting.add(point.getpNeigh());
+								    }
+								}else if(!(routes.get(i).getBlocks().contains(point.getMainNeigh()))) {
+									if(network.getBlock(point.getMainNeigh()).getClass().equals(Signal.class)) {
+								    	signalSetting.add(point.getMainNeigh());
+								    }
+									
+								}
+								}
+						}
+						//---------------------- search after the destination from here
+						//to find a point if the route's direction UP
+						if((route.getDirection() == Direction.UP)) {
+						int previous=route.getDestination().getId();	
+						int j=route.getDestination().getUpNeigh();
+						while(network.getBlock(j)!= null && !network.getBlock(j).getClass().equals(Signal.class)) {
+							//------
+							if(network.getBlock(j).getClass().equals(Section.class)) {
+								Section section=(Section) network.getBlock(j);
+								//----------------u
+								if(network.getBlock(section.getUpNeigh())!= null && network.getBlock(section.getUpNeigh()).getClass().equals(Signal.class) ) {
+									signalSetting.add(section.getUpNeigh());
+									j=section.getUpNeigh();
+								}else j=section.getUpNeigh();
+							
+								}else if(network.getBlock(j).getClass().equals(Point.class)) {
+									Point point=(Point) network.getBlock(j);
+									if(network.getBlock(point.getmNeigh())!= null && (previous!=point.getmNeigh()) && network.getBlock(point.getmNeigh()).getClass().equals(Signal.class)) {
+										signalSetting.add(point.getmNeigh());
+										j=point.getmNeigh();
+									}else if(network.getBlock(point.getpNeigh())!= null && (previous!=point.getpNeigh()) && network.getBlock(point.getpNeigh()).getClass().equals(Signal.class)) {
+										signalSetting.add(point.getpNeigh());
+										j=point.getpNeigh();
+									}else if(network.getBlock(point.getMainNeigh())!= null && (previous!=point.getMainNeigh()) && network.getBlock(point.getMainNeigh()).getClass().equals(Signal.class)) {
+										signalSetting.add(point.getMainNeigh());
+										j=point.getMainNeigh();
+									} else {
+										previous=point.getId();
+									}
+								}
+			
+						}
+				
+						}//--
+						
+			routeSignal.put(currentRouteID,signalSetting);
+			}
+			return routeSignal;
+			
+		}//--------  
+		
+	//	public Signal findSignal(int BlockID) {
+			
+	//		return  ;
+	//	} 
+		
+}
+		
+		
 		
 		
 		
 
 	
 
-}
+
