@@ -394,8 +394,7 @@ public class RouteConflict {
 									signalSetting.add(mNeigh.getId());
 									signalSetting.add(pNeigh.getId());
 									
-								//	mNeigh.setClear(false);
-								//	pNeigh.setClear(false);
+
 									found1 = true;
 								}
 							}
