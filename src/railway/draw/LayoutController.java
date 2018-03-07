@@ -123,51 +123,43 @@ public class LayoutController implements Initializable
     
     public void addRow(ActionEvent actionEvent)
     {
-    	int id = Integer.parseInt(idBox.getText());
-    	int start = Integer.parseInt(sourceBox.getText());
-    	int dest = Integer.parseInt(destBox.getText());
-    	System.out.println("id: " + id);
-    	System.out.println("start: " + start);
-    	System.out.println("dest: " + dest);
-    	if(network.getBlock(start) != null && network.getBlock(dest) != null)
-    	{
-    		if(network.getBlock(start).getClass() == Signal.class && network.getBlock(dest).getClass() == Signal.class){
-    			try{
-    				routes.add(new Route(id, start, dest, network));
-            	    RouteConflict conflicts = new RouteConflict(routes, network);
-            	    conflictsTable.getItems().clear();
-            	    HashMap<Integer, ArrayList<Integer>> conflictsList = conflicts.calculateConflictRoute();
-            	    for(int i = 0; i < routes.size(); i++){
-            	    //for(Route route: routes){
-            	    	Route route = routes.get(i);
-            	    	ArrayList<Integer> signals = conflicts.calculateSignal().get(route.getRouteID());
-            	    	ArrayList<String> points = conflicts.calculatePointsSetting().get(route.getRouteID());
-            	    	String conflictsString = "";
-            	    	String stopSignals = "";
-            	    	String pointSettings = "";
-            	    	String journey = "";
-            	    	for(int signal: signals){
-            	    		stopSignals = String.valueOf(signal) + ". ";
-            	    	}
-            	    	for(String point: points){
-            	    		pointSettings = point + ". ";
-            	    	}
-            	    	for(int block: route.getBlocks()){
-            	    		journey = journey + String.valueOf(block) + "-";
-            	    	}
-            	    	for(int routeId : conflictsList.get(route.getRouteID())){
-                	    	conflictsString = conflictsString + String.valueOf(routeId);
-                	    }
-            	    	conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), pointSettings, stopSignals, journey, conflictsString));
-            	    }
-    			}catch(Exception e){
-    				
-    			}
-    		}else{
-    			
-    		}
+    	if(!idBox.getText().isEmpty() && !sourceBox.getText().isEmpty() && !destBox.getText().isEmpty()){
+    		int id = Integer.parseInt(idBox.getText());
+        	int start = Integer.parseInt(sourceBox.getText());
+        	int dest = Integer.parseInt(destBox.getText());
+		    try{
+		    	routes.add(new Route(id, start, dest, network));
+		        RouteConflict conflicts = new RouteConflict(routes, network);
+		        conflictsTable.getItems().clear();
+		        HashMap<Integer, ArrayList<Integer>> conflictsList = conflicts.calculateConflictRoute();
+		        for(int i = 0; i < routes.size(); i++){
+		        //for(Route route: routes){
+		        	Route route = routes.get(i);
+		        	ArrayList<Integer> signals = conflicts.calculateSignal().get(route.getRouteID());
+		        	ArrayList<String> points = conflicts.calculatePointsSetting().get(route.getRouteID());
+		        	String conflictsString = "";
+		        	String stopSignals = "";
+		        	String pointSettings = "";
+		        	String journey = "";
+		        	for(int signal: signals){
+		        		stopSignals = String.valueOf(signal) + ". ";
+		        	}
+		        	for(String point: points){
+		        		pointSettings = point + ". ";
+		        	}
+		        	for(int block: route.getBlocks()){
+		        		journey = journey + String.valueOf(block) + "-";
+		        	}
+		        	for(int routeId : conflictsList.get(route.getRouteID())){
+		           	conflictsString = conflictsString + String.valueOf(routeId);
+		           }
+		        	conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), pointSettings, stopSignals, journey, conflictsString));
+		        }
+		    }catch(IllegalArgumentException e){
+		    	Driver.showErrorMessage(e);
+		    }
     	}else{
-    		
+	    	Driver.showErrorMessage(new Exception("All feilds must be filled"));
     	}
     }
 

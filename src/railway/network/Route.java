@@ -25,28 +25,32 @@ public class Route {
 	public Route(int routeID, int source, int destination, Network network) throws IllegalArgumentException {
 		this.routeID = routeID;
 		
-		if(NetValidation.isSignal(source, network)) {
-			this.source = (Signal)network.getBlock(source);
-		}
-		else {
-			throw new IllegalArgumentException("ID given for source of Route does not refer to a Signal in this Network.");
-		}
-		
-		if(NetValidation.isSignal(destination, network)) {
-			this.destination = (Signal)network.getBlock(destination);
-		}
-		else {
-			throw new IllegalArgumentException("ID given for destination of Route does not refer to a Signal in this Network.");
-		}
-		
-		this.network = network;
-		calculateRoute();
-		if(blocks == null) {
-			throw new IllegalArgumentException("No Route can be calculated from " + source + " to " + destination);
-		}
-		
-		if(!network.addRoute(this)) {
-			throw new IllegalArgumentException("A Route with this ID (" + routeID + ") already exists on this Network.");
+		if(network == null){
+			throw new IllegalArgumentException("must be a network for there to be a route");
+		}else{
+			if(network.getBlock(source) != null && NetValidation.isSignal(source, network)) {
+				this.source = (Signal)network.getBlock(source);
+			}
+			else {
+				throw new IllegalArgumentException("ID given for source of Route does not refer to a Signal in this Network.");
+			}
+			
+			if(network.getBlock(destination) != null && NetValidation.isSignal(destination, network)) {
+				this.destination = (Signal)network.getBlock(destination);
+			}
+			else {
+				throw new IllegalArgumentException("ID given for destination of Route does not refer to a Signal in this Network.");
+			}
+			
+			this.network = network;
+			calculateRoute();
+			if(blocks == null) {
+				throw new IllegalArgumentException("No Route can be calculated from " + source + " to " + destination);
+			}
+			
+			if(!network.addRoute(this)) {
+				throw new IllegalArgumentException("A Route with this ID (" + routeID + ") already exists on this Network.");
+			}
 		}
 	}
 	

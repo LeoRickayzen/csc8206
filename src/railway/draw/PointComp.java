@@ -28,9 +28,20 @@ public class PointComp extends Component {
     private Point point;
 
     public PointComp(double[] start, double[] upper, double[] lower, Boolean reverse, Point point, LayoutController layoutController){
-    	
+    	 	
     	super(point.getId(), point, layoutController);
-
+    	
+    	Color upperColor = null;
+    	Color lowerColor = null;
+    	
+    	if(point.isPlus()){
+        	upperColor = Color.RED;
+        	lowerColor = Color.GREEN;
+    	}else{
+        	upperColor = Color.GREEN;
+        	lowerColor = Color.RED;
+    	}
+    	
     	this.point = point;
 
     	this.setStart(start);
@@ -39,7 +50,7 @@ public class PointComp extends Component {
         Line upperLine = new Line();
         Line lowerLine = new Line();
         
-        upperLine.setStroke(Color.RED);
+        upperLine.setStroke(upperColor);
         upperLine.setStrokeWidth(5);
         upperLine.setStrokeLineCap(StrokeLineCap.ROUND);
         upperLine.setStartX(start[0]);
@@ -47,7 +58,7 @@ public class PointComp extends Component {
         upperLine.setEndX(upper[0]);
         upperLine.setEndY(upper[1]);
         
-        lowerLine.setStroke(Color.RED);
+        lowerLine.setStroke(lowerColor);
         lowerLine.setStrokeWidth(5);
         lowerLine.setStrokeLineCap(StrokeLineCap.ROUND);
         lowerLine.setStartX(start[0]);

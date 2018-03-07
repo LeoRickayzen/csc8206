@@ -1,6 +1,8 @@
 package railway.file;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import railway.network.Network;
 import railway.validation.NetValidation;
 import railway.validation.ValidationException;
@@ -42,7 +44,8 @@ public class RailwayFile extends File
      */
     public void write(Network network) throws IOException
     {
-        mapper.writerWithDefaultPrettyPrinter().writeValue(getAbsoluteFile(), network);
+    	mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.writer().writeValue(getAbsoluteFile(), network);
     }
 
     public String readJson() throws IOException

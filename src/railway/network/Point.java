@@ -23,13 +23,11 @@ public class Point extends Block{
 		this.pNeigh=pNeigh;
 		this.reverse=reverse;
 	}
-
-	@JsonIgnore
+	
 	public boolean isPlus() {
 		return plus;
 	}
 
-	@JsonIgnore
 	public void setPlus(boolean plus) {
 		this.plus = plus;
 	}
