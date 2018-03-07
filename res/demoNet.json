@@ -2,147 +2,126 @@
   "signals": [
     {
       "id": 2,
-      "clear": true,
       "direction": "down",
       "upNeigh": 3,
       "downNeigh": 1
     },
     {
       "id": 5,
-      "clear": true,
       "direction": "down",
       "upNeigh": 17,
       "downNeigh": 4
     },
     {
       "id": 6,
-      "clear": true,
       "direction": "down",
       "upNeigh": 14,
       "downNeigh": 4
     },
     {
       "id": 8,
-      "clear": true,
       "direction": "down",
       "upNeigh": 9,
       "downNeigh": 7
     },
     {
       "id": 10,
-      "clear": true,
       "direction": "down",
       "upNeigh": 11,
       "downNeigh": 7
     },
     {
       "id": 12,
-      "clear": true,
       "direction": "up",
       "upNeigh": 13,
       "downNeigh": 11
     },
     {
       "id": 15,
-      "clear": true,
       "direction": "up",
       "upNeigh": 13,
       "downNeigh": 34
     },
     {
       "id": 18,
-      "clear": true,
       "direction": "up",
       "upNeigh": 19,
       "downNeigh": 9
     },
     {
       "id": 22,
-      "clear": true,
       "direction": "down",
       "upNeigh": 29,
       "downNeigh": 21
     },
     {
       "id": 23,
-      "clear": true,
       "direction": "down",
       "upNeigh": 40,
       "downNeigh": 21
     },
     {
       "id": 24,
-      "clear": true,
       "direction": "up",
       "upNeigh": 19,
       "downNeigh": 37
     },
     {
       "id": 25,
-      "clear": true,
       "direction": "up",
       "upNeigh": 26,
       "downNeigh": 14
     },
     {
       "id": 27,
-      "clear": true,
       "direction": "up",
       "upNeigh": 26,
       "downNeigh": 28
     },
     {
       "id": 31,
-      "clear": true,
       "direction": "up",
       "upNeigh": 30,
       "downNeigh": 29
     },
     {
       "id": 32,
-      "clear": true,
       "direction": "up",
       "upNeigh": 30,
       "downNeigh": 33
     },
     {
       "id": 35,
-      "clear": true,
       "direction": "down",
       "upNeigh": 33,
       "downNeigh": 36
     },
     {
       "id": 38,
-      "clear": true,
       "direction": "down",
       "upNeigh": 39,
       "downNeigh": 36
     },
     {
       "id": 41,
-      "clear": true,
       "direction": "down",
       "upNeigh": 37,
       "downNeigh": 42
     },
     {
       "id": 42,
-      "clear": true,
       "direction": "up",
       "upNeigh": 41,
       "downNeigh": 43
     },
     {
       "id": 44,
-      "clear": true,
       "direction": "down",
       "upNeigh": 43,
       "downNeigh": 45
     },
     {
       "id": 46,
-      "clear": true,
       "direction": "down",
       "upNeigh": 47,
       "downNeigh": 45
@@ -171,7 +150,7 @@
     },
     {
       "id": 9,
-      "upNeigh": 0,
+      "upNeigh": 18,
       "downNeigh": 8
     },
     {
