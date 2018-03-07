@@ -9,9 +9,18 @@
 
 #renderBtn{
     -fx-pref-height: 50;
-    -fx-text-alignment: center;
 }
 
 #visualRender{
     -fx-background-color: black;
+    /*-fx-background-image: url("https://vignette.wikia.nocookie.net/ttte/images/d/d6/MainThomasCGI2.png/revision/latest?cb=20180130081706");*/
+}
+
+#networkEditorControls{
+    -fx-alignment: top-right;
+}
+
+#controls > *{
+    -fx-padding: 15;
+    -fx-spacing: 10;
 }

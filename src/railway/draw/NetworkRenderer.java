@@ -3,6 +3,7 @@ package railway.draw;
 import railway.network.Block;
 import railway.network.Network;
 import railway.network.Point;
+import railway.network.Signal;
 
 import java.util.ArrayList;
 
@@ -69,7 +70,10 @@ public class NetworkRenderer {
     		//go to the last point in the list, and level from the upneighbor
         	Point nextPoint = points.get(points.size()-1);
         	points.remove(points.size()-1);
-            leveler(network.getBlock(nextPoint.getmNeigh()), nextPoint, nextPoint.isReverse(), nextPoint.getIndex()+1, network, level);
+        	if(nextPoint.getmNeigh() != 0)
+			{
+				leveler(network.getBlock(nextPoint.getmNeigh()), nextPoint, nextPoint.isReverse(), nextPoint.getIndex() + 1, network, level);
+			}
     	}	
     }
     
@@ -108,11 +112,25 @@ public class NetworkRenderer {
     		//if the next block is a reverse block where the route will travel down the minus branch of the point, dont set the level, but set the top level to be this level
     		if(!(isPoint(network.getBlock(block.getNext(backwards))) && ((Point)network.getBlock(block.getNext(backwards))).getmNeigh() == block.getId())){
 		     	Block nextBlock = network.getBlock(block.getNext(backwards));
+		     	if(nextBlock.getClass() == Signal.class && block.getClass() == Signal.class){
+		     		if(backwards){
+		        		index = index + 1;
+		    		}else{
+		    			index = index - 1;
+		    		}
+		     	}
 		     	setLevels(nextBlock, backwards, index, level, dontlevel);
 		    }else{
 		    	((Point)(network.getBlock(block.getNext(backwards)))).setTopLevel(level);
 		    	dontlevel = true;
 		    	Block nextBlock = network.getBlock(block.getNext(backwards));
+		    	if(nextBlock.getClass() == Signal.class && block.getClass() == Signal.class){
+		     		if(backwards){
+		        		index = index + 1;
+		    		}else{
+		    			index = index - 1;
+		    		}
+		     	}
 		     	setLevels(nextBlock, backwards, index, level, dontlevel);
 		    }
     	}
@@ -123,10 +141,13 @@ public class NetworkRenderer {
      * 
      * @return	drawing of the network
      */
-    public NetworkComp draw(){
+    public NetworkComp draw(LayoutController layoutController){
         leveler(network.getFirst(), null, false, 0, network, 0);
-        NetworkComp netComp = new NetworkComp();
-        netComp.plot(network);
+        NetworkComp netComp = new NetworkComp(
+                100,
+                layoutController.anchorPane.heightProperty().divide(2).doubleValue()
+        );
+        netComp.plot(network, layoutController);
         return netComp;
     }
     
