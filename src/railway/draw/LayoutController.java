@@ -137,16 +137,28 @@ public class LayoutController implements Initializable
             	    RouteConflict conflicts = new RouteConflict(routes, network);
             	    conflictsTable.getItems().clear();
             	    HashMap<Integer, ArrayList<Integer>> conflictsList = conflicts.calculateConflictRoute();
-            	    for(Route route: routes){
+            	    for(int i = 0; i < routes.size(); i++){
+            	    //for(Route route: routes){
+            	    	Route route = routes.get(i);
+            	    	ArrayList<Integer> signals = conflicts.calculateSignal().get(route.getRouteID());
+            	    	ArrayList<String> points = conflicts.calculatePointsSetting().get(route.getRouteID());
             	    	String conflictsString = "";
+            	    	String stopSignals = "";
+            	    	String pointSettings = "";
             	    	String journey = "";
+            	    	for(int signal: signals){
+            	    		stopSignals = String.valueOf(signal) + ". ";
+            	    	}
+            	    	for(String point: points){
+            	    		pointSettings = point + ". ";
+            	    	}
             	    	for(int block: route.getBlocks()){
             	    		journey = journey + String.valueOf(block) + "-";
             	    	}
             	    	for(int routeId : conflictsList.get(route.getRouteID())){
                 	    	conflictsString = conflictsString + String.valueOf(routeId);
                 	    }
-            	    	conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), "", "", journey, conflictsString));
+            	    	conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), pointSettings, stopSignals, journey, conflictsString));
             	    }
     			}catch(Exception e){
     				

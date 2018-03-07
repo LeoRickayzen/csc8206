@@ -3,6 +3,7 @@ package railway.draw;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import railway.network.Block;
+import railway.network.Direction;
 import railway.network.Network;
 import railway.network.Point;
 import railway.network.Section;
@@ -109,7 +110,7 @@ public class NetworkComp extends Group {
 				signal.setIndex(point.getIndex()-1);
 			}
 			double[] start = getCoords(signal.getLevel(), signal.getIndex());
-			Boolean reverse = signal.getDirection() == "down";
+			Boolean reverse = signal.getDirectionEnum() == Direction.DOWN;
 			SignalComp signalComp = new SignalComp(start, reverse, signal, layoutController);
 			this.getChildren().add(signalComp);
 		}
