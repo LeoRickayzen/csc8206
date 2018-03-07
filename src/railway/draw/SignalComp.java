@@ -41,7 +41,7 @@ public class SignalComp extends Component {
         leftUp.setStrokeWidth(2);
         
         double labelx = start[0];
-        double labely = start[1] + 20;
+        double labely = start[1] + (reverseConstant*30);
         
         Text label = new Text();
         label.setText("s" + signal.getId());

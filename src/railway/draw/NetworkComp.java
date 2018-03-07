@@ -8,10 +8,9 @@ import railway.network.Point;
 import railway.network.Section;
 import railway.network.Signal;
 
-import java.util.ArrayList;
 
 public class NetworkComp extends Group {
-	double gap = 50;
+	double gap = 70;
 	double xstart = 100;
 	double ystart = 300;
     
@@ -99,7 +98,7 @@ public class NetworkComp extends Group {
 			System.out.println("id: " + point.getId() + "start: " + start[0] + ',' + start[1] + "upper: " + upper[0] + ',' + upper[1] + "lower: " + lower[0] + ',' + lower[1]);
 		}
 		for(Signal signal: network.getSignals()){
-			//if signal has down neighbor that is a point set the index to be the point index+1
+			//if signal has down neighbor that is a point, set the index to be the point index+1
 			if(signal.getDownNeigh() != 0 && network.getBlock(signal.getDownNeigh()).getClass() == Point.class){
 				Point point = (Point)(network.getBlock(signal.getDownNeigh()));
 				signal.setIndex(point.getIndex()+1);
@@ -110,7 +109,7 @@ public class NetworkComp extends Group {
 				signal.setIndex(point.getIndex()-1);
 			}
 			double[] start = getCoords(signal.getLevel(), signal.getIndex());
-			Boolean reverse = signal.getDirection() == "DOWN";
+			Boolean reverse = signal.getDirection() == "down";
 			SignalComp signalComp = new SignalComp(start, reverse, signal, layoutController);
 			this.getChildren().add(signalComp);
 		}

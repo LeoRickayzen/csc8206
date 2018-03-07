@@ -1,147 +1,123 @@
 {
-  "signals" : [ {
-    "id" : 2,
-    "level" : 1,
-    "index" : 1,
-    "clear" : true,
-    "upNeigh" : 3,
-    "downNeigh" : 1
-  }, {
-    "id" : 5,
-    "level" : 2,
-    "index" : 4,
-    "clear" : true,
-    "upNeigh" : 17,
-    "downNeigh" : 4
-  }, {
-    "id" : 6,
-    "level" : 1,
-    "index" : 4,
-    "clear" : true,
-    "upNeigh" : 14,
-    "downNeigh" : 4
-  }, {
-    "id" : 10,
-    "level" : 2,
-    "index" : 7,
-    "clear" : true,
-    "upNeigh" : 11,
-    "downNeigh" : 7
-  }, {
-    "id" : 12,
-    "level" : 2,
-    "index" : 9,
-    "clear" : true,
-    "upNeigh" : 13,
-    "downNeigh" : 11
-  }, {
-    "id" : 15,
-    "level" : 1,
-    "index" : 9,
-    "clear" : true,
-    "upNeigh" : 13,
-    "downNeigh" : 14
-  }, {
-    "id" : 18,
-    "level" : 3,
-    "index" : 7,
-    "clear" : true,
-    "upNeigh" : 19,
-    "downNeigh" : 7
-  }, {
-    "id" : 20,
-    "level" : 3,
-    "index" : 9,
-    "clear" : true,
-    "upNeigh" : 21,
-    "downNeigh" : 19
-  } ],
-  "sections" : [ {
-    "id" : 1,
-    "level" : 1,
-    "index" : 0,
-    "occupied" : false,
-    "upNeigh" : 2,
-    "downNeigh" : 0
-  }, {
-    "id" : 3,
-    "level" : 1,
-    "index" : 2,
-    "occupied" : false,
-    "upNeigh" : 4,
-    "downNeigh" : 2
-  }, {
-    "id" : 17,
-    "level" : 2,
-    "index" : 5,
-    "occupied" : false,
-    "upNeigh" : 7,
-    "downNeigh" : 5
-  }, {
-    "id" : 14,
-    "level" : 1,
-    "index" : 5,
-    "occupied" : false,
-    "upNeigh" : 15,
-    "downNeigh" : 6
-  }, {
-    "id" : 11,
-    "level" : 2,
-    "index" : 8,
-    "occupied" : false,
-    "upNeigh" : 12,
-    "downNeigh" : 10
-  }, {
-    "id" : 16,
-    "level" : 1,
-    "index" : 11,
-    "occupied" : false,
-    "upNeigh" : 0,
-    "downNeigh" : 13
-  }, {
-    "id" : 19,
-    "level" : 3,
-    "index" : 8,
-    "occupied" : false,
-    "upNeigh" : 20,
-    "downNeigh" : 18
-  }, {
-    "id" : 21,
-    "level" : 3,
-    "index" : 10,
-    "occupied" : false,
-    "upNeigh" : 0,
-    "downNeigh" : 20
-  } ],
-  "points" : [ {
-    "id" : 4,
-    "level" : 1,
-    "index" : 3,
-    "plus" : true,
-    "mainNeigh" : 3,
-    "mNeigh" : 5,
-    "pNeigh" : 6,
-    "reverse" : false,
-    "topHeight" : 2
-  }, {
-    "id" : 7,
-    "level" : 2,
-    "index" : 6,
-    "plus" : true,
-    "mainNeigh" : 17,
-    "mNeigh" : 18,
-    "pNeigh" : 10,
-    "reverse" : false,
-    "topHeight" : 3
-  }, {
-    "id" : 13,
-    "level" : 1,
-    "index" : 10,
-    "plus" : true,
-    "mainNeigh" : 16,
-    "mNeigh" : 12,
-    "pNeigh" : 15,
-    "reverse" : true,
-    "topHeight" : 2
-  } ]
+  "signals": [
+    {
+      "id": 2,
+      "clear": true,
+      "direction": "down",
+      "upNeigh": 3,
+      "downNeigh": 1
+    },
+    {
+      "id": 5,
+      "clear": true,
+      "direction": "down",
+      "upNeigh": 17,
+      "downNeigh": 4
+    },
+    {
+      "id": 6,
+      "clear": true,
+      "direction": "down",
+      "upNeigh": 14,
+      "downNeigh": 4
+    },
+    {
+      "id": 8,
+      "clear": true,
+      "direction": "down",
+      "upNeigh": 9,
+      "downNeigh": 7
+    },
+    {
+      "id": 10,
+      "clear": true,
+      "direction": "down",
+      "upNeigh": 11,
+      "downNeigh": 7
+    },
+    {
+      "id": 12,
+      "clear": true,
+      "direction": "up",
+      "upNeigh": 13,
+      "downNeigh": 11
+    },
+    {
+      "id": 15,
+      "clear": true,
+      "direction": "up",
+      "upNeigh": 13,
+      "downNeigh": 14
+    }
+  ],
+  "sections": [
+    {
+      "id": 1,
+      "occupied": false,
+      "upNeigh": 2,
+      "downNeigh": 0
+    },
+    {
+      "id": 3,
+      "occupied": false,
+      "upNeigh": 4,
+      "downNeigh": 2
+    },
+    {
+      "id": 17,
+      "occupied": false,
+      "upNeigh": 7,
+      "downNeigh": 5
+    },
+    {
+      "id": 14,
+      "occupied": false,
+      "upNeigh": 15,
+      "downNeigh": 6
+    },
+    {
+      "id": 9,
+      "occupied": false,
+      "upNeigh": 0,
+      "downNeigh": 8
+    },
+    {
+      "id": 11,
+      "occupied": false,
+      "upNeigh": 12,
+      "downNeigh": 10
+    },
+    {
+      "id": 16,
+      "occupied": false,
+      "upNeigh": 0,
+      "downNeigh": 13
+    }
+  ],
+  "points": [
+    {
+      "id": 4,
+      "plus": true,
+      "mainNeigh": 3,
+      "mNeigh": 5,
+      "pNeigh": 6,
+      "reverse": false
+    },
+    {
+      "id": 7,
+      "plus": true,
+      "mainNeigh": 17,
+      "mNeigh": 8,
+      "pNeigh": 10,
+      "reverse": false
+    },
+    {
+      "id": 13,
+      "plus": true,
+      "mainNeigh": 16,
+      "mNeigh": 12,
+      "pNeigh": 15,
+      "reverse": true
+    }
+  ]
 }

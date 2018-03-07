@@ -8,11 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import railway.file.RailwayFile;
-import railway.network.Network;
-import railway.network.Route;
-import routeCalculation.RouteConflict;
-import railway.validation.NetValidation;
+
+
 import railway.validation.ValidationException;
 
 import java.io.File;
@@ -25,6 +22,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.io.File;
 import java.io.IOException;
+
 
 /**
  * Driver class.
