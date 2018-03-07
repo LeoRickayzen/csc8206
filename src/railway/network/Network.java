@@ -223,6 +223,76 @@ public class Network {
 		return routes.add(newRoute);
 	}
 
+	/**
+	 * Used by editor to find any end point regardless of type
+	 * @return array list of endpoint ids
+	 */
+    @JsonIgnore
+    public ArrayList<Integer> getUpEndpoints(){
+		ArrayList<Integer> endpoints = new ArrayList<Integer>();
+
+		//For each section
+		for(Section s : sections) {
+			//If up neighbour is null
+			if(s.getUpNeigh() == 0) {
+				endpoints.add(s.getId());
+			}
+		}
+		for (Point p: points)
+		{
+			if(p.getmNeigh() == 0 || p.getpNeigh() == 0)
+			{
+				endpoints.add(p.getId());
+			}
+			else if(p.isReverse() && p.getMainNeigh() == 0)
+			{
+				endpoints.add(p.getId());
+			}
+		}
+		for (Signal s: signals)
+		{
+			if(s.getUpNeigh() == 0)
+			{
+				endpoints.add(s.getId());
+			}
+		}
+
+		return endpoints;
+	}
+
+	/**
+	 * <p>Returns the next available ID through auto incrementing.</p>
+	 *
+	 * @return int of last ID + 1.
+	 */
+	@JsonIgnore
+	public Integer getNextId(){
+	    int max = 0;
+		for(Block b : new ArrayList<Block>(){{addAll(points); addAll(sections); addAll(signals);}}) {
+			if(b.getId() > max)
+            {
+                max = b.getId();
+            }
+		}
+
+		return max + 1;
+	}
+
+	/**
+	 * <p>Returns the next available ID through auto incrementing.</p>
+	 *
+	 * @return int of last ID + 1 or null if not found.
+	 */
+	@JsonIgnore
+	public Block getBlockById(int id){
+		for(Block b : new ArrayList<Block>(){{addAll(points); addAll(sections); addAll(signals);}}) {
+			if(b.getId() == id){
+			    return b;
+            }
+		}
+		return null;
+	}
+
 	public String toString()
     {
         return "Points: " + this.getPoints().size() + ", Sections: " + this.getSections().size() + ", Signals: " + this.getSignals().size();

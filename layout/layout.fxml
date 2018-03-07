@@ -13,7 +13,32 @@
     <HBox>
         <VBox fx:id="left">
             <Pane fx:id="visualRender"></Pane>
-            <Pane fx:id="networkEditor"></Pane>
+            <VBox fx:id="journeyPane">
+            	<TableView fx:id="conflictsTable">
+            		<columns>
+            			<TableColumn fx:id="idColumn" text="Id">
+            			</TableColumn>
+            			<TableColumn fx:id="sourceColumn" text="Source">
+            			</TableColumn>
+            			<TableColumn fx:id="destColumn" text="Dest">
+            			</TableColumn>
+            			<TableColumn fx:id="pointsColumn" text="Points">
+            			</TableColumn>
+            			<TableColumn fx:id="signalsColumn" text="Signals">
+            			</TableColumn>
+            			<TableColumn fx:id="pathColumn" text="Path">
+            			</TableColumn>
+            			<TableColumn fx:id="conflictColumn" text="Conflicts">
+            			</TableColumn>
+            		</columns>
+            	</TableView>
+            	<HBox fx:id="tableControls" spacing = "20">
+            		<TextField fx:id="idBox" promptText="id"/>
+            		<TextField fx:id="sourceBox" promptText="source"/>
+            		<TextField fx:id="destBox" promptText="destination"/>
+            		<Button text="Add" onAction="#addRow"></Button>
+            	</HBox>
+            </VBox>
         </VBox>
 
         <VBox fx:id="right">
@@ -22,6 +47,7 @@
                 <Button fx:id="clearBtn" text="Clear" onAction="#clear"/>
             </HBox>
             <TextArea fx:id="entryBox" editable="false"/>
+            <Button fx:id="editorToggle" text="Turn On Editor" onAction="#toggleEditor"/>
             <Button fx:id="renderBtn" text="Render" onAction="#render"/>
         </VBox>
     </HBox>

@@ -17,9 +17,12 @@ import java.io.*;
 
 public class RailwayFile extends File
 {
+    private ObjectMapper mapper;
+
     public RailwayFile(String s)
     {
         super(s);
+        mapper = new ObjectMapper();
     }
 
     /**
@@ -27,19 +30,9 @@ public class RailwayFile extends File
      *
      * @return Network the network object
      */
-    public Network read() throws IOException, ValidationException
+    public Network read() throws IOException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        Network n = mapper.readValue(this.getAbsoluteFile(), Network.class);
-        ValidationInfo networkValidation = NetValidation.Validate(n);
-        if(networkValidation.isValid())
-        {
-            return n;
-        }
-        else
-        {
-            throw new ValidationException(networkValidation.toString());
-        }
+        return mapper.readValue(getAbsoluteFile(), Network.class);
     }
 
     /**
@@ -49,13 +42,12 @@ public class RailwayFile extends File
      */
     public void write(Network network) throws IOException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writerWithDefaultPrettyPrinter().writeValue(this.getAbsoluteFile(), network);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(getAbsoluteFile(), network);
     }
 
     public String readJson() throws IOException
     {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(this.getAbsoluteFile()));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(getAbsoluteFile()));
 
         String line;
         StringBuilder sb = new StringBuilder("");
