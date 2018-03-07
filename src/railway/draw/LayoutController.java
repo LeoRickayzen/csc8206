@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -38,6 +39,7 @@ public class LayoutController implements Initializable
 {
     public TextArea entryBox;
     public ComboBox<String> jsonFileOptions;
+    public ScrollPane visualRenderParent;
     public Pane visualRender;
     public VBox journeyPane;
     public VBox left;
@@ -89,8 +91,10 @@ public class LayoutController implements Initializable
                 .subtract(editorToggle.heightProperty())
         );
         left.prefWidthProperty().bind(anchorPane.widthProperty().subtract(right.prefWidthProperty()));
-        visualRender.prefWidthProperty().bind(left.widthProperty());
-        visualRender.prefHeightProperty().bind(anchorPane.heightProperty().multiply(0.66));
+        visualRender.minWidthProperty().bind(left.widthProperty());
+        visualRender.minHeightProperty().bind(anchorPane.heightProperty().multiply(0.66));
+        visualRenderParent.prefWidthProperty().bind(left.widthProperty());
+        visualRenderParent.prefHeightProperty().bind(anchorPane.heightProperty().multiply(0.66));
         jsonFileOptions.prefWidthProperty().bind(entryBoxControl.widthProperty().multiply(0.7));
         clearBtn.prefWidthProperty().bind(entryBoxControl.widthProperty().multiply(0.3));
         renderBtn.prefWidthProperty().bind(right.widthProperty());

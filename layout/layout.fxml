@@ -12,7 +12,9 @@
 
     <HBox>
         <VBox fx:id="left">
-            <Pane fx:id="visualRender"></Pane>
+            <ScrollPane fx:id="visualRenderParent">
+            	<Pane fx:id="visualRender"></Pane>
+            </ScrollPane>
             <VBox fx:id="journeyPane">
             	<TableView fx:id="conflictsTable">
             		<columns>
