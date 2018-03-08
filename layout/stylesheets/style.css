@@ -13,6 +13,7 @@
 
 #visualRender{
     -fx-background-color: black;
+    -fx-padding: 50;
     /*-fx-background-image: url("https://vignette.wikia.nocookie.net/ttte/images/d/d6/MainThomasCGI2.png/revision/latest?cb=20180130081706");*/
 }
 
