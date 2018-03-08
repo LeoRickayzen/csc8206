@@ -122,11 +122,13 @@ public class LayoutController implements Initializable
     
     public void addRow(ActionEvent actionEvent)
     {
-    	if(!idBox.getText().isEmpty() && !sourceBox.getText().isEmpty() && !destBox.getText().isEmpty()){
+    	if(!idBox.getText().isEmpty() && !sourceBox.getText().isEmpty() && !destBox.getText().isEmpty())
+    	{
     		int id = Integer.parseInt(idBox.getText());
         	int start = Integer.parseInt(sourceBox.getText());
         	int dest = Integer.parseInt(destBox.getText());
-		    try{
+		    try
+		    {
 		    	routes.add(new Route(id, start, dest, network));
 		        RouteConflict conflicts = new RouteConflict(routes, network);
 		        conflictsTable.getItems().clear();
@@ -145,7 +147,7 @@ public class LayoutController implements Initializable
                     }
                     for (String point : points)
                     {
-                        pointSettings = point + ". ";
+                        pointSettings = pointSettings + point + ". ";
                     }
                     for (int block : route.getBlocks())
                     {
