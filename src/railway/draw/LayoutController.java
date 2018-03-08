@@ -11,17 +11,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import railway.file.RailwayFile;
-import railway.network.Block;
 import railway.network.Network;
 import railway.network.Route;
-import railway.network.Signal;
 import railway.validation.NetValidation;
 import railway.validation.ValidationException;
 import railway.validation.ValidationInfo;
@@ -127,17 +124,19 @@ public class LayoutController implements Initializable
     
     public void addRow(ActionEvent actionEvent)
     {
-    	if(!idBox.getText().isEmpty() && !sourceBox.getText().isEmpty() && !destBox.getText().isEmpty()){
+    	if(!idBox.getText().isEmpty() && !sourceBox.getText().isEmpty() && !destBox.getText().isEmpty())
+    	{
     		int id = Integer.parseInt(idBox.getText());
         	int start = Integer.parseInt(sourceBox.getText());
         	int dest = Integer.parseInt(destBox.getText());
-		    try{
+		    try
+		    {
 		    	routes.add(new Route(id, start, dest, network));
 		        RouteConflict conflicts = new RouteConflict(routes, network);
 		        conflictsTable.getItems().clear();
 		        HashMap<Integer, ArrayList<Integer>> conflictsList = conflicts.calculateConflictRoute();
-		        for(int i = 0; i < routes.size(); i++){
-		        //for(Route route: routes){
+		        for(int i = 0; i < routes.size(); i++)
+		        {
 		        	Route route = routes.get(i);
 		        	ArrayList<Integer> signals = conflicts.calculateSignal().get(route.getRouteID());
 		        	ArrayList<String> points = conflicts.calculatePointsSetting().get(route.getRouteID());
@@ -145,18 +144,22 @@ public class LayoutController implements Initializable
 		        	String stopSignals = "";
 		        	String pointSettings = "";
 		        	String journey = "";
-		        	for(int signal: signals){
+		        	for(int signal: signals)
+		        	{
 		        		stopSignals = String.valueOf(signal) + ". ";
 		        	}
-		        	for(String point: points){
-		        		pointSettings = point + ". ";
+		        	for(String point: points)
+		        	{
+		        		System.out.println("PPPPP: " + point);
+		        		pointSettings = pointSettings + point + ". ";
 		        	}
-		        	for(int block: route.getBlocks()){
+		        	for(int block: route.getBlocks())
+		        	{
 		        		journey = journey + String.valueOf(block) + "-";
 		        	}
 		        	for(int routeId : conflictsList.get(route.getRouteID())){
-		           	conflictsString = conflictsString + String.valueOf(routeId);
-		           }
+		        		conflictsString = conflictsString + String.valueOf(routeId);
+		            }
 		        	conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), pointSettings, stopSignals, journey, conflictsString));
 		        }
 		    }catch(IllegalArgumentException e){
