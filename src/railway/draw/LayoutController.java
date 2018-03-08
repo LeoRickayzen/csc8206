@@ -139,7 +139,7 @@ public class LayoutController implements Initializable
                     ArrayList<String> points = conflicts.calculatePointsSetting().get(route.getRouteID());
                     StringBuilder conflictsString = new StringBuilder();
                     String stopSignals = "";
-                    String pointSettings = "";
+                    StringBuilder pointSettings = new StringBuilder();
                     StringBuilder journey = new StringBuilder();
                     for (int signal : signals)
                     {
@@ -147,7 +147,7 @@ public class LayoutController implements Initializable
                     }
                     for (String point : points)
                     {
-                        pointSettings = pointSettings + point + ". ";
+                        pointSettings.append(point).append(". ");
                     }
                     for (int block : route.getBlocks())
                     {
@@ -157,7 +157,7 @@ public class LayoutController implements Initializable
                     {
                         conflictsString.append(String.valueOf(routeId));
                     }
-                    conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), pointSettings, stopSignals, journey.toString(), conflictsString.toString()));
+                    conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), pointSettings.toString(), stopSignals, journey.toString(), conflictsString.toString()));
                 }
 		    }catch(IllegalArgumentException e){
 		    	Driver.showErrorMessage(e);
@@ -238,6 +238,11 @@ public class LayoutController implements Initializable
             try
             {
                 render(actionEvent);
+
+                if (networkValidation == null)
+                {
+                    networkValidation = NetValidation.Validate(network);
+                }
 
                 if(networkValidation.isValid())
                 {
