@@ -1,9 +1,12 @@
 package railway.network;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Signal extends Block{
 
 	private boolean clear;               
-	private String direction;      
+	private Direction direction;      
 	private int upNeigh;       
 	private int downNeigh;
 	
@@ -11,15 +14,35 @@ public class Signal extends Block{
 		
 	}
 	
-	// the constructor	
-	public Signal(int id, boolean clear, String direction, int upNeigh, int downNeigh) {
+	// the constructor
+
+	public Signal(@JsonProperty("id") int id, @JsonProperty("clear") boolean clear, @JsonProperty("direction") String direction, @JsonProperty("upNeigh") int upNeigh, @JsonProperty("downNeigh") int downNeigh) {
 		super(id);
 		this.clear=clear;
-		this.direction=direction;
+		this.direction=Direction.valueOf(direction.toUpperCase());
 		this.upNeigh=upNeigh;
 		this.downNeigh=downNeigh;
 	}
 
+/*
+	public Signal(int id, boolean clear, String direction, int upNeigh, int downNeigh) {
+		super(id);
+		this.clear=clear;
+		this.direction=Direction.valueOf(direction.toUpperCase());
+		this.upNeigh=upNeigh;
+		this.downNeigh=downNeigh;
+	}
+*/
+	/**
+	 * <p>Getter for direction to be used for everything but JSON.</p>
+	 * 
+	 * @return Enum of Direction
+	 */
+	@JsonIgnore
+	public Direction getDirectionEnum() {
+		return direction;
+	}
+	
 	public int getUpNeigh() {
 		return upNeigh;
 	}
@@ -36,20 +59,30 @@ public class Signal extends Block{
 		this.downNeigh = downNeigh;
 	}
 
+	@JsonIgnore
 	public boolean isClear() {
 		return clear;
 	}
 
+	@JsonIgnore
 	public void setClear(boolean clear) {
 		this.clear = clear;
 	}
 
+	/**
+	 * <p>Getter for direction for JSON.</p>
+	 */
 	public String getDirection() {
-		return direction;
+		return direction.name().toLowerCase();
 	}
 
+	/**
+	 * <p>Setter for direction for JSON.</p>
+	 * 
+	 * @param direction String of direction ("up"/"down") to be set as enum.
+	 */
 	public void setDirection(String direction) {
-		this.direction = direction;
+		this.direction = Direction.valueOf(direction.toUpperCase());
 	}
 	
 	public Boolean hasNext(Boolean reverse){

@@ -10,12 +10,14 @@ public class Network {
 	private ArrayList<Signal> signals;
 	private ArrayList<Section> sections;
 	private ArrayList<Point> points;
+	private ArrayList<Route> routes;
 
 	//Constructor
 	public Network() {
-		signals=new ArrayList<>();
-		sections=new ArrayList<>();
-		points=	new ArrayList<>();
+		signals = new ArrayList<>();
+		sections = new ArrayList<>();
+		points = new ArrayList<>();
+		routes = new ArrayList<>();
 		
 	}
 		
@@ -23,7 +25,8 @@ public class Network {
 	public Network(ArrayList<Signal> signals,ArrayList<Section> sections, ArrayList<Point> points) {
 		this.signals=signals;
 		this.sections=sections;
-		this.points=points;	
+		this.points=points;
+		routes = new ArrayList<>();
 	}
 	
 	/**
@@ -179,6 +182,7 @@ public class Network {
 	 *
 	 * @return ArrayList of endpoint IDs.
 	 */
+	@JsonIgnore
 	public ArrayList<Integer> getEndpoints(){
 		ArrayList<Integer> endpoints = new ArrayList<Integer>();
 
@@ -191,6 +195,102 @@ public class Network {
 		}
 
 		return endpoints;
+	}
+	
+	/**
+	 * <p>Returns a list of all the {@link Route Routes} created on this Network.</p>
+	 * 
+	 * @return List of Routes
+	 */
+	@JsonIgnore
+	public ArrayList<Route> getRoutes() {
+		return routes;
+	}
+	
+	/**
+	 * <p>Adds a new {@link Route} to the list of Routes in this Network, so long as its ID is unique.</p>
+	 * 
+	 * @param newRoute The Route to be added.
+	 * @return True if the Route has been added. False if a Route with that ID already exists in this Network.
+	 */
+	@JsonIgnore
+	public boolean addRoute(Route newRoute) {
+		for(Route route : routes) {
+			if(route.getRouteID() == newRoute.getRouteID()) {
+				return false;
+			}
+		}
+		return routes.add(newRoute);
+	}
+
+	/**
+	 * Used by editor to find any end point regardless of type
+	 * @return array list of endpoint ids
+	 */
+    @JsonIgnore
+    public ArrayList<Integer> getUpEndpoints(){
+		ArrayList<Integer> endpoints = new ArrayList<Integer>();
+
+		//For each section
+		for(Section s : sections) {
+			//If up neighbour is null
+			if(s.getUpNeigh() == 0) {
+				endpoints.add(s.getId());
+			}
+		}
+		for (Point p: points)
+		{
+			if(p.getmNeigh() == 0 || p.getpNeigh() == 0)
+			{
+				endpoints.add(p.getId());
+			}
+			else if(p.isReverse() && p.getMainNeigh() == 0)
+			{
+				endpoints.add(p.getId());
+			}
+		}
+		for (Signal s: signals)
+		{
+			if(s.getUpNeigh() == 0)
+			{
+				endpoints.add(s.getId());
+			}
+		}
+
+		return endpoints;
+	}
+
+	/**
+	 * <p>Returns the next available ID through auto incrementing.</p>
+	 *
+	 * @return int of last ID + 1.
+	 */
+	@JsonIgnore
+	public Integer getNextId(){
+	    int max = 0;
+		for(Block b : new ArrayList<Block>(){{addAll(points); addAll(sections); addAll(signals);}}) {
+			if(b.getId() > max)
+            {
+                max = b.getId();
+            }
+		}
+
+		return max + 1;
+	}
+
+	/**
+	 * <p>Returns the next available ID through auto incrementing.</p>
+	 *
+	 * @return int of last ID + 1 or null if not found.
+	 */
+	@JsonIgnore
+	public Block getBlockById(int id){
+		for(Block b : new ArrayList<Block>(){{addAll(points); addAll(sections); addAll(signals);}}) {
+			if(b.getId() == id){
+			    return b;
+            }
+		}
+		return null;
 	}
 
 	public String toString()

@@ -3,19 +3,22 @@ package railway.draw;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import railway.network.Block;
+import railway.network.Direction;
 import railway.network.Network;
 import railway.network.Point;
 import railway.network.Section;
 import railway.network.Signal;
 
-import java.util.ArrayList;
 
 public class NetworkComp extends Group {
-	double gap = 50;
+	double gap = 70;
 	double xstart = 100;
-	double ystart = 200;
+	double ystart = 300;
     
-	public NetworkComp(){
+	public NetworkComp(double x, double y)
+    {
+		xstart = x;
+		ystart = y;
     }
 	
 	/**
@@ -25,7 +28,7 @@ public class NetworkComp extends Group {
 	 * @param network
 	 * @return
 	 */
-	public TrackSection drawTrack(Section section, Network network){
+	public TrackSection drawTrack(Section section, Network network, LayoutController layoutController){
 		Block downNeigh = network.getBlock(section.getDownNeigh());
 		Block upNeigh = network.getBlock(section.getUpNeigh());
 		
@@ -69,7 +72,7 @@ public class NetworkComp extends Group {
 		}else{
 			end = getCoords(section.getLevel(), section.getIndex()+1);
 		}
-		return new TrackSection(start, end, section.getId());
+		return new TrackSection(start, end, section, layoutController);
 	}
 	
 	/**
@@ -77,7 +80,7 @@ public class NetworkComp extends Group {
 	 * 
 	 * @param network
 	 */
-	public void plot(Network network){
+	public void plot(Network network, LayoutController layoutController){
 		for(Point point: network.getPoints()){
 			double[] start;
 			double[] upper;
@@ -91,12 +94,12 @@ public class NetworkComp extends Group {
 				upper = getCoords(point.getTopHeight(), point.getIndex()-1);
 				lower = getCoords(point.getLevel(), point.getIndex()-1);
 			}
-			PointComp pointComp = new PointComp(start, upper, lower, point.isReverse(), point.getId());
+			PointComp pointComp = new PointComp(start, upper, lower, point.isReverse(), point, layoutController);
 			this.getChildren().add(pointComp);
 			System.out.println("id: " + point.getId() + "start: " + start[0] + ',' + start[1] + "upper: " + upper[0] + ',' + upper[1] + "lower: " + lower[0] + ',' + lower[1]);
 		}
 		for(Signal signal: network.getSignals()){
-			//if signal has down neighbor that is a point set the index to be the point index+1
+			//if signal has down neighbor that is a point, set the index to be the point index+1
 			if(signal.getDownNeigh() != 0 && network.getBlock(signal.getDownNeigh()).getClass() == Point.class){
 				Point point = (Point)(network.getBlock(signal.getDownNeigh()));
 				signal.setIndex(point.getIndex()+1);
@@ -107,12 +110,12 @@ public class NetworkComp extends Group {
 				signal.setIndex(point.getIndex()-1);
 			}
 			double[] start = getCoords(signal.getLevel(), signal.getIndex());
-			Boolean reverse = signal.getDirection() == "DOWN";
-			SignalComp signalComp = new SignalComp(start, reverse, signal.getId());
+			Boolean reverse = signal.getDirectionEnum() == Direction.DOWN;
+			SignalComp signalComp = new SignalComp(start, reverse, signal, layoutController);
 			this.getChildren().add(signalComp);
 		}
 		for(Section section: network.getSections()){	
-			TrackSection trackSection = drawTrack(section, network);
+			TrackSection trackSection = drawTrack(section, network, layoutController);
 			this.getChildren().add(trackSection);
 		}
 	}
