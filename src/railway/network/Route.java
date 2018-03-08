@@ -301,9 +301,15 @@ public class Route {
 			}
 		}
 		
-		//Set every signal to clear before setting the required ones to stop.
-		for(Signal signal : network.getSignals()) {
-			signal.setClear(true);
+		//For each Signal in the Route controlling the same direction as this Route, set it to clear.
+		for(Integer blockID : getBlocks()) {
+			Block block = network.getBlock(blockID);
+			if(block.getClass().equals(Signal.class)) {
+				Signal signal = (Signal)block;
+				if(signal.getDirectionEnum().equals(direction)) {
+					signal.setClear(true);
+				}
+			}
 		}
 		
 		//For each signal in the list for interlocking, set it STOP.
