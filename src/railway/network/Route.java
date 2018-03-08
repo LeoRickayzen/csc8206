@@ -240,7 +240,7 @@ public class Route {
 			//if we have come from the main neighbour, try the plus and minus paths.
 			if(from == previousPoint.getMainNeigh()) {
 				//Try the minus neighbour route.
-				Block thisBlock = network.getBlock(previousPoint.getmNeigh());
+				Block thisBlock = network.getBlock(previousPoint.getpNeigh());
 				
 				//If this block is the destination return it.
 				if(thisBlock.getId() == destination.getId()) {
@@ -249,9 +249,9 @@ public class Route {
 				}
 				
 				ArrayList<Integer> nextBlock = calcNextNeighbour(thisBlock, direction, previousPoint.getId(), theRoute);
-				//If the minus neighbour returned null, meaning the destination was not found, try the plus route.
+				//If the plus neighbour returned null, meaning the destination was not found, try the minus route.
 				if(nextBlock == null) {
-					thisBlock = network.getBlock(previousPoint.getpNeigh());
+					thisBlock = network.getBlock(previousPoint.getmNeigh());
 					
 					//If this block is the destination return it.
 					if(thisBlock.getId() == destination.getId()) {
