@@ -15,7 +15,7 @@ public class Signal extends Block{
 	}
 	
 	// the constructor
-	
+
 	public Signal(@JsonProperty("id") int id, @JsonProperty("clear") boolean clear, @JsonProperty("direction") String direction, @JsonProperty("upNeigh") int upNeigh, @JsonProperty("downNeigh") int downNeigh) {
 		super(id);
 		this.clear=clear;
@@ -24,6 +24,15 @@ public class Signal extends Block{
 		this.downNeigh=downNeigh;
 	}
 
+/*
+	public Signal(int id, boolean clear, String direction, int upNeigh, int downNeigh) {
+		super(id);
+		this.clear=clear;
+		this.direction=Direction.valueOf(direction.toUpperCase());
+		this.upNeigh=upNeigh;
+		this.downNeigh=downNeigh;
+	}
+*/
 	/**
 	 * <p>Getter for direction to be used for everything but JSON.</p>
 	 * 

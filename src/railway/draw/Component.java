@@ -4,6 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -26,9 +27,11 @@ public class Component extends Group {
 		this.block = block;
 		this.layoutController = layoutController;
 
+        this.setOnMouseEntered(event -> this.getScene().setCursor(Cursor.HAND));
+        this.setOnMouseExited(event -> this.getScene().setCursor(Cursor.DEFAULT));
         this.setOnMouseClicked(event -> onActionProperty().get().handle(event));
     }
-	
+
 	public int getLevel(){
 		return level;
 	}

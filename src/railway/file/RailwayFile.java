@@ -4,9 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import railway.network.Network;
-import railway.validation.NetValidation;
-import railway.validation.ValidationException;
-import railway.validation.ValidationInfo;
 
 import java.io.*;
 
