@@ -1,8 +1,10 @@
 package railway.network;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import railway.validation.NetValidation;
+import routeCalculation.RouteConflict;
 
 public class Route {
 	private int routeID;
@@ -273,6 +275,42 @@ public class Route {
 		}
 		
 		return theRoute;
+	}
+	
+	/**
+	 * <p>Set the {@link Point} and {@link Signal} interlocking settings.</p>
+	 */
+	public void setInterlocking() {
+		ArrayList<Route> routes = new ArrayList<Route>();
+		routes.add(this);
+		RouteConflict routeConflict = new RouteConflict(routes, network);
+		HashMap<Integer, ArrayList<String>> pointSettings = routeConflict.calculatePointsSetting();
+		HashMap<Integer, ArrayList<Integer>> signalSettings = routeConflict.calculateSignal();
+		
+		//For each point, get it's interlocking setting and set it to that.
+		for(String pointConfig : pointSettings.get(routeID)) {
+			String setting = pointConfig.substring(pointConfig.length()-1, pointConfig.length());
+			int pointID = Integer.parseInt(pointConfig.substring(0, pointConfig.length()-2));
+			Point point = (Point)network.getBlock(pointID);
+			
+			if(setting.equals("p")) {
+				point.setPlus(true);
+			}
+			else{
+				point.setPlus(false);
+			}
+		}
+		
+		//Set every signal to clear before setting the required ones to stop.
+		for(Signal signal : network.getSignals()) {
+			signal.setClear(true);
+		}
+		
+		//For each signal in the list for interlocking, set it STOP.
+		for(Integer signalConfig : signalSettings.get(routeID)) {
+			Signal signal = (Signal)network.getBlock(signalConfig);
+			signal.setClear(false);
+		}
 	}
 	
 	/**
