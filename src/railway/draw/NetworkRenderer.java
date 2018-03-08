@@ -60,7 +60,7 @@ public class NetworkRenderer {
     	//set the top level of the previous point to be inline with this level
     	if(point != null){
     		point.setTopLevel(level);
-        	System.out.println("point: " + point.getId() + " level:" + level);
+
     	}
     	//get the block that corresponds to the y Id
     	Boolean dontlevel = false;
@@ -95,9 +95,9 @@ public class NetworkRenderer {
     public void setLevels(Block block, Boolean backwards, int index, int level, Boolean dontlevel){
 		if(!dontlevel){
 	    	block.setLevel(level);
-	    	System.out.println(block.getId() + ": " + level);
+
 		}else{
-	    	System.out.println(block.getId() + ": na");
+
 		}
     	block.setIndex(index);
     	if(backwards){

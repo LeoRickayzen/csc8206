@@ -522,7 +522,6 @@ public class NetValidation {
     {
         //Try looking down the network, if no route found, look up the network. If no routes are found either way, route will be null.
         boolean tempRoute = calcNextNeighbour(source, Direction.DOWN, 0, network, destination, new ArrayList<>());
-        //System.out.println("Looking up the network");
         return tempRoute || calcNextNeighbour(source, Direction.UP, 0, network, destination, new ArrayList<>());
     }
 	

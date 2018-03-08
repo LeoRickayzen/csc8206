@@ -300,10 +300,10 @@ public class RouteConflict {
 						//AND SET TO STOP/OTHER NEIGHBOUR.
 						boolean found = false;
 						Block nextNeighbour = network.getBlock(getDirectionNeighbour(route.getDestination(), route.getDirection()));
-						System.out.println(nextNeighbour);
-						System.out.println(route.getDestination());
-						System.out.println(route.getDirection());
-						System.out.println(getDirectionNeighbour(route.getDestination(), route.getDirection()));
+
+
+
+
 						int comeFrom = route.getDestination().getId();
 						while(!found) {
 							//If the next neighbour is a signal check if its the correct direction and if so set it to stop
@@ -358,10 +358,10 @@ public class RouteConflict {
 						//AND SET TO STOP/OTHER NEIGHBOUR.
 						boolean found1 = false;
 						Block nextNeighbour1 = network.getBlock(getDirectionNeighbour(route.getSource(), route.getDirection().toggle()));
-						System.out.println("-->"+nextNeighbour);
-						System.out.println("-->"+route.getSource());
-						System.out.println("-->"+route.getDirection().toggle());
-						System.out.println("-->"+getDirectionNeighbour(route.getSource(), route.getDirection().toggle()));
+
+
+
+
 						int comeFrom1 = route.getSource().getId();
 						while(!found1) {
 							//If the next neighbour is a signal check if its the correct direction and if so set it to stop
@@ -370,7 +370,7 @@ public class RouteConflict {
 								if(nextSignal.getDirectionEnum().equals(route.getDirection())) {
 									//nextSignal.setClear(false);
 									signalSetting.add(nextSignal.getId());
-									System.out.println("adding at a: " + nextSignal.getId());
+
 									found1 = true;
 								}
 								else {
@@ -390,8 +390,8 @@ public class RouteConflict {
 									//If the point is in the same direction then just set the neighbouring signals to stop.
 									Signal mNeigh = (Signal)network.getBlock(nextPoint.getmNeigh());
 									Signal pNeigh = (Signal)network.getBlock(nextPoint.getpNeigh());
-									System.out.println("adding at b: " + mNeigh.getId());
-									System.out.println("adding at b: " + pNeigh.getId());
+
+
 									signalSetting.add(mNeigh.getId());
 									signalSetting.add(pNeigh.getId());
 									
