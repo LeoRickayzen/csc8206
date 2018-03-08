@@ -145,7 +145,7 @@ public class NetworkRenderer {
         leveler(network.getFirst(), null, false, 0, network, 0);
         NetworkComp netComp = new NetworkComp(
                 100,
-                layoutController.anchorPane.heightProperty().divide(2).doubleValue()
+                layoutController.visualRender.heightProperty().divide(2).doubleValue()
         );
         netComp.plot(network, layoutController);
         return netComp;

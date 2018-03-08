@@ -25,6 +25,7 @@ import railway.validation.ValidationInfo;
 import routeCalculation.RouteConflict;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,14 +48,14 @@ public class LayoutController implements Initializable
     public HBox tableControls;
     public HBox entryBoxControl;
     public Button editorToggle;
-    public TableView conflictsTable;
-    public TableColumn idColumn;
-    public TableColumn sourceColumn;
-    public TableColumn destColumn;
-    public TableColumn pointsColumn;
-    public TableColumn signalsColumn;
-    public TableColumn pathColumn;
-    public TableColumn conflictColumn;
+    public TableView<Row> conflictsTable;
+    public TableColumn<Row, String> idColumn;
+    public TableColumn<Row, String> sourceColumn;
+    public TableColumn<Row, String> destColumn;
+    public TableColumn<Row, String> pointsColumn;
+    public TableColumn<Row, String> signalsColumn;
+    public TableColumn<Row, String> pathColumn;
+    public TableColumn<Row, String> conflictColumn;
     public TextField idBox;
     public TextField sourceBox;
     public TextField destBox;
@@ -72,10 +73,7 @@ public class LayoutController implements Initializable
         //List .json files from res folder
         for (File f :
                 Objects.requireNonNull(
-                        new File("res").listFiles(file ->
-                                file.getName().substring(file.getName().lastIndexOf("."),
-                                        file.getName().length()).toLowerCase().equals(".json"))
-                ))
+                        new File("res").listFiles((dir, name) -> name.endsWith(".json"))))
         {
             options.add(f.getName());
         }
@@ -100,25 +98,25 @@ public class LayoutController implements Initializable
         journeyPane.prefHeightProperty().bind(anchorPane.heightProperty().multiply(0.33));
         
         idColumn.setCellValueFactory(
-        		new PropertyValueFactory<Row,String>("id")
+        		new PropertyValueFactory<>("id")
         );      
         sourceColumn.setCellValueFactory(
-        		new PropertyValueFactory<Row,String>("source")
+        		new PropertyValueFactory<>("source")
         );    
         destColumn.setCellValueFactory(
-        		new PropertyValueFactory<Row,String>("dest")
+        		new PropertyValueFactory<>("dest")
         );     
         pointsColumn.setCellValueFactory(
-        		new PropertyValueFactory<Row,String>("points")
+        		new PropertyValueFactory<>("points")
         );  
         signalsColumn.setCellValueFactory(
-        		new PropertyValueFactory<Row,String>("signals")
+        		new PropertyValueFactory<>("signals")
         );  
         pathColumn.setCellValueFactory(
-        		new PropertyValueFactory<Row,String>("paths")
+                new PropertyValueFactory<>("paths")
         );  
         conflictColumn.setCellValueFactory(
-        		new PropertyValueFactory<Row,String>("conflicts")
+        		new PropertyValueFactory<>("conflicts")
         );  
     }
     
@@ -135,38 +133,37 @@ public class LayoutController implements Initializable
 		        RouteConflict conflicts = new RouteConflict(routes, network);
 		        conflictsTable.getItems().clear();
 		        HashMap<Integer, ArrayList<Integer>> conflictsList = conflicts.calculateConflictRoute();
-		        for(int i = 0; i < routes.size(); i++)
-		        {
-		        	Route route = routes.get(i);
-		        	ArrayList<Integer> signals = conflicts.calculateSignal().get(route.getRouteID());
-		        	ArrayList<String> points = conflicts.calculatePointsSetting().get(route.getRouteID());
-		        	String conflictsString = "";
-		        	String stopSignals = "";
-		        	String pointSettings = "";
-		        	String journey = "";
-		        	for(int signal: signals)
-		        	{
-		        		stopSignals = String.valueOf(signal) + ". ";
-		        	}
-		        	for(String point: points)
-		        	{
-		        		System.out.println("PPPPP: " + point);
-		        		pointSettings = pointSettings + point + ". ";
-		        	}
-		        	for(int block: route.getBlocks())
-		        	{
-		        		journey = journey + String.valueOf(block) + "-";
-		        	}
-		        	for(int routeId : conflictsList.get(route.getRouteID())){
-		        		conflictsString = conflictsString + String.valueOf(routeId);
-		            }
-		        	conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), pointSettings, stopSignals, journey, conflictsString));
-		        }
+                for (Route route : routes)
+                {
+                    ArrayList<Integer> signals = conflicts.calculateSignal().get(route.getRouteID());
+                    ArrayList<String> points = conflicts.calculatePointsSetting().get(route.getRouteID());
+                    StringBuilder conflictsString = new StringBuilder();
+                    String stopSignals = "";
+                    String pointSettings = "";
+                    StringBuilder journey = new StringBuilder();
+                    for (int signal : signals)
+                    {
+                        stopSignals = String.valueOf(signal) + ". ";
+                    }
+                    for (String point : points)
+                    {
+                        pointSettings = pointSettings + point + ". ";
+                    }
+                    for (int block : route.getBlocks())
+                    {
+                        journey.append(String.valueOf(block)).append("-");
+                    }
+                    for (int routeId : conflictsList.get(route.getRouteID()))
+                    {
+                        conflictsString.append(String.valueOf(routeId));
+                    }
+                    conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), pointSettings, stopSignals, journey.toString(), conflictsString.toString()));
+                }
 		    }catch(IllegalArgumentException e){
 		    	Driver.showErrorMessage(e);
 		    }
     	}else{
-	    	Driver.showErrorMessage(new Exception("All feilds must be filled"));
+	    	Driver.showErrorMessage(new Exception("All fields must be filled"));
     	}
     }
 
@@ -202,9 +199,12 @@ public class LayoutController implements Initializable
     {
         if (network != null)
         {
-            networkValidation = NetValidation.Validate(network);
+            if(!isEditorEnabled())
+            {
+                networkValidation = NetValidation.Validate(network);
+            }
 
-            if((networkValidation.isValid() && !isEditorEnabled()) || isEditorEnabled())
+            if(isEditorEnabled() || networkValidation.isValid())
             {
                 NetworkRenderer renderer = new NetworkRenderer(network);
 
@@ -257,7 +257,7 @@ public class LayoutController implements Initializable
                 Driver.showErrorMessage(e);
             }
         }
-        else
+        else if(network != null)
         {
             entryBox.setEditable(true);
             editorToggle.setText("Save Changes");
