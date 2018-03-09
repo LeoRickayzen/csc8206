@@ -156,6 +156,7 @@ public class LayoutController implements Initializable
                         conflictsString.append(String.valueOf(routeId) + ",");
                     }
 
+                    
                     setInterlockingColumn.setCellFactory(col -> {
                         Button editButton = new Button("Set Interlocking");
                         TableCell<Route, Route> cell = new TableCell<Route, Route>() {
@@ -176,6 +177,7 @@ public class LayoutController implements Initializable
 
                         return cell ;
                     });
+                    
 
                     Row row = new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(),
                             pointSettings.toString(), stopSignals, journey.toString(), conflictsString.toString());
@@ -278,10 +280,10 @@ public class LayoutController implements Initializable
             {
                 render(actionEvent);
 
-                if (networkValidation == null)
-                {
+                //if (networkValidation == null)
+                //{
                     networkValidation = NetValidation.Validate(network);
-                }
+                //}
 
                 if(networkValidation.isValid())
                 {
