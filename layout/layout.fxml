@@ -32,6 +32,7 @@
             			</TableColumn>
             			<TableColumn fx:id="conflictColumn" text="Conflicts">
             			</TableColumn>
+						<TableColumn fx:id="setInterlockingColumn" prefWidth="130"></TableColumn>
             		</columns>
             	</TableView>
             	<HBox fx:id="tableControls" spacing = "20">
