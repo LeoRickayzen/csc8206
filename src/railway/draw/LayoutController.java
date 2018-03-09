@@ -141,7 +141,7 @@ public class LayoutController implements Initializable
                     StringBuilder journey = new StringBuilder();
                     for (int signal : signals)
                     {
-                        stopSignals = String.valueOf(signal) + ". ";
+                        stopSignals = stopSignals + String.valueOf(signal) + ". ";
                     }
                     for (String point : points)
                     {
