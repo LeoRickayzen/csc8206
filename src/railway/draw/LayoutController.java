@@ -153,7 +153,7 @@ public class LayoutController implements Initializable
                     }
                     for (int routeId : conflictsList.get(route.getRouteID()))
                     {
-                        conflictsString.append(String.valueOf(routeId));
+                        conflictsString.append(String.valueOf(routeId) + ",");
                     }
 
                     setInterlockingColumn.setCellFactory(col -> {
