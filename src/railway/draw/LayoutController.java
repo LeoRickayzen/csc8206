@@ -1,21 +1,18 @@
 package railway.draw;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import railway.file.RailwayFile;
 import railway.network.Network;
 import railway.network.Route;
@@ -25,7 +22,6 @@ import railway.validation.ValidationInfo;
 import routeCalculation.RouteConflict;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -56,6 +52,7 @@ public class LayoutController implements Initializable
     public TableColumn<Row, String> signalsColumn;
     public TableColumn<Row, String> pathColumn;
     public TableColumn<Row, String> conflictColumn;
+    public TableColumn<Route, Route> setInterlockingColumn;
     public TextField idBox;
     public TextField sourceBox;
     public TextField destBox;
@@ -63,7 +60,7 @@ public class LayoutController implements Initializable
     private boolean editorEnabled;
     private ValidationInfo networkValidation;
     private RailwayFile file;
-    private ArrayList<Route> routes = new ArrayList<Route>();
+    private ArrayList<Route> routes = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -117,7 +114,8 @@ public class LayoutController implements Initializable
         );  
         conflictColumn.setCellValueFactory(
         		new PropertyValueFactory<>("conflicts")
-        );  
+        );
+        setInterlockingColumn.setCellValueFactory(new PropertyValueFactory<>("setInterlockingBtn"));
     }
     
     public void addRow(ActionEvent actionEvent)
@@ -157,7 +155,32 @@ public class LayoutController implements Initializable
                     {
                         conflictsString.append(String.valueOf(routeId));
                     }
-                    conflictsTable.getItems().add(new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(), pointSettings.toString(), stopSignals, journey.toString(), conflictsString.toString()));
+
+                    setInterlockingColumn.setCellFactory(col -> {
+                        Button editButton = new Button("Set Interlocking");
+                        TableCell<Route, Route> cell = new TableCell<Route, Route>() {
+                            @Override
+                            public void updateItem(Route r, boolean empty) {
+                                super.updateItem(r, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                } else {
+                                    setGraphic(editButton);
+                                }
+                            }
+                        };
+
+                        editButton.setAlignment(Pos.BASELINE_CENTER);
+
+                        editButton.setOnAction(e -> setInterlocking(routes.get(cell.getTableRow().getIndex())));
+
+                        return cell ;
+                    });
+
+                    Row row = new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(),
+                            pointSettings.toString(), stopSignals, journey.toString(), conflictsString.toString());
+
+                    conflictsTable.getItems().add(row);
                 }
 		    }catch(IllegalArgumentException e){
 		    	Driver.showErrorMessage(e);
@@ -167,18 +190,31 @@ public class LayoutController implements Initializable
     	}
     }
 
+    public void setInterlocking(Route route)
+    {
+        route.setInterlocking();
+        render(null);
+    }
+
     public void clear(ActionEvent actionEvent)
     {
         network = null;
         visualRender.getChildren().clear();
         jsonFileOptions.getSelectionModel().clearSelection();
         entryBox.clear();
+        conflictsTable.getItems().clear();
+        idBox.clear();
+        destBox.clear();
+        sourceBox.clear();
     }
 
     public void loadJson(ActionEvent actionEvent)
     {
         if(!jsonFileOptions.getSelectionModel().isEmpty())
         {
+            conflictsTable.getItems().clear();
+            destBox.clear();
+            sourceBox.clear();
             visualRender.getChildren().clear();
             entryBox.clear();
             file = new RailwayFile("res/" + jsonFileOptions.getValue());
@@ -233,6 +269,9 @@ public class LayoutController implements Initializable
 
     public void toggleEditor(ActionEvent actionEvent)
     {
+        conflictsTable.getItems().clear();
+        destBox.clear();
+        sourceBox.clear();
         if(isEditorEnabled())
         {
             try
