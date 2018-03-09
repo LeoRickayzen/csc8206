@@ -41,8 +41,7 @@ public class RailwayFile extends File
      */
     public void write(Network network) throws IOException
     {
-    	mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        mapper.writer().writeValue(getAbsoluteFile(), network);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(getAbsoluteFile(), network);
     }
 
     public String readJson() throws IOException

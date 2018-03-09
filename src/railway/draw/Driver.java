@@ -9,17 +9,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
-
-import railway.validation.ValidationException;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 import java.io.File;
 import java.io.IOException;
 

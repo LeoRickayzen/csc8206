@@ -46,8 +46,8 @@ public class TrackSection extends Component {
         label.setY(labely);
         label.setStroke(Color.WHITE);
         
-        System.out.println(start[0]);
-        System.out.println((end[0] - start[0]) + start[0]);
+
+
         
         this.getChildren().addAll(line, label);
     }

@@ -1,8 +1,10 @@
 package railway.network;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import railway.validation.NetValidation;
+import routeCalculation.RouteConflict;
 
 public class Route {
 	private int routeID;
@@ -240,7 +242,7 @@ public class Route {
 			//if we have come from the main neighbour, try the plus and minus paths.
 			if(from == previousPoint.getMainNeigh()) {
 				//Try the minus neighbour route.
-				Block thisBlock = network.getBlock(previousPoint.getmNeigh());
+				Block thisBlock = network.getBlock(previousPoint.getpNeigh());
 				
 				//If this block is the destination return it.
 				if(thisBlock.getId() == destination.getId()) {
@@ -249,9 +251,9 @@ public class Route {
 				}
 				
 				ArrayList<Integer> nextBlock = calcNextNeighbour(thisBlock, direction, previousPoint.getId(), theRoute);
-				//If the minus neighbour returned null, meaning the destination was not found, try the plus route.
+				//If the plus neighbour returned null, meaning the destination was not found, try the minus route.
 				if(nextBlock == null) {
-					thisBlock = network.getBlock(previousPoint.getpNeigh());
+					thisBlock = network.getBlock(previousPoint.getmNeigh());
 					
 					//If this block is the destination return it.
 					if(thisBlock.getId() == destination.getId()) {
@@ -273,6 +275,48 @@ public class Route {
 		}
 		
 		return theRoute;
+	}
+	
+	/**
+	 * <p>Set the {@link Point} and {@link Signal} interlocking settings.</p>
+	 */
+	public void setInterlocking() {
+		ArrayList<Route> routes = new ArrayList<Route>();
+		routes.add(this);
+		RouteConflict routeConflict = new RouteConflict(routes, network);
+		HashMap<Integer, ArrayList<String>> pointSettings = routeConflict.calculatePointsSetting();
+		HashMap<Integer, ArrayList<Integer>> signalSettings = routeConflict.calculateSignal();
+		
+		//For each point, get it's interlocking setting and set it to that.
+		for(String pointConfig : pointSettings.get(routeID)) {
+			String setting = pointConfig.substring(pointConfig.length()-1, pointConfig.length());
+			int pointID = Integer.parseInt(pointConfig.substring(0, pointConfig.length()-2));
+			Point point = (Point)network.getBlock(pointID);
+			
+			if(setting.equals("p")) {
+				point.setPlus(true);
+			}
+			else{
+				point.setPlus(false);
+			}
+		}
+		
+		//For each Signal in the Route controlling the same direction as this Route, set it to clear.
+		for(Integer blockID : getBlocks()) {
+			Block block = network.getBlock(blockID);
+			if(block.getClass().equals(Signal.class)) {
+				Signal signal = (Signal)block;
+				if(signal.getDirectionEnum().equals(direction)) {
+					signal.setClear(true);
+				}
+			}
+		}
+		
+		//For each signal in the list for interlocking, set it STOP.
+		for(Integer signalConfig : signalSettings.get(routeID)) {
+			Signal signal = (Signal)network.getBlock(signalConfig);
+			signal.setClear(false);
+		}
 	}
 	
 	/**

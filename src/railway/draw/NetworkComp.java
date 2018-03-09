@@ -96,7 +96,7 @@ public class NetworkComp extends Group {
 			}
 			PointComp pointComp = new PointComp(start, upper, lower, point.isReverse(), point, layoutController);
 			this.getChildren().add(pointComp);
-			System.out.println("id: " + point.getId() + "start: " + start[0] + ',' + start[1] + "upper: " + upper[0] + ',' + upper[1] + "lower: " + lower[0] + ',' + lower[1]);
+
 		}
 		for(Signal signal: network.getSignals()){
 			//if signal has down neighbor that is a point, set the index to be the point index+1
