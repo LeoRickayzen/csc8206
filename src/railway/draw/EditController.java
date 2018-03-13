@@ -150,7 +150,7 @@ public class EditController implements Initializable
 
     private void doDelete(int parentId)
     {
-        Block parentBlock = layoutController.getNetwork().getBlockById(parentId);
+        Block parentBlock = layoutController.getNetwork().getBlock(parentId);
         //parentBlock = up neighbour
         if(parentBlock instanceof Section)
         {
@@ -204,7 +204,7 @@ public class EditController implements Initializable
                 {
                     reversePoint = new Point(newId, false, 0, Integer.parseInt(secondarySelection.getSelectionModel().getSelectedItem()), block.getId(), true);
                 }
-                createNewEndpoint(layoutController.getNetwork().getBlockById(Integer.parseInt(secondarySelection.getSelectionModel().getSelectedItem())), newId);
+                createNewEndpoint(layoutController.getNetwork().getBlock(Integer.parseInt(secondarySelection.getSelectionModel().getSelectedItem())), newId);
                 layoutController.getNetwork().addPointToNetwork(reversePoint);
                 break;
             case "Section":

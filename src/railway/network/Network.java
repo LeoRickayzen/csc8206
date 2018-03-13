@@ -68,7 +68,7 @@ public class Network {
 		}
 		return null;
 	}
-	
+
 	/**
      * set a signal list
      *
@@ -276,21 +276,6 @@ public class Network {
 		}
 
 		return max + 1;
-	}
-
-	/**
-	 * <p>Returns the next available ID through auto incrementing.</p>
-	 *
-	 * @return int of last ID + 1 or null if not found.
-	 */
-	@JsonIgnore
-	public Block getBlockById(int id){
-		for(Block b : new ArrayList<Block>(){{addAll(points); addAll(sections); addAll(signals);}}) {
-			if(b.getId() == id){
-			    return b;
-            }
-		}
-		return null;
 	}
 
 	public String toString()
