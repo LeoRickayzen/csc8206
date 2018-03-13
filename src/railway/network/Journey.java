@@ -39,6 +39,25 @@ public class Journey {
 	}
 	
 	/**
+	 * <p>Check if the given {@link Route} would be accepted as the next Route in this Journey.</p>
+	 * 
+	 * @param route Route to check
+	 * @return true if the source of the new Route matches the destination of the final Route in this Journey or if there are no Routes in the Journey yet
+	 */
+	public boolean validNextRoute(Route route) {
+		//If there are no routes yet, return true.
+		if(routes.isEmpty()) {
+			return true;
+		}
+		
+		//If the source of the potential Route is the same as the destination of the final Route in this Journey return true.
+		if(route.getSource() == routes.get(routes.size()-1).getDestination()) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
      * <p>Set the {@link Route Routes} from a given list, ensuring each {@link Route} is connected to the next.</p>
      *
      * @param  routes  List of {@link Route Routes} to set.
