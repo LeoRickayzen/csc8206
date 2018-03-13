@@ -21,7 +21,14 @@ public class Component extends Group {
 	private int level;
 	private Block block;
 	private LayoutController layoutController;
+	//Making component clickable
+	private ObjectProperty<EventHandler<MouseEvent>> propertyOnAction = new SimpleObjectProperty<>();
 
+	/**
+	 * @param id the id of the component
+	 * @param block the datastructure representation of the component
+	 * @param layoutController passed for the super constructor
+	 */
 	public Component(int id, Block block, LayoutController layoutController){
 		this.compid = id;
 		this.block = block;
@@ -31,26 +38,48 @@ public class Component extends Group {
         this.setOnMouseExited(event -> this.getScene().setCursor(Cursor.DEFAULT));
         this.setOnMouseClicked(event -> onActionProperty().get().handle(event));
     }
-
+	
+	/**
+	 * get the level the component is on on the grid
+	 * 
+	 * @return level
+	 */
 	public int getLevel(){
 		return level;
 	}
 	
+	/**
+	 * set the level of the component
+	 * 
+	 * @param level
+	 */
 	public void setLevel(int level){
 		this.level = level;
 	}
 	
+	/**
+	 * get the Id of the component
+	 * 
+	 * @return component Id
+	 */
 	public int getCompId(){
 		return compid;
 	}
 	
+	/**
+	 * set the Id of the component
+	 * 
+	 * @param compid
+	 */
 	public void setId(int compid){
 		this.compid = compid;
 	}
 
-	//Making component clickable
-	private ObjectProperty<EventHandler<MouseEvent>> propertyOnAction = new SimpleObjectProperty<>();
-
+	/**
+	 * Handles clickable aspect of the network component
+	 * 
+	 * @return
+	 */
 	public final ObjectProperty<EventHandler<MouseEvent>> onActionProperty()
     {
         if(layoutController.isEditorEnabled())
@@ -83,10 +112,20 @@ public class Component extends Group {
 		return propertyOnAction;
 	}
 
+	/**
+	 * set the action property
+	 * 
+	 * @param handler
+	 */
 	public final void setOnAction(EventHandler<MouseEvent> handler) {
 		propertyOnAction.set(handler);
 	}
 
+	/**
+	 * get the action property
+	 * 
+	 * @return
+	 */
 	public final EventHandler<MouseEvent> getOnAction() {
 		return propertyOnAction.get();
 

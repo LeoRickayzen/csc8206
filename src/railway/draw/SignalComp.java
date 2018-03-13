@@ -21,17 +21,25 @@ public class SignalComp extends Component {
 
 	private int reverseConstant = 1;
 	private Signal signal;
-
+	
+	/**
+	 * @param start where to start drawing the signal from
+	 * @param reverse if set to true draw the signal beneath the track section
+	 * @param signal the signal object to draw
+	 * @param layoutController passed for the super constructor
+	 */
     public SignalComp(double[] start, Boolean reverse, Signal signal, LayoutController layoutController){
         
     	super(signal.getId(), signal, layoutController);
 
     	this.signal = signal;
-
+    	
+    	//constant causes line to be drawn downwards
     	if(reverse){
     		reverseConstant = -1;
     	}
     	
+    	//draw the line
         Line leftUp = new Line();
         leftUp.setStartX(start[0]);
         leftUp.setEndX(start[0]);
@@ -40,6 +48,7 @@ public class SignalComp extends Component {
         leftUp.setStroke(Color.ALICEBLUE);
         leftUp.setStrokeWidth(2);
         
+        //add label
         double labelx = start[0];
         double labely = start[1] + (reverseConstant*30);
         
@@ -49,6 +58,7 @@ public class SignalComp extends Component {
         label.setY(labely);
         label.setStroke(Color.WHITE);
         
+        //add to the group
         this.getChildren().addAll(leftUp, label);
     }
 }
