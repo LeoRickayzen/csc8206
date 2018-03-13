@@ -7,6 +7,9 @@ import java.util.Arrays;
  * <p>A Journey is a collection of {@link Route Routes} which are connected to each other in sequence.</p>
  * 
  * <p>This class ensures any Routes added to a Journey are adjoining.</p>
+ * 
+ * @author Jay Kahlil Hussaini
+ * @author Ohud Almutairi
  */
 public class Journey {
 	private ArrayList<Route> routes;
