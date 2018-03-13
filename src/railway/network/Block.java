@@ -41,7 +41,9 @@ public class Block {
 	  }
 
 	/**
-	 * to check if it has next block ID
+	 * <p>to check if it has next block ID</p>
+	 * 
+	 * <p>NOTE! Get's overwritten in {@link Section}, {@link Signal}, and {@link Point} so this isn't as insane as it looks.</p>
 	 *
 	 * @param reverse Boolean 
 	 * @return ture
@@ -53,7 +55,9 @@ public class Block {
 	}
 	
 	/**
-	 * to check if it has next block ID
+	 * <p>to check if it has next block ID</p>
+	 *
+	 * <p>NOTE! Get's overwritten in {@link Section}, {@link Signal}, and {@link Point} so this isn't as insane as it looks.</p>
 	 *
 	 * @param reverse Boolean 
 	 * @return 0
