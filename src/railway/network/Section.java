@@ -2,6 +2,10 @@ package railway.network;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * <p>Stores information about a Section.</p>
+ * 
+ */
 public class Section extends Block{
 	
 	private boolean occupied;
@@ -11,6 +15,13 @@ public class Section extends Block{
 	public Section(){}
 	
 	// the constructor	
+	/**
+	 * 
+	 * @param id int ID of the Section
+	 * @param occupied FUTURE USE. If the Section is occupied by a train
+	 * @param upNeigh int ID of the up neighbour of this Section
+	 * @param downNeigh int ID of the down neighbour of this Section
+	 */
 	public Section (int id, boolean occupied, int upNeigh, int downNeigh) {
 		super(id);
 		this.occupied=occupied;
