@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Block {
 	private int id;
-	private Direction currentDirection;
 	private int level;
 	private int index;
 
@@ -40,24 +39,6 @@ public class Block {
 	public int getId() {
 		  return id;
 	  }
-	
-	/**
-     * set block's current direction
-     *
-     * @param  direction  new direction value
-     *
-	public void setDirection(Direction direction) {
-		this.currentDirection=direction;
-	}
-	
-	/**
-     * get block's direction 
-     *
-     * @return    up or down
-     *
-    public String getDirection() {
-		return this.currentDirection.name().toLowerCase();
-	}*/
 
 	/**
 	 * to check if it has next block ID
