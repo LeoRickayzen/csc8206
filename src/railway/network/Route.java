@@ -9,7 +9,8 @@ import routeCalculation.RouteConflict;
 /**
  * <p>Class to store and calculate Route information on a given {@link Network}.</p>
  * 
- *
+ * @author Jay Kahlil Hussaini
+ * @author Ohud Almutairi
  */
 public class Route {
 	private int routeID;
