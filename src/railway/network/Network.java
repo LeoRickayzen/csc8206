@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * <p>Stores information about a railway network such as lists of all the {@link Block Blocks} and associated {@link Route Routes}.</p>
- * 
+ *
  */
 public class Network {
 	private ArrayList<Signal> signals;
@@ -61,14 +61,14 @@ public class Network {
 				return section;
 			}
 		}
-		
+
 		//Check for the ID in the list of Signals.
 		for (Signal signal : signals){
 			if (signal.getId() == id){
 				return signal;
 			}
 		}
-		
+
 		//Check for the ID in the list of Points.
 		for (Point point : points){
 			if (point.getId() == id){
@@ -77,7 +77,7 @@ public class Network {
 		}
 		return null;
 	}
-	
+
 	/**
      * <p>Set the list of {@link Signal Signals}.</p>
      *
@@ -105,7 +105,7 @@ public class Network {
 	public boolean addSignalToNetwork(Signal signal) {
 		return this.signals.add(signal);
 	}
-	
+
 	/**
      * <p>Remove a {@link Signal} from the Network.</p>
      *
@@ -124,7 +124,7 @@ public class Network {
 	public void setSections(ArrayList<Section> sections) {
 		this.sections=sections;	
 	}
-	
+
 	/**
      * <p>Get the list of {@link Section Sections}.</p>
      *
@@ -143,7 +143,7 @@ public class Network {
 	public boolean addSectionToNetwork(Section section) {
 		return this.sections.add(section);
 	}
-	
+
 	/**
      * <p>Remove a {@link Section} from the Network.</p>
      *
@@ -153,7 +153,7 @@ public class Network {
 	public boolean removeSectionFromNetwork(Section section) {
 		return this.sections.remove(section);
 	}
-	
+
 	/**
      * <p>Set the list of {@link Point Points}.</p>
      *
@@ -162,7 +162,7 @@ public class Network {
 	public void setPoints(ArrayList<Point> points) {
 		this.points=points;
 	}
-	
+
 	/**
      * <p>Get the list of {@link Point Points}.</p>
      *
@@ -171,7 +171,7 @@ public class Network {
 	public ArrayList<Point> getPoints(){
 		return this.points;
 	}
-	
+
 	/**
      * <p>Add a {@link Point} to the Network.</p>
      *
@@ -241,7 +241,7 @@ public class Network {
 
 	/**
 	 * <p>Used by editor to find any upward end point regardless of type.</p>
-	 * 
+	 *
 	 * @return array list of endpoint ids
 	 */
     @JsonIgnore
@@ -255,7 +255,7 @@ public class Network {
 				endpoints.add(s.getId());
 			}
 		}
-		
+
 		//For each Point, if the up neighbour is null, add it to the endpoints list.
 		for (Point p: points)
 		{
@@ -268,7 +268,7 @@ public class Network {
 				endpoints.add(p.getId());
 			}
 		}
-		
+
 		//For each Signal, if the up neighbour is null, add it to the endpoints list.
 		for (Signal s: signals)
 		{
@@ -299,24 +299,6 @@ public class Network {
 		return max + 1;
 	}
 
-	/**
-	 * <p>Returns the next available ID through auto incrementing.</p>
-	 *
-	 * @return int of last ID + 1 or null if not found.
-	 */
-	@JsonIgnore
-	public Block getBlockById(int id){
-		for(Block b : new ArrayList<Block>(){{addAll(points); addAll(sections); addAll(signals);}}) {
-			if(b.getId() == id){
-			    return b;
-            }
-		}
-		return null;
-	}
-
-	/**
-	 * @return String containing information on how many of each {@link Block} type there is
-	 */
 	public String toString()
     {
         return "Points: " + this.getPoints().size() + ", Sections: " + this.getSections().size() + ", Signals: " + this.getSignals().size();

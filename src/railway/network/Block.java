@@ -45,6 +45,7 @@ public class Block {
 
 	@JsonIgnore
 	public Boolean hasNext(Boolean reverse){
+		//What an unhelpful function
 		return true;
 	}
 

@@ -23,11 +23,18 @@ public class TrackSection extends Component {
     private Line line;
     private Section section;
 
+    /**
+     * @param start where to start the track section from
+     * @param end where to end the track section
+     * @param section the track section to draw
+     * @param layoutController passed for the super constructor
+     */
     public TrackSection(double[] start, double[] end, Section section, LayoutController layoutController){
     	super(section.getId(), section, layoutController);
 
     	this.section = section;
 
+    	//draw the line
         line = new Line();
         line.setStartX(start[0]);
         line.setStartY(start[1]);
@@ -40,15 +47,14 @@ public class TrackSection extends Component {
         double labelx = (end[0] - start[0])/2 + start[0];
         double labely = start[1] + 20;
         
+        //add label
         Text label = new Text();
         label.setText("t" + section.getId());
         label.setX(labelx);
         label.setY(labely);
         label.setStroke(Color.WHITE);
         
-
-
-        
+        //add to the group
         this.getChildren().addAll(line, label);
     }
 }
