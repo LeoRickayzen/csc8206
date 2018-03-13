@@ -11,6 +11,14 @@ import railway.network.Route;
 import railway.network.Section;
 import railway.network.Signal;
 
+/**
+ * <p>Class to calculate route conflict, and interlocking setting point,path,
+ * signal for each route in a {@link Network} .</p>
+ *
+ * @author Ohud Almutairi
+ *
+ */
+
 public class RouteConflict {
 	private ArrayList<Route> routes;
 	private Network network;
@@ -23,7 +31,13 @@ public class RouteConflict {
 	//key is a route ID and the value is a list of blocks ID (Siganl that must set to STOP)
 	private HashMap<Integer,ArrayList<Integer>> routeSignal;
 
-	//constructor
+	/**
+	 * Constructor
+         *
+	 * @param routes list of route
+	 * @param network The whole network
+	 *
+	  */
 	public RouteConflict(ArrayList<Route> routes,Network network) {
 		this.routes=routes;
 		this.network=network;
@@ -34,9 +48,9 @@ public class RouteConflict {
 	}
 
 	/**
-	 * calculate the conflicts between all routes
+	 * to calculate the conflicts between all routes
 	 *
-	 * @return    all routes along with a list of its conflicts
+	 * @return    all routes ID along with a list of its conflicts routes ID
 	 */
 	public HashMap<Integer,ArrayList<Integer>> calculateConflictRoute() {
 		for(int i = 0; i<routes.size(); i++) {
@@ -68,7 +82,7 @@ public class RouteConflict {
 		return routesConflict;
 	}
 	/**
-	 * calculate the path of all routes
+	 * to calculate the path of all routes
 	 *
 	 * @return    all routes with all blocks on their path
 	 */
@@ -93,7 +107,11 @@ public class RouteConflict {
 		}
 		return routePath;
 	}
-	// for calculating point setting for each routes
+	/**
+	 * to calculate the point setting for each routes
+	 *
+	 * @return    all points that suitable status for each routes.
+	 */
 	public HashMap<Integer,ArrayList<String>> calculatePointsSetting() {
 		for(int i = 0; i<routes.size(); i++) {
 			Route route = routes.get(i);
@@ -277,9 +295,9 @@ public class RouteConflict {
 	}
 	//----------------	
 	/**
-	 * calculate the Signal setting of all routes
+	 * to calculate the Signal setting of all routes
 	 *
-	 * @return    all Signal that must set to STOP for all routes
+	 * @return    all Signal that must set to STOP for each route. 
 	 */
 	public HashMap<Integer,ArrayList<Integer>> calculateSignal() {
 		for(int i = 0; i<routes.size(); i++) {
