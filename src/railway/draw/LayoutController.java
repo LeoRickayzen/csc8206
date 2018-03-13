@@ -201,6 +201,7 @@ public class LayoutController implements Initializable
     public void clear(ActionEvent actionEvent)
     {
         network = null;
+        routes = new ArrayList<Route>();
         visualRender.getChildren().clear();
         jsonFileOptions.getSelectionModel().clearSelection();
         entryBox.clear();
@@ -214,6 +215,7 @@ public class LayoutController implements Initializable
     {
         if(!jsonFileOptions.getSelectionModel().isEmpty())
         {
+        	routes = new ArrayList<Route>();
             conflictsTable.getItems().clear();
             destBox.clear();
             sourceBox.clear();

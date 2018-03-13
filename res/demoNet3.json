@@ -64,6 +64,11 @@
     "direction" : "down",
     "upNeigh" : 48,
     "downNeigh" : 46
+  }, {
+    "id" : 49,
+    "direction" : "down",
+    "upNeigh" : 50,
+    "downNeigh" : 48
   } ],
   "sections" : [ {
     "id" : 1,
@@ -115,12 +120,16 @@
     "downNeigh" : 45
   }, {
     "id" : 48,
-    "upNeigh" : 0,
+    "upNeigh" : 49,
     "downNeigh" : 47
+  }, {
+    "id" : 50,
+    "upNeigh" : 0,
+    "downNeigh" : 49
   } ],
   "points" : [ {
     "id" : 4,
-    "plus" : false,
+    "plus" : true,
     "mainNeigh" : 3,
     "mNeigh" : 5,
     "pNeigh" : 6,
