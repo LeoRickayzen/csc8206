@@ -153,9 +153,10 @@ public class LayoutController implements Initializable
                     }
                     for (int routeId : conflictsList.get(route.getRouteID()))
                     {
-                        conflictsString.append(String.valueOf(routeId));
+                        conflictsString.append(String.valueOf(routeId) + ",");
                     }
 
+                    
                     setInterlockingColumn.setCellFactory(col -> {
                         Button editButton = new Button("Set Interlocking");
                         TableCell<Route, Route> cell = new TableCell<Route, Route>() {
@@ -176,6 +177,7 @@ public class LayoutController implements Initializable
 
                         return cell ;
                     });
+                    
 
                     Row row = new Row(route.getRouteID(), route.getSource().getId(), route.getDestination().getId(),
                             pointSettings.toString(), stopSignals, journey.toString(), conflictsString.toString());
@@ -199,6 +201,7 @@ public class LayoutController implements Initializable
     public void clear(ActionEvent actionEvent)
     {
         network = null;
+        routes = new ArrayList<Route>();
         visualRender.getChildren().clear();
         jsonFileOptions.getSelectionModel().clearSelection();
         entryBox.clear();
@@ -212,6 +215,7 @@ public class LayoutController implements Initializable
     {
         if(!jsonFileOptions.getSelectionModel().isEmpty())
         {
+        	routes = new ArrayList<Route>();
             conflictsTable.getItems().clear();
             destBox.clear();
             sourceBox.clear();
@@ -278,10 +282,10 @@ public class LayoutController implements Initializable
             {
                 render(actionEvent);
 
-                if (networkValidation == null)
-                {
+                //if (networkValidation == null)
+                //{
                     networkValidation = NetValidation.Validate(network);
-                }
+                //}
 
                 if(networkValidation.isValid())
                 {
