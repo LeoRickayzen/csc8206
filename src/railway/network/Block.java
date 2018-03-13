@@ -29,8 +29,7 @@ public class Block {
      * set block's current direction
      *
      * @param  direction  new direction value
-     */
-	@JsonIgnore
+     *
 	public void setDirection(Direction direction) {
 		this.currentDirection=direction;
 	}
@@ -39,11 +38,10 @@ public class Block {
      * get block's direction 
      *
      * @return    up or down
-     */
-	@JsonIgnore
+     *
     public String getDirection() {
 		return this.currentDirection.name().toLowerCase();
-	}
+	}*/
 
 	@JsonIgnore
 	public Boolean hasNext(Boolean reverse){
