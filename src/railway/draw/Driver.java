@@ -15,10 +15,13 @@ import java.io.IOException;
 
 /**
  * Driver class.
+ * 
  */
-
 public class Driver extends Application
 {
+	/**
+	 * Loads layout and icon and launches GUI
+	 */
     public void start(Stage stage)
     {
         try
@@ -37,6 +40,11 @@ public class Driver extends Application
         }
     }
 
+    /**
+     * Utility method for displaying error messages simply
+     * 
+     * @param e the exception to print
+     */
     public static void showErrorMessage(Exception e)
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -47,6 +55,11 @@ public class Driver extends Application
         alert.showAndWait();
     }
 
+    /**
+     * main
+     * 
+     * @param args
+     */
     public static void main(String args[])
     {
         launch(args);

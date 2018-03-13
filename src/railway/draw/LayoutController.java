@@ -62,6 +62,11 @@ public class LayoutController implements Initializable
     private RailwayFile file;
     private ArrayList<Route> routes = new ArrayList<>();
 
+    /**
+     * Initializes several aspect of the GUI:
+     * -Relative width of components
+     * -Column properties
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -118,6 +123,11 @@ public class LayoutController implements Initializable
         setInterlockingColumn.setCellValueFactory(new PropertyValueFactory<>("setInterlockingBtn"));
     }
     
+    /**
+     * Event to be triggered when a row is added to the conflicts list
+     * 
+     * @param actionEvent
+     */
     public void addRow(ActionEvent actionEvent)
     {
     	if(!idBox.getText().isEmpty() && !sourceBox.getText().isEmpty() && !destBox.getText().isEmpty())
@@ -191,13 +201,26 @@ public class LayoutController implements Initializable
 	    	Driver.showErrorMessage(new Exception("All fields must be filled"));
     	}
     }
-
+    
+    /**
+     * Event to be triggered when interlocking button is presseed,
+     * causes interlocking point settings to change according to the route selected
+     * for interlocking
+     * 
+     * @param route
+     */
     public void setInterlocking(Route route)
     {
         route.setInterlocking();
         render(null);
     }
 
+    /**
+     * clear all aspects of the GUI, Triggered when the clear button
+     * is pressed
+     * 
+     * @param actionEvent
+     */
     public void clear(ActionEvent actionEvent)
     {
         network = null;
@@ -211,6 +234,12 @@ public class LayoutController implements Initializable
         sourceBox.clear();
     }
 
+    /**
+     * load JSON from a file into the textbox,
+     * triggered when a JSON file is selected
+     * 
+     * @param actionEvent
+     */
     public void loadJson(ActionEvent actionEvent)
     {
         if(!jsonFileOptions.getSelectionModel().isEmpty())
@@ -235,6 +264,12 @@ public class LayoutController implements Initializable
         }
     }
 
+    /**
+     * renders a visualization of the network
+     * called when the render button is pressed
+     * 
+     * @param actionEvent
+     */
     public void render(ActionEvent actionEvent)
     {
         if (network != null)
@@ -261,21 +296,37 @@ public class LayoutController implements Initializable
         }
     }
 
+    /**
+     * returns the current network object that is loaded into the GUI
+     * @return current loaded network
+     */
     public Network getNetwork()
     {
         return this.network;
     }
 
+    /**
+     * sets the current network to be loaded into the GUI
+     * 
+     * @param network the network object to load
+     */
     public void setNetwork(Network network)
     {
         this.network = network;
     }
 
+    /**
+     * Toggle editing mode within the GUI
+     * Triggered when the edit button is pressed
+     * 
+     * @param actionEvent
+     */
     public void toggleEditor(ActionEvent actionEvent)
     {
         conflictsTable.getItems().clear();
         destBox.clear();
         sourceBox.clear();
+    	routes = new ArrayList<Route>();
         if(isEditorEnabled())
         {
             try
@@ -312,12 +363,22 @@ public class LayoutController implements Initializable
             setEditorEnabled(true);
         }
     }
-
+    
+    /**
+     * Find out if editor is enabled
+     * 
+     * @return Boolean on whether editor is enabled
+     */
     public boolean isEditorEnabled()
     {
         return editorEnabled;
     }
-
+    
+    /**
+     * Set whether editor is enabled
+     * 
+     * @param editorEnabled whether or not to enable the editor
+     */
     public void setEditorEnabled(boolean editorEnabled)
     {
         this.editorEnabled = editorEnabled;
