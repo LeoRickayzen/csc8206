@@ -199,10 +199,7 @@ public class RouteConflict {
 						else {
 							j=section.getUpNeigh();
 						}
-						//NOTE I have put this down here and it can probably be removed from all of the above statements. Without this we were getting stuck in
-						//an infinite loop where the up neighbour of a section WAS a point but the section was not joined to either the plus or minus.
-						//In other words, connected to the main. If this is the case the signal stuff below should deal with the interlocking and we don't care
-						//up here, so just get out of the loop. - Jay
+						
 						j=section.getUpNeigh();
 					}
 					else if(network.getBlock(j).getClass().equals(Signal.class)) {
@@ -462,44 +459,6 @@ public class RouteConflict {
 
 			//---- End of the checking the source 
 
-
-			/*
-						//----------------------------
-						//---------------------- search after the destination from here
-						//to find a point if the route's direction UP
-						if((route.getDirection() == Direction.UP)) {
-						int previous=route.getDestination().getId();	
-						int j=route.getDestination().getUpNeigh();
-						while(network.getBlock(j)!= null && !network.getBlock(j).getClass().equals(Signal.class)) {
-							//------
-							if(network.getBlock(j).getClass().equals(Section.class)) {
-								Section section=(Section) network.getBlock(j);
-								//----------------u
-								if(network.getBlock(section.getUpNeigh())!= null && network.getBlock(section.getUpNeigh()).getClass().equals(Signal.class) ) {
-									signalSetting.add(section.getUpNeigh());
-									j=section.getUpNeigh();
-								}else j=section.getUpNeigh();
-
-								}else if(network.getBlock(j).getClass().equals(Point.class)) {
-									Point point=(Point) network.getBlock(j);
-									if(network.getBlock(point.getmNeigh())!= null && (previous!=point.getmNeigh()) && network.getBlock(point.getmNeigh()).getClass().equals(Signal.class)) {
-										signalSetting.add(point.getmNeigh());
-										j=point.getmNeigh();
-									}else if(network.getBlock(point.getpNeigh())!= null && (previous!=point.getpNeigh()) && network.getBlock(point.getpNeigh()).getClass().equals(Signal.class)) {
-										signalSetting.add(point.getpNeigh());
-										j=point.getpNeigh();
-									}else if(network.getBlock(point.getMainNeigh())!= null && (previous!=point.getMainNeigh()) && network.getBlock(point.getMainNeigh()).getClass().equals(Signal.class)) {
-										signalSetting.add(point.getMainNeigh());
-										j=point.getMainNeigh();
-									} else {
-										previous=point.getId();
-									}
-								}
-
-						}
-
-						}//--*/
-
 			routeSignal.put(currentRouteID,signalSetting);
 		}
 		return routeSignal;
@@ -536,19 +495,6 @@ public class RouteConflict {
 		return signal.getDownNeigh();
 	}
 
-	/**
-	 * <p>Get the up or down neighbour of a Signal, dependent on provide direction.</p>
-	 * 
-	 * @param signal The Signal to provide a neighbour of.
-	 * @param direction The direction of the desired neighbour.
-	 * @return an int ID of a neighbour.
-	 */
-	private int getDifferentDirectionNeighbour(Signal signal, Direction direction) {
-		if(direction == Direction.UP) {
-			return signal.getDownNeigh();
-		}
-		return signal.getUpNeigh();
-	}
 }
 
 
