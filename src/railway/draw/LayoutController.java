@@ -1,6 +1,5 @@
 package railway.draw;
 
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,7 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 import railway.file.RailwayFile;
 import railway.network.Network;
 import railway.network.Route;
@@ -29,6 +27,12 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for main GUI
+ *
+ * @author josh
+ *
+ */
 public class LayoutController implements Initializable
 {
     public TextArea entryBox;

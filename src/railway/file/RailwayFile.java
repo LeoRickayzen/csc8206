@@ -9,7 +9,7 @@ import java.io.*;
 
 /**
  * This class handles all file operations for the JSON representing the railway.
- * Uses Jackson JARs in lib for parsing.
+ * Uses Jackson JARs in /lib for parsing.
  *
  * @author Josh Corne
  */

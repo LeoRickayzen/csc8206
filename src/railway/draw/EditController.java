@@ -13,7 +13,12 @@ import railway.network.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
+/**
+ * Controller for the edit dialog
+ *
+ * @author josh
+ *
+ */
 public class EditController implements Initializable
 {
     private LayoutController layoutController;
