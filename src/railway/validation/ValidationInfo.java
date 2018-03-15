@@ -1,5 +1,7 @@
 package railway.validation;
 
+import railway.network.Network;
+
 import java.util.ArrayList;
 
 /**

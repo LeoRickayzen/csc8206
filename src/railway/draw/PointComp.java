@@ -122,7 +122,7 @@ public class PointComp extends Component {
 	/**
 	 * set the coordinates for the end of the lower line
 	 * 
-	 * @param end coords
+	 * @param lower coords
 	 */
 	public void setLower(double[] lower) {
 		this.lower = lower;
