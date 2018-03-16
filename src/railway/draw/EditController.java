@@ -13,7 +13,12 @@ import railway.network.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
+/**
+ * Controller for the edit dialog
+ *
+ * @author josh
+ *
+ */
 public class EditController implements Initializable
 {
     private LayoutController layoutController;
@@ -32,6 +37,14 @@ public class EditController implements Initializable
         this.block = block;
     }
 
+    /**
+     * Initializes several aspect of the GUI:
+     * -Heights and widths of elements
+     * -Enables/disables dropdowns depending on block type
+     *
+     * @param resourceBundle
+     * @param url
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -52,6 +65,11 @@ public class EditController implements Initializable
         }
     }
 
+    /**
+     * Event to be triggered when a type of block to add is selected
+     *
+     * @param actionEvent The event
+     */
     public void typeSelected(ActionEvent actionEvent)
     {
         pointSelection.getSelectionModel().clearSelection();
@@ -90,6 +108,11 @@ public class EditController implements Initializable
         }
     }
 
+    /**
+     * Event to be triggered when a type of point to add is selected
+     *
+     * @param actionEvent The event
+     */
     public void pointTypeChange(ActionEvent actionEvent)
     {
         addBtn.setDisable(true);
@@ -104,6 +127,11 @@ public class EditController implements Initializable
         }
     }
 
+    /**
+     * Event to be triggered when endpoint to add to is selected
+     *
+     * @param actionEvent The event
+     */
     public void secondaryChange(ActionEvent actionEvent)
     {
         addBtn.setDisable(true);
@@ -114,6 +142,11 @@ public class EditController implements Initializable
         }
     }
 
+    /**
+     * Event to be triggered when a block is to be deleted
+     *
+     * @param actionEvent The event
+     */
     public void delete(ActionEvent actionEvent)
     {
         //Block = to be deleted
@@ -148,10 +181,15 @@ public class EditController implements Initializable
         stage.close();
     }
 
+    /**
+     * Sets the new endpoint to 0 of the parent id
+     *
+     * @param parentId The block id of the down neighbour which will be set as new endpoint
+     */
     private void doDelete(int parentId)
     {
-        Block parentBlock = layoutController.getNetwork().getBlockById(parentId);
-        //parentBlock = up neighbour
+        Block parentBlock = layoutController.getNetwork().getBlock(parentId);
+        //parentBlock = down neighbour
         if(parentBlock instanceof Section)
         {
             Section prevS = (Section)parentBlock;
@@ -182,6 +220,11 @@ public class EditController implements Initializable
         }
     }
 
+    /**
+     * Event to be triggered when a block is to be added
+     *
+     * @param actionEvent The event
+     */
     public void add(ActionEvent actionEvent)
     {
         String toAdd = componentSelection.getSelectionModel().getSelectedItem().toString();
@@ -189,7 +232,6 @@ public class EditController implements Initializable
 
         switch (toAdd)
         {
-            //TODO: Check constructor arguments
             case "Point":
                 Point point = new Point(newId, false, block.getId(), 0, 0, false);
                 layoutController.getNetwork().addPointToNetwork(point);
@@ -204,7 +246,7 @@ public class EditController implements Initializable
                 {
                     reversePoint = new Point(newId, false, 0, Integer.parseInt(secondarySelection.getSelectionModel().getSelectedItem()), block.getId(), true);
                 }
-                createNewEndpoint(layoutController.getNetwork().getBlockById(Integer.parseInt(secondarySelection.getSelectionModel().getSelectedItem())), newId);
+                createNewEndpoint(layoutController.getNetwork().getBlock(Integer.parseInt(secondarySelection.getSelectionModel().getSelectedItem())), newId);
                 layoutController.getNetwork().addPointToNetwork(reversePoint);
                 break;
             case "Section":
@@ -222,6 +264,12 @@ public class EditController implements Initializable
         stage.close();
     }
 
+    /**
+     * Creates a the new endpoint on the block for the given id
+     *
+     * @param b The block
+     * @param newEndpointId The new endpoint id
+     */
     private void createNewEndpoint(Block b, int newEndpointId)
     {
         if(b instanceof Signal)

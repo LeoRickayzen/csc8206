@@ -3,6 +3,12 @@ package railway.network;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * <p>Stores information about a Signal.</p>
+ * 
+ * @author Jay Kahlil Hussaini
+ * @author Ohud Almutairi
+ */
 public class Signal extends Block{
 
 	private boolean clear;               
@@ -13,9 +19,16 @@ public class Signal extends Block{
 	public Signal(){}
 	
 	// the constructor
+	/**
+	 * @param id int ID for this Signal
+	 * @param clear true by default. true = CLEAR, false = STOP
+	 * @param direction String representation of a {@link Direction}
+	 * @param upNeigh int ID of the up neighbour {@link Block}
+	 * @param downNeigh in ID of the down neighbour {@link Block}
+	 */
 	public Signal(@JsonProperty("id") int id, @JsonProperty("clear") Boolean clear, @JsonProperty("direction") String direction, @JsonProperty("upNeigh") int upNeigh, @JsonProperty("downNeigh") int downNeigh) {
 		super(id);
-		clear = clear == null ? true : clear; //Ignore IDE warnings, clear is used!
+		this.clear = clear == null ? true : clear; //Ignore IDE warnings, clear is used!
         this.direction = Direction.valueOf(direction.toUpperCase());
 		this.upNeigh=upNeigh;
 		this.downNeigh=downNeigh;
@@ -58,6 +71,8 @@ public class Signal extends Block{
 	}
 
 	/**
+	 * <p>ONLY FOR JSON USE. Please use {@link Signal.getDirectionEnum()}</p>
+	 * 
 	 * <p>Getter for direction for JSON.</p>
 	 */
 	public String getDirection() {

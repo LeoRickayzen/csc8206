@@ -1,7 +1,12 @@
 package railway.draw;
 
 import javafx.beans.property.SimpleStringProperty;
-
+/**
+ * Represents a row in the conflict table
+ *
+ * @author Leo
+ *
+ */
 public class Row {
 	private SimpleStringProperty id;
 	private SimpleStringProperty source;
@@ -79,7 +84,7 @@ public class Row {
 	/**
 	 * set the destination
 	 * 
-	 * @param destination
+	 * @param dest
 	 */
 	public void setDest(int dest) {
 		this.dest.set(String.valueOf(dest));

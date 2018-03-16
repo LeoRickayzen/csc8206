@@ -1,0 +1,13 @@
+{
+  "signals" : [ {
+    "id" : 2,
+    "upNeigh" : 0,
+    "downNeigh" : 1
+  } ],
+  "sections" : [ {
+    "id" : 1,
+    "upNeigh" : 2,
+    "downNeigh" : 0
+  } ],
+  "points" : [ ]
+}

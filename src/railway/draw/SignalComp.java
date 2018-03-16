@@ -45,7 +45,14 @@ public class SignalComp extends Component {
         leftUp.setEndX(start[0]);
         leftUp.setStartY(start[1]);
         leftUp.setEndY(start[1]-(reverseConstant*15));
-        leftUp.setStroke(Color.ALICEBLUE);
+        
+        if(signal.isClear()) {
+        	leftUp.setStroke(Color.GREEN);
+        }
+        else {
+        	leftUp.setStroke(Color.RED);
+        }
+        
         leftUp.setStrokeWidth(2);
         
         //add label

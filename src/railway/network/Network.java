@@ -1,11 +1,13 @@
 package railway.network;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
-//import org.codehaus.jackson.annotate.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * <p>Stores information about a railway network such as lists of all the {@link Block Blocks} and associated {@link Route Routes}.</p>
+ *
+ */
 public class Network {
 	private ArrayList<Signal> signals;
 	private ArrayList<Section> sections;
@@ -30,9 +32,9 @@ public class Network {
 	}
 	
 	/**
-	 * get the first block in the list
+	 * <p>Get the first block in the list.</p>
 	 *
-	 * @return
+	 * @return The first {@link Section} in the Network which is an end point.
 	 */
 	@JsonIgnore
 	public Block getFirst(){
@@ -51,16 +53,21 @@ public class Network {
      * @return Returns the found block or null.
      */
 	public Block getBlock(int id){
+		//Check for the ID in the list of Sections.
 		for (Section section : sections){
 			if (section.getId() == id){
 				return section;
 			}
 		}
+
+		//Check for the ID in the list of Signals.
 		for (Signal signal : signals){
 			if (signal.getId() == id){
 				return signal;
 			}
 		}
+
+		//Check for the ID in the list of Points.
 		for (Point point : points){
 			if (point.getId() == id){
 				return point;
@@ -68,9 +75,9 @@ public class Network {
 		}
 		return null;
 	}
-	
+
 	/**
-     * set a signal list
+     * <p>Set the list of {@link Signal Signals}.</p>
      *
      * @param  signals  new signal list
      */
@@ -79,7 +86,7 @@ public class Network {
 	}
 	
     /**
-     * get a signal list
+     * <p>Get the list of {@link Signal Signals}.</p>
      *
      * @return    a list of signal
      */
@@ -88,18 +95,19 @@ public class Network {
 	}
 	
 	/**
-     * add signal to a network 
+     * <p>Add a {@link Signal} to the Network.</p>
      *
-     * @param  signal  new signal
+     * @param  signal  Signal to be added
      * @return true if it is added successfully
      */
 	public boolean addSignalToNetwork(Signal signal) {
 		return this.signals.add(signal);
 	}
+
 	/**
-     * remove signal from a network 
+     * <p>Remove a {@link Signal} from the Network.</p>
      *
-     * @param  signal  existing signal
+     * @param  signal  Existing Signal to be removed from the Network
      * @return true if it is removed successfully
      */
 	public boolean removeSignalFromNetwork(Signal signal) {
@@ -107,60 +115,65 @@ public class Network {
 	}
 	
 	/**
-     * set a section list
+     * <p>Set the list of {@link Section Sections}.</p>
      *
      * @param  sections  new section list
      */
 	public void setSections(ArrayList<Section> sections) {
 		this.sections=sections;	
 	}
+
 	/**
-     * get a section list
+     * <p>Get the list of {@link Section Sections}.</p>
      *
-     * @return    a list of section
+     * @return    a list of Sections
      */
 	public ArrayList<Section> getSections(){
 		return this.sections;
 	}
 	
 	/**
-     * add section to a network 
+     * <p>Add a {@link Section} to the Network.</p>
      *
-     * @param  section  new section
+     * @param  section  Section to be added
      * @return true if it is added successfully
      */
 	public boolean addSectionToNetwork(Section section) {
 		return this.sections.add(section);
 	}
+
 	/**
-     * remove section from a network 
+     * <p>Remove a {@link Section} from the Network.</p>
      *
-     * @param  section  existing section
+     * @param  section  Existing Section to be removed from the Network
      * @return true if it is removed successfully
      */
 	public boolean removeSectionFromNetwork(Section section) {
 		return this.sections.remove(section);
 	}
+
 	/**
-     * set a point list
+     * <p>Set the list of {@link Point Points}.</p>
      *
-     * @param  points  new point list
+     * @param  points  new Point list
      */
 	public void setPoints(ArrayList<Point> points) {
 		this.points=points;
 	}
+
 	/**
-     * get a point list
+     * <p>Get the list of {@link Point Points}.</p>
      *
-     * @return    a list of point
+     * @return    a list of Points
      */
 	public ArrayList<Point> getPoints(){
 		return this.points;
 	}
+
 	/**
-     * add point to a network 
+     * <p>Add a {@link Point} to the Network.</p>
      *
-     * @param  point  new point
+     * @param  point  Point to be added
      * @return true if it is added successfully
      */
 	public boolean addPointToNetwork(Point point) {
@@ -168,9 +181,9 @@ public class Network {
 	}
 	
 	/**
-     * remove point from a network 
+     * <p>Remove a {@link Point} from the Network.</p>
      *
-     * @param  point  existing point
+     * @param  point  Existing Point to be removed from the Network
      * @return true if it is removed successfully
      */
 	public boolean removePointFromNetwork(Point point) {
@@ -215,6 +228,7 @@ public class Network {
 	 */
 	@JsonIgnore
 	public boolean addRoute(Route newRoute) {
+		//Check the Route ID doesn't already exist.
 		for(Route route : routes) {
 			if(route.getRouteID() == newRoute.getRouteID()) {
 				return false;
@@ -224,20 +238,23 @@ public class Network {
 	}
 
 	/**
-	 * Used by editor to find any end point regardless of type
+	 * <p>Used by editor to find any upward end point regardless of type.</p>
+	 *
 	 * @return array list of endpoint ids
 	 */
     @JsonIgnore
     public ArrayList<Integer> getUpEndpoints(){
 		ArrayList<Integer> endpoints = new ArrayList<Integer>();
 
-		//For each section
+		//For each Section
 		for(Section s : sections) {
 			//If up neighbour is null
 			if(s.getUpNeigh() == 0) {
 				endpoints.add(s.getId());
 			}
 		}
+
+		//For each Point, if the up neighbour is null, add it to the endpoints list.
 		for (Point p: points)
 		{
 			if(p.getmNeigh() == 0 || p.getpNeigh() == 0)
@@ -249,6 +266,8 @@ public class Network {
 				endpoints.add(p.getId());
 			}
 		}
+
+		//For each Signal, if the up neighbour is null, add it to the endpoints list.
 		for (Signal s: signals)
 		{
 			if(s.getUpNeigh() == 0)
@@ -276,21 +295,6 @@ public class Network {
 		}
 
 		return max + 1;
-	}
-
-	/**
-	 * <p>Returns the next available ID through auto incrementing.</p>
-	 *
-	 * @return int of last ID + 1 or null if not found.
-	 */
-	@JsonIgnore
-	public Block getBlockById(int id){
-		for(Block b : new ArrayList<Block>(){{addAll(points); addAll(sections); addAll(signals);}}) {
-			if(b.getId() == id){
-			    return b;
-            }
-		}
-		return null;
 	}
 
 	public String toString()

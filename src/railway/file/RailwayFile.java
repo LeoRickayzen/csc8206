@@ -9,7 +9,7 @@ import java.io.*;
 
 /**
  * This class handles all file operations for the JSON representing the railway.
- * Uses Jackson JARs in lib for parsing.
+ * Uses Jackson JARs in /lib for parsing.
  *
  * @author Josh Corne
  */
@@ -18,6 +18,9 @@ public class RailwayFile extends File
 {
     private ObjectMapper mapper;
 
+    /**
+     * Constructor to initialise the Jackson Object Mapper
+     */
     public RailwayFile(String s)
     {
         super(s);
@@ -44,6 +47,11 @@ public class RailwayFile extends File
         mapper.writerWithDefaultPrettyPrinter().writeValue(getAbsoluteFile(), network);
     }
 
+    /**
+     * reads the JSON from the file in String
+     *
+     * @return JSON string
+     */
     public String readJson() throws IOException
     {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(getAbsoluteFile()));
